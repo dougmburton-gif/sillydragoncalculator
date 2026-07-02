@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Scientific Calculator | Silly Dragon Calculator</title>
+<meta name="description" content="A free online scientific calculator with trig, logs, powers, roots, and parentheses.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li><a href="basic.html" class="tab">Basic</a></li>
+      <li><a href="scientific.html" class="tab active">Scientific</a></li>
+      <li><a href="mortgage.html" class="tab">Mortgage</a></li>
+      <li><a href="scramble.html" class="tab">Word Scramble</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Trig, logs, powers &amp; roots</div>
+    <h1>Scientific Calculator</h1>
+    <p>Type or tap a full expression, then hit = to solve it — parentheses and order of operations included.</p>
+  </div>
+
+  <div class="device wide">
+    <div class="dragon-stage" id="dragonStage">
+      <svg viewBox="0 0 140 100" class="dragon-body" aria-hidden="true">
+        <ellipse cx="70" cy="70" rx="44" ry="24" fill="#5b8c4a"/>
+        <path d="M20 70 Q4 60 10 44 Q18 52 28 56 Z" fill="#4a7a3b"/>
+        <path d="M40 52 Q70 20 110 46 Q118 40 122 44 Q116 50 118 56 Q100 46 84 50 Q100 56 108 68 Q90 72 78 62 Q84 74 76 82 Q66 76 66 64 Q56 74 44 70 Q52 60 46 52 Q42 56 34 54 Q36 48 40 52 Z" fill="#6fa858"/>
+        <ellipse cx="104" cy="42" rx="7" ry="6.5" fill="#f4e3b0" class="dragon-eye"/>
+        <circle cx="106" cy="41" r="2.6" fill="#2b2410"/>
+        <path d="M112 34 Q118 28 122 33 Q117 33 114 37 Z" fill="#3f6a33"/>
+        <path d="M96 46 Q104 52 114 48 Q108 55 98 54 Q94 50 96 46 Z" fill="#2b2410" opacity="0.55"/>
+      </svg>
+      <div class="flame-field" id="flameField"></div>
+    </div>
+    <div class="screen">
+      <div class="trail" id="trail">&nbsp;</div>
+      <div class="display" id="display">0</div>
+    </div>
+
+    <div class="pad sci">
+      <button class="key fn" data-op="sin(">sin</button>
+      <button class="key fn" data-op="cos(">cos</button>
+      <button class="key fn" data-op="tan(">tan</button>
+      <button class="key fn" data-op="log(">log</button>
+      <button class="key fn" data-op="ln(">ln</button>
+
+      <button class="key fn" data-op="(">(</button>
+      <button class="key fn" data-op=")">)</button>
+      <button class="key fn" data-op="^">x^y</button>
+      <button class="key fn" data-op="sqrt(">&radic;</button>
+      <button class="key fn" data-action="clear">AC</button>
+
+      <button class="key" data-op="7">7</button>
+      <button class="key" data-op="8">8</button>
+      <button class="key" data-op="9">9</button>
+      <button class="key op" data-op="/">&divide;</button>
+      <button class="key fn" data-action="back">&larr;</button>
+
+      <button class="key" data-op="4">4</button>
+      <button class="key" data-op="5">5</button>
+      <button class="key" data-op="6">6</button>
+      <button class="key op" data-op="*">&times;</button>
+      <button class="key fn" data-op="!">x!</button>
+
+      <button class="key" data-op="1">1</button>
+      <button class="key" data-op="2">2</button>
+      <button class="key" data-op="3">3</button>
+      <button class="key op" data-op="-">&minus;</button>
+      <button class="key fn" data-op="pi">&pi;</button>
+
+      <button class="key" data-op="0">0</button>
+      <button class="key" data-op=".">.</button>
+      <button class="key eq" data-action="=" style="grid-column: span 2;">=</button>
+      <button class="key op" data-op="+">+</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <h2>What each key does</h2>
+    <dl>
+      <dt>sin / cos / tan</dt><dd>Trig functions — input treated as degrees.</dd>
+      <dt>log / ln</dt><dd>Base-10 log, and natural log.</dd>
+      <dt>x^y</dt><dd>Raise the number before it to the power that follows.</dd>
+      <dt>&radic;</dt><dd>Square root of whatever's inside the parentheses.</dd>
+      <dt>x!</dt><dd>Factorial of the number right before it.</dd>
+      <dt>&pi;</dt><dd>Inserts pi.</dd>
+    </dl>
+  </div>
+
+  <footer class="site-footer">
+    Runs entirely in your browser. Nothing you type is stored or sent anywhere.
+    <p class="disclaimer">This calculator is provided for general informational purposes only and is not a substitute for professional advice. Results are estimates — Silly Dragon Calculator is not responsible for any decisions made based on these results.</p>
+  </footer>
+
+<script>
+(function(){
+  const displayEl = document.getElementById('display');
+  const trailEl = document.getElementById('trail');
+  let expr = '';
+
+  function render(){
+    displayEl.textContent = expr === '' ? '0' : expr;
+  }
+
+  function press(token){
+    expr += token;
+    render();
+  }
+
+  function clearAll(){
+    expr = '';
+    trailEl.textContent = '\u00a0';
+    render();
+  }
+
+  function backspace(){
+    expr = expr.slice(0, -1);
+    render();
+  }
+
+  // ---- Safe recursive-descent parser/evaluator ----
+  // Grammar: expr -> term (('+'|'-') term)*
+  //          term -> factor (('*'|'/') factor)*
+  //          factor -> power ('!')?
+  //          power -> unary ('^' unary)?
+  //          unary -> '-' unary | primary
+  //          primary -> NUMBER | CONST | FUNC '(' expr ')' | '(' expr ')'
+  function evaluate(str){
+    let i = 0;
+    const s = str.replace(/\s+/g,'');
+
+    function peek(){ return s[i]; }
+    function consume(ch){
+      if (s[i] !== ch) throw new Error('Expected ' + ch);
+      i++;
+    }
+    function matchWord(w){
+      if (s.startsWith(w, i)){ i += w.length; return true; }
+      return false;
+    }
+
+    function parseExpr(){
+      let v = parseTerm();
+      while (peek() === '+' || peek() === '-'){
+        const op = s[i]; i++;
+        const rhs = parseTerm();
+        v = op === '+' ? v + rhs : v - rhs;
+      }
+      return v;
+    }
+    function parseTerm(){
+      let v = parseFactor();
+      while (peek() === '*' || peek() === '/'){
+        const op = s[i]; i++;
+        const rhs = parseFactor();
+        v = op === '*' ? v * rhs : v / rhs;
+      }
+      return v;
+    }
+    function parseFactor(){
+      let v = parsePower();
+      while (peek() === '!'){
+        i++;
+        v = factorial(v);
+      }
+      return v;
+    }
+    function parsePower(){
+      let v = parseUnary();
+      if (peek() === '^'){
+        i++;
+        const rhs = parseUnary();
+        v = Math.pow(v, rhs);
+      }
+      return v;
+    }
+    function parseUnary(){
+      if (peek() === '-'){ i++; return -parseUnary(); }
+      if (peek() === '+'){ i++; return parseUnary(); }
+      return parsePrimary();
+    }
+    function parsePrimary(){
+      if (peek() === '('){
+        i++;
+        const v = parseExpr();
+        consume(')');
+        return v;
+      }
+      if (matchWord('sin(')){ const v = parseExpr(); consume(')'); return Math.sin(v * Math.PI/180); }
+      if (matchWord('cos(')){ const v = parseExpr(); consume(')'); return Math.cos(v * Math.PI/180); }
+      if (matchWord('tan(')){ const v = parseExpr(); consume(')'); return Math.tan(v * Math.PI/180); }
+      if (matchWord('log(')){ const v = parseExpr(); consume(')'); return Math.log10(v); }
+      if (matchWord('ln(')){ const v = parseExpr(); consume(')'); return Math.log(v); }
+      if (matchWord('sqrt(')){ const v = parseExpr(); consume(')'); return Math.sqrt(v); }
+      if (matchWord('pi')){ return Math.PI; }
+      // number
+      let start = i;
+      while (i < s.length && /[0-9.]/.test(s[i])) i++;
+      if (i === start) throw new Error('Unexpected token at ' + i);
+      return Number(s.slice(start, i));
+    }
+
+    function factorial(n){
+      if (n < 0 || Math.floor(n) !== n) return NaN;
+      let r = 1;
+      for (let k = 2; k <= n; k++) r *= k;
+      return r;
+    }
+
+    const result = parseExpr();
+    if (i !== s.length) throw new Error('Unexpected trailing input');
+    return result;
+  }
+
+  const dragonStage = document.getElementById('dragonStage');
+  const flameField = document.getElementById('flameField');
+
+  function breatheFire(resultStr){
+    dragonStage.classList.remove('blow');
+    void dragonStage.offsetWidth;
+    dragonStage.classList.add('blow');
+
+    for (let i = 0; i < 6; i++){
+      const puff = document.createElement('div');
+      puff.className = 'flame-puff';
+      const angle = -110 + Math.random()*40;
+      const dist = 40 + Math.random()*40;
+      const rad = angle * Math.PI/180;
+      puff.style.setProperty('--dx', (Math.cos(rad)*dist).toFixed(1)+'px');
+      puff.style.setProperty('--dy', (Math.sin(rad)*dist).toFixed(1)+'px');
+      puff.style.setProperty('--dur', (450+Math.random()*300)+'ms');
+      puff.style.animationDelay = (i*35)+'ms';
+      flameField.appendChild(puff);
+      puff.classList.add('go');
+      puff.addEventListener('animationend', ()=> puff.remove());
+    }
+
+    const digits = resultStr.replace('-','').split('').filter(c => c !== '.');
+    digits.forEach((d, i)=>{
+      const spark = document.createElement('span');
+      spark.className = 'spark';
+      spark.textContent = d;
+      const angle = -100 + (i - digits.length/2) * 12 + (Math.random()*10 - 5);
+      const dist = 70 + Math.random()*40;
+      const rad = angle * Math.PI/180;
+      spark.style.setProperty('--dx', (Math.cos(rad)*dist).toFixed(1)+'px');
+      spark.style.setProperty('--dy', (Math.sin(rad)*dist).toFixed(1)+'px');
+      spark.style.setProperty('--rot', (Math.random()*40-20).toFixed(0)+'deg');
+      spark.style.setProperty('--dur', (700+Math.random()*350)+'ms');
+      spark.style.animationDelay = (60 + i*45)+'ms';
+      flameField.appendChild(spark);
+      spark.classList.add('go');
+      spark.addEventListener('animationend', ()=> spark.remove());
+    });
+  }
+
+  function doEquals(){
+    if (!expr) return;
+    try{
+      const result = evaluate(expr);
+      if (!isFinite(result)) throw new Error('bad result');
+      trailEl.textContent = expr + ' =';
+      const resStr = trimTrailingZeros(Number(result.toPrecision(12)).toString());
+      expr = resStr;
+      render();
+      breatheFire(resStr);
+    } catch(e){
+      trailEl.textContent = expr + ' =';
+      expr = 'Error';
+      render();
+      setTimeout(()=>{ expr=''; render(); }, 900);
+    }
+  }
+
+  function trimTrailingZeros(s){
+    if (s.indexOf('.') === -1) return s;
+    return s.replace(/0+$/,'').replace(/\.$/,'');
+  }
+
+  document.querySelectorAll('[data-op]').forEach(btn=>{
+    btn.addEventListener('click', ()=> press(btn.dataset.op));
+  });
+  document.querySelector('[data-action="clear"]').addEventListener('click', clearAll);
+  document.querySelector('[data-action="back"]').addEventListener('click', backspace);
+  document.querySelector('[data-action="="]').addEventListener('click', doEquals);
+
+  window.addEventListener('keydown', (e)=>{
+    if (/[0-9.+\-*/()^!]/.test(e.key)){ press(e.key); return; }
+    if (e.key === 'Enter' || e.key === '='){ e.preventDefault(); doEquals(); return; }
+    if (e.key === 'Escape'){ clearAll(); return; }
+    if (e.key === 'Backspace'){ backspace(); return; }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Mortgage Calculator | Silly Dragon Calculator</title>
+<meta name="description" content="Estimate your monthly mortgage payment, total interest, and payoff timeline.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li><a href="basic.html" class="tab">Basic</a></li>
+      <li><a href="scientific.html" class="tab">Scientific</a></li>
+      <li><a href="mortgage.html" class="tab active">Mortgage</a></li>
+      <li><a href="scramble.html" class="tab">Word Scramble</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Home loans, laid out plainly</div>
+    <h1>Mortgage Calculator</h1>
+    <p>Estimate your monthly payment, total interest, and how much of the house you'll actually own along the way.</p>
+  </div>
+
+  <div class="card">
+    <div class="field-row">
+      <div class="field">
+        <label for="homePrice">Home price</label>
+        <input type="number" id="homePrice" value="350000" min="0" step="1000">
+      </div>
+      <div class="field">
+        <label for="downPayment">Down payment</label>
+        <input type="number" id="downPayment" value="70000" min="0" step="1000">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="rate">Interest rate (% / yr)</label>
+        <input type="number" id="rate" value="6.5" min="0" step="0.05">
+      </div>
+      <div class="field">
+        <label for="term">Loan term (years)</label>
+        <select id="term">
+          <option value="30">30</option>
+          <option value="20">20</option>
+          <option value="15">15</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="tax">Annual property tax ($)</label>
+        <input type="number" id="tax" value="4200" min="0" step="50">
+      </div>
+      <div class="field">
+        <label for="insurance">Annual home insurance ($)</label>
+        <input type="number" id="insurance" value="1400" min="0" step="50">
+      </div>
+    </div>
+
+    <button class="btn-solid" id="calcBtn">Calculate payment</button>
+
+    <div class="result-box" id="resultBox" style="display:none;">
+      <div class="big" id="monthlyTotal">$0</div>
+      <div style="font-size:0.72rem; opacity:0.75;">estimated total monthly payment</div>
+      <div class="row"><span>Principal &amp; interest</span><span id="piOnly">$0</span></div>
+      <div class="row"><span>Property tax (monthly)</span><span id="taxMonthly">$0</span></div>
+      <div class="row"><span>Insurance (monthly)</span><span id="insMonthly">$0</span></div>
+      <div class="row"><span>Loan amount</span><span id="loanAmount">$0</span></div>
+      <div class="row"><span>Total interest over loan</span><span id="totalInterest">$0</span></div>
+      <div class="row"><span>Total paid over loan</span><span id="totalPaid">$0</span></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <h2>How this is calculated</h2>
+    <p>Principal &amp; interest uses the standard fixed-rate amortization formula. Tax and insurance are simple annual-figure &divide; 12 estimates — your actual escrow amount may differ. This is an estimate for planning purposes, not a loan offer.</p>
+  </div>
+
+  <footer class="site-footer">
+    Runs entirely in your browser. Nothing you type is stored or sent anywhere.
+    <p class="disclaimer">This mortgage calculator provides estimates only and does not constitute financial, lending, or legal advice, nor a loan offer or pre-qualification of any kind. Actual rates, terms, taxes, insurance, and fees vary by lender and location. Consult a licensed mortgage professional or financial advisor before making any home-buying decision. Silly Dragon Calculator is not responsible for any decisions made based on these estimates.</p>
+  </footer>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+
+  function calculate(){
+    const price = Number($('homePrice').value) || 0;
+    const down = Number($('downPayment').value) || 0;
+    const rate = Number($('rate').value) || 0;
+    const years = Number($('term').value) || 30;
+    const tax = Number($('tax').value) || 0;
+    const insurance = Number($('insurance').value) || 0;
+
+    const loan = Math.max(price - down, 0);
+    const monthlyRate = (rate / 100) / 12;
+    const n = years * 12;
+
+    let pi;
+    if (monthlyRate === 0){
+      pi = loan / n;
+    } else {
+      pi = loan * (monthlyRate * Math.pow(1+monthlyRate, n)) / (Math.pow(1+monthlyRate, n) - 1);
+    }
+    if (!isFinite(pi)) pi = 0;
+
+    const taxMonthly = tax / 12;
+    const insMonthly = insurance / 12;
+    const totalMonthly = pi + taxMonthly + insMonthly;
+    const totalPaid = pi * n;
+    const totalInterest = totalPaid - loan;
+
+    $('monthlyTotal').textContent = fmt(totalMonthly);
+    $('piOnly').textContent = fmt(pi);
+    $('taxMonthly').textContent = fmt(taxMonthly);
+    $('insMonthly').textContent = fmt(insMonthly);
+    $('loanAmount').textContent = fmt(loan);
+    $('totalInterest').textContent = fmt(totalInterest);
+    $('totalPaid').textContent = fmt(totalPaid);
+    $('resultBox').style.display = 'block';
+  }
+
+  $('calcBtn').addEventListener('click', calculate);
+  document.querySelectorAll('.card input, .card select').forEach(el=>{
+    el.addEventListener('keydown', e=>{ if (e.key === 'Enter'){ e.preventDefault(); calculate(); } });
+  });
+
+  calculate();
+})();
+</script>
+</body>
+</html>

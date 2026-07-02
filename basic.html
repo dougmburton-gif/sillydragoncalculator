@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Reckon — Basic Calculator | Silly Dragon Calculator</title>
+<meta name="description" content="A free online basic calculator: add, subtract, multiply, divide, plus memory, square, square root, percent, and pi.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li><a href="basic.html" class="tab active">Basic</a></li>
+      <li><a href="scientific.html" class="tab">Scientific</a></li>
+      <li><a href="mortgage.html" class="tab">Mortgage</a></li>
+      <li><a href="scramble.html" class="tab">Word Scramble</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">No install &middot; No sign-up</div>
+    <h1>Reckon.</h1>
+    <p>A plain, dependable calculator for the numbers you run into during the day — bills, tips, quick conversions, homework.</p>
+  </div>
+
+  <div class="device">
+    <div class="dragon-stage" id="dragonStage">
+      <svg viewBox="0 0 140 100" class="dragon-body" aria-hidden="true">
+        <ellipse cx="70" cy="70" rx="44" ry="24" fill="#5b8c4a"/>
+        <path d="M20 70 Q4 60 10 44 Q18 52 28 56 Z" fill="#4a7a3b"/>
+        <path d="M40 52 Q70 20 110 46 Q118 40 122 44 Q116 50 118 56 Q100 46 84 50 Q100 56 108 68 Q90 72 78 62 Q84 74 76 82 Q66 76 66 64 Q56 74 44 70 Q52 60 46 52 Q42 56 34 54 Q36 48 40 52 Z" fill="#6fa858"/>
+        <ellipse cx="104" cy="42" rx="7" ry="6.5" fill="#f4e3b0" class="dragon-eye"/>
+        <circle cx="106" cy="41" r="2.6" fill="#2b2410"/>
+        <path d="M112 34 Q118 28 122 33 Q117 33 114 37 Z" fill="#3f6a33"/>
+        <path d="M96 46 Q104 52 114 48 Q108 55 98 54 Q94 50 96 46 Z" fill="#2b2410" opacity="0.55"/>
+      </svg>
+      <div class="flame-field" id="flameField"></div>
+    </div>
+    <div class="screen">
+      <div class="memory-flag" id="memFlag">M</div>
+      <div class="trail" id="trail">&nbsp;</div>
+      <div class="display" id="display">0</div>
+    </div>
+
+    <div class="pad">
+      <button class="key fn" data-action="mc">MC</button>
+      <button class="key fn" data-action="mr">MR</button>
+      <button class="key fn" data-action="m-">M&minus;</button>
+      <button class="key fn" data-action="m+">M&#43;</button>
+
+      <button class="key fn" data-action="clear">AC</button>
+      <button class="key fn" data-action="sqrt">&radic;x</button>
+      <button class="key fn" data-action="square">x&sup2;</button>
+      <button class="key op" data-action="/">&divide;</button>
+
+      <button class="key" data-num="7">7</button>
+      <button class="key" data-num="8">8</button>
+      <button class="key" data-num="9">9</button>
+      <button class="key op" data-action="*">&times;</button>
+
+      <button class="key" data-num="4">4</button>
+      <button class="key" data-num="5">5</button>
+      <button class="key" data-num="6">6</button>
+      <button class="key op" data-action="-">&minus;</button>
+
+      <button class="key" data-num="1">1</button>
+      <button class="key" data-num="2">2</button>
+      <button class="key" data-num="3">3</button>
+      <button class="key op" data-action="+">+</button>
+
+      <button class="key fn" data-action="sign">+/&minus;</button>
+      <button class="key" data-num="0">0</button>
+      <button class="key" data-action="decimal">.</button>
+      <button class="key eq" data-action="=">=</button>
+
+      <button class="key fn" data-action="pi" style="grid-column: span 2;">&pi;</button>
+      <button class="key fn" data-action="percent" style="grid-column: span 2;">%</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <h2>What each key does</h2>
+    <dl>
+      <dt>MC / MR</dt><dd>Clear memory, or recall the stored value.</dd>
+      <dt>M&minus; / M&#43;</dt><dd>Subtract or add the current display to memory.</dd>
+      <dt>AC</dt><dd>Clear everything and start over.</dd>
+      <dt>&radic;x / x&sup2;</dt><dd>Square root, or square, the current value.</dd>
+      <dt>+/&minus;</dt><dd>Flip the sign of the current value.</dd>
+      <dt>&pi;</dt><dd>Insert pi (3.14159265).</dd>
+      <dt>%</dt><dd>Convert the entry to a percentage in a calculation, e.g. 25 &times; 20% = 5.</dd>
+    </dl>
+  </div>
+
+  <footer class="site-footer">
+    Runs entirely in your browser. Nothing you type is stored or sent anywhere.
+    <p class="disclaimer">This calculator is provided for general informational purposes only and is not a substitute for professional advice. Results are estimates — Silly Dragon Calculator is not responsible for any decisions made based on these results.</p>
+  </footer>
+
+<script>
+(function(){
+  const displayEl = document.getElementById('display');
+  const trailEl = document.getElementById('trail');
+  const memFlag = document.getElementById('memFlag');
+
+  let current = '0';
+  let stored = null;
+  let pendingOp = null;
+  let memory = 0;
+  let justEvaluated = false;
+  let overwrite = true;
+
+  function render(){
+    displayEl.textContent = formatForDisplay(current);
+    memFlag.classList.toggle('on', memory !== 0);
+  }
+
+  function formatForDisplay(valStr){
+    let n = Number(valStr);
+    if (!isFinite(n)) return 'Error';
+    let s = valStr;
+    if (s.replace(/[-.]/g,'').length > 10){
+      s = n.toPrecision(10);
+      n = Number(s);
+      s = trimTrailingZeros(n.toString());
+    }
+    return s;
+  }
+
+  function trimTrailingZeros(s){
+    if (s.indexOf('.') === -1) return s;
+    return s.replace(/0+$/,'').replace(/\.$/,'');
+  }
+
+  function opSymbol(op){
+    return {'+':'+','-':'\u2212','*':'\u00d7','/':'\u00f7'}[op] || '';
+  }
+
+  function setTrail(text){
+    trailEl.textContent = text || '\u00a0';
+  }
+
+  function inputDigit(d){
+    if (justEvaluated){ current = '0'; overwrite = true; justEvaluated = false; }
+    if (overwrite){
+      current = (d === '.') ? '0.' : d;
+      overwrite = false;
+    } else {
+      if (d === '.' && current.includes('.')) return;
+      if (current === '0' && d !== '.') current = d;
+      else current += d;
+    }
+    render();
+  }
+
+  function clearAll(){
+    current = '0'; stored = null; pendingOp = null; overwrite = true; justEvaluated = false;
+    setTrail('');
+    render();
+  }
+
+  function applyPending(){
+    if (pendingOp === null || stored === null) return Number(current);
+    const a = stored, b = Number(current);
+    let r;
+    switch(pendingOp){
+      case '+': r = a + b; break;
+      case '-': r = a - b; break;
+      case '*': r = a * b; break;
+      case '/': r = b === 0 ? NaN : a / b; break;
+      default: r = b;
+    }
+    return r;
+  }
+
+  function enterOperator(op){
+    const hadPendingCalc = (pendingOp !== null && !overwrite);
+    if (hadPendingCalc){
+      const result = applyPending();
+      current = isFinite(result) ? trimTrailingZeros(result.toPrecision(12)) : 'Error';
+      stored = Number(current);
+    } else {
+      stored = Number(current);
+    }
+
+    if (op === '='){
+      setTrail('');
+      pendingOp = null;
+      stored = null;
+      justEvaluated = true;
+      overwrite = true;
+      if (hadPendingCalc) breatheFire(current);
+    } else {
+      pendingOp = op;
+      setTrail(trimTrailingZeros(stored.toString()) + ' ' + opSymbol(op));
+      overwrite = true;
+      justEvaluated = false;
+    }
+    render();
+  }
+
+  const dragonStage = document.getElementById('dragonStage');
+  const flameField = document.getElementById('flameField');
+
+  function breatheFire(resultStr){
+    dragonStage.classList.remove('blow');
+    void dragonStage.offsetWidth;
+    dragonStage.classList.add('blow');
+
+    for (let i = 0; i < 6; i++){
+      const puff = document.createElement('div');
+      puff.className = 'flame-puff';
+      const angle = -110 + Math.random()*40;
+      const dist = 40 + Math.random()*40;
+      const rad = angle * Math.PI/180;
+      puff.style.setProperty('--dx', (Math.cos(rad)*dist).toFixed(1)+'px');
+      puff.style.setProperty('--dy', (Math.sin(rad)*dist).toFixed(1)+'px');
+      puff.style.setProperty('--dur', (450+Math.random()*300)+'ms');
+      puff.style.animationDelay = (i*35)+'ms';
+      flameField.appendChild(puff);
+      puff.classList.add('go');
+      puff.addEventListener('animationend', ()=> puff.remove());
+    }
+
+    const digits = resultStr.replace('-','').split('');
+    digits.forEach((d, i)=>{
+      const spark = document.createElement('span');
+      spark.className = 'spark';
+      spark.textContent = d;
+      const angle = -100 + (i - digits.length/2) * 12 + (Math.random()*10 - 5);
+      const dist = 70 + Math.random()*40;
+      const rad = angle * Math.PI/180;
+      spark.style.setProperty('--dx', (Math.cos(rad)*dist).toFixed(1)+'px');
+      spark.style.setProperty('--dy', (Math.sin(rad)*dist).toFixed(1)+'px');
+      spark.style.setProperty('--rot', (Math.random()*40-20).toFixed(0)+'deg');
+      spark.style.setProperty('--dur', (700+Math.random()*350)+'ms');
+      spark.style.animationDelay = (60 + i*45)+'ms';
+      flameField.appendChild(spark);
+      spark.classList.add('go');
+      spark.addEventListener('animationend', ()=> spark.remove());
+    });
+  }
+
+  function func(name){
+    let n = Number(current);
+    switch(name){
+      case 'sqrt':
+        current = n < 0 ? 'Error' : trimTrailingZeros(Math.sqrt(n).toPrecision(12));
+        break;
+      case 'square':
+        current = trimTrailingZeros(Math.pow(n,2).toPrecision(12));
+        break;
+      case 'sign':
+        current = trimTrailingZeros((n * -1).toString());
+        break;
+      case 'pi':
+        current = '3.14159265';
+        overwrite = false;
+        break;
+      case 'percent':
+        if (pendingOp && stored !== null){
+          if (pendingOp === '+' || pendingOp === '-'){
+            current = trimTrailingZeros(((stored * n) / 100).toString());
+          } else {
+            current = trimTrailingZeros((n / 100).toString());
+          }
+        } else {
+          current = trimTrailingZeros((n / 100).toString());
+        }
+        break;
+    }
+    overwrite = true;
+    render();
+  }
+
+  function memoryAction(action){
+    const n = Number(current);
+    switch(action){
+      case 'mc': memory = 0; break;
+      case 'mr': current = trimTrailingZeros(memory.toString()); overwrite = true; break;
+      case 'm+': memory += n; overwrite = true; break;
+      case 'm-': memory -= n; overwrite = true; break;
+    }
+    render();
+  }
+
+  document.querySelectorAll('[data-num]').forEach(btn=>{
+    btn.addEventListener('click', ()=> inputDigit(btn.dataset.num));
+  });
+  document.querySelector('[data-action="decimal"]').addEventListener('click', ()=> inputDigit('.'));
+
+  document.querySelectorAll('[data-action]').forEach(btn=>{
+    const a = btn.dataset.action;
+    if (['mc','mr','m+','m-'].includes(a)){
+      btn.addEventListener('click', ()=> memoryAction(a));
+    } else if (['sqrt','square','sign','pi','percent'].includes(a)){
+      btn.addEventListener('click', ()=> func(a));
+    } else if (a === 'clear'){
+      btn.addEventListener('click', clearAll);
+    } else if (['+','-','*','/','='].includes(a)){
+      btn.addEventListener('click', ()=> enterOperator(a));
+    }
+  });
+
+  window.addEventListener('keydown', (e)=>{
+    if (e.key >= '0' && e.key <= '9'){ inputDigit(e.key); return; }
+    if (e.key === '.'){ inputDigit('.'); return; }
+    if (['+','-','*','/'].includes(e.key)){ enterOperator(e.key); return; }
+    if (e.key === 'Enter' || e.key === '='){ e.preventDefault(); enterOperator('='); return; }
+    if (e.key === 'Escape'){ clearAll(); return; }
+    if (e.key === 'Backspace'){
+      if (!overwrite && current.length > 1){ current = current.slice(0,-1); }
+      else { current = '0'; overwrite = true; }
+      render();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
