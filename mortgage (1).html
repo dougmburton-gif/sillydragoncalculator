@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Mortgage Calculator | Silly Dragon Calculator</title>
+<meta name="description" content="Estimate your monthly mortgage payment with a fire-breathing green dragon.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li><a href="basic.html" class="tab">Basic</a></li>
+      <li><a href="scientific.html" class="tab">Scientific</a></li>
+      <li><a href="mortgage.html" class="tab active">Mortgage</a></li>
+      <li><a href="scramble.html" class="tab">Word Scramble</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Home loans, laid out plainly</div>
+    <h1>Mortgage Calculator</h1>
+    <p>Enter your loan details — the green dragon inhales each digit and breathes out your monthly payment.</p>
+  </div>
+
+  <p class="intro-copy">This free online mortgage calculator estimates your monthly principal and interest payment based on loan amount, interest rate, and loan term. Useful for first-time homebuyers comparing loan scenarios or estimating affordability before speaking with a lender.</p>
+
+  <div class="panel-wrap" id="panel">
+    <div class="stage" id="stage"></div>
+    <div class="mrow"><label for="mAmt">Loan amount ($)</label><input id="mAmt" type="number" min="0" step="1000" placeholder="350000"></div>
+    <div class="mrow"><label for="mRate">Interest rate (% / yr)</label><input id="mRate" type="number" min="0" step="0.05" placeholder="6.5"></div>
+    <div class="mrow"><label for="mYrs">Term (years)</label><input id="mYrs" type="number" min="1" step="1" placeholder="30"></div>
+    <button class="mgo" id="mGo">Calculate</button>
+  </div>
+
+  <div class="legend">
+    <h2>How this is calculated</h2>
+    <p>Uses the standard fixed-rate amortization formula for principal &amp; interest only. This is an estimate for planning purposes, not a loan offer — property tax and insurance aren't included here.</p>
+  </div>
+
+  <footer class="site-footer">
+    Runs entirely in your browser. Nothing you type is stored or sent anywhere. &middot; <a href="privacy.html" style="color:#7a7768;">Privacy Policy</a>
+    <p class="disclaimer">This mortgage calculator provides estimates only and does not constitute financial, lending, or legal advice, nor a loan offer or pre-qualification of any kind. Actual rates, terms, taxes, insurance, and fees vary by lender and location. Consult a licensed mortgage professional or financial advisor before making any home-buying decision. Silly Dragon Calculator is not responsible for any decisions made based on these estimates.</p>
+  </footer>
+
+<script>
+(function(){
+var panel=document.getElementById('panel'), stage=document.getElementById('stage');
+stage.innerHTML='<div class="ansline"><span class="ans"></span><div class="ansrule"></div><div class="anslabel">monthly payment</div></div>';
+
+function dragonSVG(c){
+ return '<svg class="drg" width="160" height="110" viewBox="0 0 160 110" aria-hidden="true" style="position:absolute;left:6px;top:6px;overflow:visible">'
+ +'<path d="M32 76 C10 86 2 66 14 58 C8 70 16 78 32 68 Z" fill="'+c.dark+'"/>'
+ +'<ellipse cx="52" cy="93" rx="8" ry="6" fill="'+c.dark+'"/><ellipse cx="78" cy="93" rx="8" ry="6" fill="'+c.dark+'"/>'
+ +'<path d="M38 54 l6 -9 l4 9 l6 -9 l4 9 l6 -9 l4 9 Z" fill="'+c.dark+'"/>'
+ +'<ellipse cx="62" cy="72" rx="34" ry="24" fill="'+c.body+'"/>'
+ +'<ellipse cx="68" cy="79" rx="21" ry="13" fill="'+c.belly+'"/>'
+ +'<path d="M58 52 C46 28 80 24 86 46 C74 38 64 42 58 52 Z" fill="'+c.dark+'"/>'
+ +'<path d="M84 68 C86 52 92 46 98 38 L116 52 C108 64 96 68 88 72 Z" fill="'+c.body+'"/>'
+ +'<path d="M96 28 C93 17 100 13 105 17 C100 18 98 23 100 29 Z" fill="'+c.belly+'"/>'
+ +'<path d="M107 26 C105 16 112 13 116 17 C111 18 109 22 111 28 Z" fill="'+c.belly+'"/>'
+ +'<circle cx="106" cy="42" r="19" fill="'+c.body+'"/>'
+ +'<path d="M116 40 L152 34 L150 60 L118 54 Z" fill="#7E2716"/>'
+ +'<path d="M110 32 C124 25 144 27 152 34 L116 43 Z" fill="'+c.body+'"/>'
+ +'<path d="M116 52 C128 63 142 65 150 60 L118 55 Z" fill="'+c.body+'"/>'
+ +'<path d="M130 39 l3 6 l3 -7 Z" fill="#FFFFFF"/><path d="M140 37 l3 6 l3 -7 Z" fill="#FFFFFF"/>'
+ +'<circle cx="146" cy="31" r="1.6" fill="'+c.dark+'"/>'
+ +'<circle cx="104" cy="35" r="5" fill="#FFFFFF"/><circle cx="106" cy="35.5" r="2.4" fill="#1E1E1E"/>'
+ +'</svg>';
+}
+var look={body:'#3E9B4F',belly:'#A8D8A0',dark:'#2C6E38'};
+stage.insertAdjacentHTML('afterbegin',dragonSVG(look));
+
+function rel(el){var pr=panel.getBoundingClientRect(),r=el.getBoundingClientRect();return{x:r.left-pr.left+r.width/2,y:r.top-pr.top+r.height/2};}
+function mouth(){var d=panel.querySelector('.drg'),pr=panel.getBoundingClientRect(),r=d.getBoundingClientRect();return{x:r.left-pr.left+r.width*0.93,y:r.top-pr.top+r.height*0.42};}
+function gulp(){panel.querySelector('.drg').animate([{transform:'scale(1)'},{transform:'scale(1.05)'},{transform:'scale(1)'}],{duration:220});}
+
+function inhale(ch,src){
+ var m=mouth(),s=rel(src);
+ var sp=document.createElement('span');
+ sp.textContent=ch;
+ sp.style.cssText='position:absolute;left:0;top:0;font-size:16px;font-weight:700;color:#efe9da;pointer-events:none;z-index:5;white-space:nowrap;';
+ panel.appendChild(sp);
+ sp.animate([
+  {transform:'translate('+s.x+'px,'+s.y+'px) scale(1)',opacity:1},
+  {transform:'translate('+((s.x+m.x)/2)+'px,'+(Math.min(s.y,m.y)-34)+'px) scale(0.9)',opacity:0.95,offset:0.6},
+  {transform:'translate('+m.x+'px,'+m.y+'px) scale(0.15)',opacity:0.15}
+ ],{duration:700,easing:'cubic-bezier(.4,0,.7,1)'}).onfinish=function(){sp.remove();gulp();};
+}
+
+var FC=['#E24B4A','#EF9F27','#FAC775','#D85A30'];
+function breathe(pchar,answerHTML){
+ var m=mouth();
+ panel.querySelector('.ans').innerHTML='';
+ for(var i=0;i<28;i++){(function(i){
+  var fl=document.createElement('span');
+  if(pchar&&i%3===0){
+   fl.textContent=pchar;
+   fl.style.cssText='position:absolute;left:0;top:0;font-size:8px;font-weight:700;color:'+(i%2?'#FFF3D6':'#FAC775')+';pointer-events:none;z-index:6;white-space:nowrap;';
+  }else{
+   var sz=Math.round(6+Math.random()*10);
+   fl.style.cssText='position:absolute;left:0;top:0;width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+FC[i%4]+';pointer-events:none;z-index:4;';
+  }
+  panel.appendChild(fl);
+  var dx=60+Math.random()*300,dy=(Math.random()-0.5)*70;
+  fl.animate([
+   {transform:'translate('+m.x+'px,'+m.y+'px) scale(0.4)',opacity:1},
+   {transform:'translate('+(m.x+dx)+'px,'+(m.y+dy)+'px) scale(1.6)',opacity:0}
+  ],{duration:700+Math.random()*600,delay:i*24,easing:'ease-out'}).onfinish=function(){fl.remove();};
+ })(i);}
+ var line=panel.querySelector('.ansline'),pr=panel.getBoundingClientRect(),tr=line.getBoundingClientRect();
+ var tx=tr.left-pr.left+tr.width/2,ty=tr.top-pr.top;
+ var av=document.createElement('span');
+ av.innerHTML=answerHTML;
+ av.style.cssText='position:absolute;left:0;top:0;font-size:14px;font-weight:700;color:#ffcf8a;pointer-events:none;z-index:7;white-space:nowrap;';
+ panel.appendChild(av);
+ av.animate([
+  {transform:'translate('+m.x+'px,'+m.y+'px) scale(0.4)',opacity:0},
+  {transform:'translate('+(m.x+70)+'px,'+(m.y-18)+'px) scale(1.15)',opacity:1,offset:0.3},
+  {transform:'translate('+((m.x+tx)/2)+'px,'+(ty-46)+'px) scale(1.15)',offset:0.65},
+  {transform:'translate('+(tx-34)+'px,'+(ty+2)+'px) scale(1)',opacity:1}
+ ],{duration:1500,delay:260,easing:'ease-in-out'}).onfinish=function(){
+  av.remove();
+  var a=panel.querySelector('.ans');a.innerHTML=answerHTML;
+  a.animate([{opacity:0},{opacity:1}],{duration:250});
+ };
+ gulp();
+}
+
+var amt=document.getElementById('mAmt'),rate=document.getElementById('mRate'),yrs=document.getElementById('mYrs');
+[amt,rate,yrs].forEach(function(inp){
+ inp.addEventListener('input',function(e){if(e.data)inhale(e.data,inp);});
+ inp.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key==='Tab'){e.preventDefault();run();}});
+});
+function run(){
+ var P=parseFloat(amt.value),r=parseFloat(rate.value),n=parseFloat(yrs.value);
+ if(!(P>0)||!(n>0)||isNaN(r)||r<0){
+  breathe('$','<span style="color:#e2a25c">enter loan, rate, and term</span>');return;
+ }
+ var mr=r/1200,m=n*12;
+ var pay=mr>0?P*mr/(1-Math.pow(1+mr,-m)):P/m;
+ var s=pay.toFixed(2),parts=s.split('.');
+ var html='<span style="font-size:10px;vertical-align:1px">$</span>'+Number(parts[0]).toLocaleString()+'.'+parts[1]+'<span style="font-size:11px;color:#a8a396"> /mo</span>';
+ breathe('$',html);
+}
+document.getElementById('mGo').addEventListener('click',run);
+})();
+</script>
+<script src="lava.js"></script>
+</body>
+</html>
