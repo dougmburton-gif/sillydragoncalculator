@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <title>Scientific Calculator | Silly Dragon Calculator</title>
-<meta name="description" content="A free online scientific calculator with trig, logs, powers, roots, and parentheses.">
+<meta name="description" content="A free online scientific calculator with a fire-breathing navy dragon: trig, logs, powers, roots.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
 
   <nav class="site-nav">
     <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
@@ -23,74 +25,30 @@
   <div class="masthead">
     <div class="eyebrow">Trig, logs, powers &amp; roots</div>
     <h1>Scientific Calculator</h1>
-    <p>Type or tap a full expression, then hit = to solve it — parentheses and order of operations included.</p>
+    <p>Type a full expression — the navy dragon inhales every key, then breathes the answer back out.</p>
   </div>
 
-  <div class="device wide">
-    <div class="dragon-stage" id="dragonStage">
-      <svg viewBox="0 0 140 100" class="dragon-body" aria-hidden="true">
-        <ellipse cx="70" cy="70" rx="44" ry="24" fill="#5b8c4a"/>
-        <path d="M20 70 Q4 60 10 44 Q18 52 28 56 Z" fill="#4a7a3b"/>
-        <path d="M40 52 Q70 20 110 46 Q118 40 122 44 Q116 50 118 56 Q100 46 84 50 Q100 56 108 68 Q90 72 78 62 Q84 74 76 82 Q66 76 66 64 Q56 74 44 70 Q52 60 46 52 Q42 56 34 54 Q36 48 40 52 Z" fill="#6fa858"/>
-        <ellipse cx="104" cy="42" rx="7" ry="6.5" fill="#f4e3b0" class="dragon-eye"/>
-        <circle cx="106" cy="41" r="2.6" fill="#2b2410"/>
-        <path d="M112 34 Q118 28 122 33 Q117 33 114 37 Z" fill="#3f6a33"/>
-        <path d="M96 46 Q104 52 114 48 Q108 55 98 54 Q94 50 96 46 Z" fill="#2b2410" opacity="0.55"/>
-      </svg>
-      <div class="flame-field" id="flameField"></div>
-    </div>
-    <div class="screen">
-      <div class="trail" id="trail">&nbsp;</div>
-      <div class="display" id="display">0</div>
-    </div>
-
-    <div class="pad sci">
-      <button class="key fn" data-op="sin(">sin</button>
-      <button class="key fn" data-op="cos(">cos</button>
-      <button class="key fn" data-op="tan(">tan</button>
-      <button class="key fn" data-op="log(">log</button>
-      <button class="key fn" data-op="ln(">ln</button>
-
-      <button class="key fn" data-op="(">(</button>
-      <button class="key fn" data-op=")">)</button>
-      <button class="key fn" data-op="^">x^y</button>
-      <button class="key fn" data-op="sqrt(">&radic;</button>
-      <button class="key fn" data-action="clear">AC</button>
-
-      <button class="key" data-op="7">7</button>
-      <button class="key" data-op="8">8</button>
-      <button class="key" data-op="9">9</button>
-      <button class="key op" data-op="/">&divide;</button>
-      <button class="key fn" data-action="back">&larr;</button>
-
-      <button class="key" data-op="4">4</button>
-      <button class="key" data-op="5">5</button>
-      <button class="key" data-op="6">6</button>
-      <button class="key op" data-op="*">&times;</button>
-      <button class="key fn" data-op="!">x!</button>
-
-      <button class="key" data-op="1">1</button>
-      <button class="key" data-op="2">2</button>
-      <button class="key" data-op="3">3</button>
-      <button class="key op" data-op="-">&minus;</button>
-      <button class="key fn" data-op="pi">&pi;</button>
-
-      <button class="key" data-op="0">0</button>
-      <button class="key" data-op=".">.</button>
-      <button class="key eq" data-action="=" style="grid-column: span 2;">=</button>
-      <button class="key op" data-op="+">+</button>
+  <div class="panel-wrap" id="panel" style="max-width:400px;">
+    <div class="stage" id="stage"></div>
+    <input class="disp" id="disp" placeholder="Type or tap keys, then press =" aria-label="Scientific calculator expression">
+    <div class="pad" style="grid-template-columns:repeat(5,1fr)">
+      <button data-k="sin(">sin</button><button data-k="cos(">cos</button><button data-k="tan(">tan</button><button data-k="√(">√</button><button data-k="C">C</button>
+      <button data-k="log(">log</button><button data-k="ln(">ln</button><button data-k="^">^</button><button data-k="π">π</button><button data-k="e">e</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="(">(</button><button data-k=")">)</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="×">×</button><button data-k="÷">÷</button>
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="−">−</button><button data-k="+">+</button>
+      <button data-k="0">0</button><button data-k=".">.</button><button data-k="⌫">⌫</button><button data-k="=" style="grid-column:span 2;background:#7a8c5f;color:#14170f;font-weight:700">=</button>
     </div>
   </div>
 
   <div class="legend">
     <h2>What each key does</h2>
     <dl>
-      <dt>sin / cos / tan</dt><dd>Trig functions — input treated as degrees.</dd>
+      <dt>sin / cos / tan</dt><dd>Trig functions — input treated as radians.</dd>
       <dt>log / ln</dt><dd>Base-10 log, and natural log.</dd>
-      <dt>x^y</dt><dd>Raise the number before it to the power that follows.</dd>
+      <dt>^</dt><dd>Raise the number before it to the power that follows.</dd>
       <dt>&radic;</dt><dd>Square root of whatever's inside the parentheses.</dd>
-      <dt>x!</dt><dd>Factorial of the number right before it.</dd>
-      <dt>&pi;</dt><dd>Inserts pi.</dd>
+      <dt>&pi; / e</dt><dd>Inserts pi or Euler's number.</dd>
     </dl>
   </div>
 
@@ -101,205 +59,128 @@
 
 <script>
 (function(){
-  const displayEl = document.getElementById('display');
-  const trailEl = document.getElementById('trail');
-  let expr = '';
+var panel=document.getElementById('panel'), stage=document.getElementById('stage'), disp=document.getElementById('disp');
+stage.innerHTML='<div class="ansline"><span class="ans"></span><div class="ansrule"></div><div class="anslabel">answer line</div></div>';
 
-  function render(){
-    displayEl.textContent = expr === '' ? '0' : expr;
+function dragonSVG(c){
+ return '<svg class="drg" width="160" height="110" viewBox="0 0 160 110" aria-hidden="true" style="position:absolute;left:6px;top:6px;overflow:visible">'
+ +'<path d="M32 76 C10 86 2 66 14 58 C8 70 16 78 32 68 Z" fill="'+c.dark+'"/>'
+ +'<ellipse cx="52" cy="93" rx="8" ry="6" fill="'+c.dark+'"/><ellipse cx="78" cy="93" rx="8" ry="6" fill="'+c.dark+'"/>'
+ +'<path d="M38 54 l6 -9 l4 9 l6 -9 l4 9 l6 -9 l4 9 Z" fill="'+c.dark+'"/>'
+ +'<ellipse cx="62" cy="72" rx="34" ry="24" fill="'+c.body+'"/>'
+ +'<ellipse cx="68" cy="79" rx="21" ry="13" fill="'+c.belly+'"/>'
+ +'<path d="M58 52 C46 28 80 24 86 46 C74 38 64 42 58 52 Z" fill="'+c.dark+'"/>'
+ +'<path d="M84 68 C86 52 92 46 98 38 L116 52 C108 64 96 68 88 72 Z" fill="'+c.body+'"/>'
+ +'<path d="M96 28 C93 17 100 13 105 17 C100 18 98 23 100 29 Z" fill="'+c.belly+'"/>'
+ +'<path d="M107 26 C105 16 112 13 116 17 C111 18 109 22 111 28 Z" fill="'+c.belly+'"/>'
+ +'<circle cx="106" cy="42" r="19" fill="'+c.body+'"/>'
+ +'<path d="M116 40 L152 34 L150 60 L118 54 Z" fill="#7E2716"/>'
+ +'<path d="M110 32 C124 25 144 27 152 34 L116 43 Z" fill="'+c.body+'"/>'
+ +'<path d="M116 52 C128 63 142 65 150 60 L118 55 Z" fill="'+c.body+'"/>'
+ +'<path d="M130 39 l3 6 l3 -7 Z" fill="#FFFFFF"/><path d="M140 37 l3 6 l3 -7 Z" fill="#FFFFFF"/>'
+ +'<circle cx="146" cy="31" r="1.6" fill="'+c.dark+'"/>'
+ +'<circle cx="104" cy="35" r="5" fill="#FFFFFF"/><circle cx="106" cy="35.5" r="2.4" fill="#1E1E1E"/>'
+ +'</svg>';
+}
+var look={body:'#1F3A6E',belly:'#7FA3D1',dark:'#12244A'};
+stage.insertAdjacentHTML('afterbegin',dragonSVG(look));
+
+function rel(el){var pr=panel.getBoundingClientRect(),r=el.getBoundingClientRect();return{x:r.left-pr.left+r.width/2,y:r.top-pr.top+r.height/2};}
+function mouth(){var d=panel.querySelector('.drg'),pr=panel.getBoundingClientRect(),r=d.getBoundingClientRect();return{x:r.left-pr.left+r.width*0.93,y:r.top-pr.top+r.height*0.42};}
+function gulp(){panel.querySelector('.drg').animate([{transform:'scale(1)'},{transform:'scale(1.05)'},{transform:'scale(1)'}],{duration:220});}
+
+function inhale(ch,src){
+ var m=mouth(),s=rel(src);
+ var sp=document.createElement('span');
+ sp.textContent=ch;
+ sp.style.cssText='position:absolute;left:0;top:0;font-size:18px;font-weight:700;color:#efe9da;pointer-events:none;z-index:5;white-space:nowrap;';
+ panel.appendChild(sp);
+ sp.animate([
+  {transform:'translate('+s.x+'px,'+s.y+'px) scale(1)',opacity:1},
+  {transform:'translate('+((s.x+m.x)/2)+'px,'+(Math.min(s.y,m.y)-34)+'px) scale(0.9)',opacity:0.95,offset:0.6},
+  {transform:'translate('+m.x+'px,'+m.y+'px) scale(0.15)',opacity:0.15}
+ ],{duration:700,easing:'cubic-bezier(.4,0,.7,1)'}).onfinish=function(){sp.remove();gulp();};
+}
+
+var FC=['#E24B4A','#EF9F27','#FAC775','#D85A30'];
+function breathe(pchar,answerHTML){
+ var m=mouth();
+ panel.querySelector('.ans').innerHTML='';
+ for(var i=0;i<28;i++){(function(i){
+  var fl=document.createElement('span');
+  if(pchar&&i%3===0){
+   fl.textContent=pchar;
+   fl.style.cssText='position:absolute;left:0;top:0;font-size:8px;font-weight:700;color:'+(i%2?'#FFF3D6':'#FAC775')+';pointer-events:none;z-index:6;white-space:nowrap;';
+  }else{
+   var sz=Math.round(6+Math.random()*10);
+   fl.style.cssText='position:absolute;left:0;top:0;width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+FC[i%4]+';pointer-events:none;z-index:4;';
   }
+  panel.appendChild(fl);
+  var dx=60+Math.random()*300,dy=(Math.random()-0.5)*70;
+  fl.animate([
+   {transform:'translate('+m.x+'px,'+m.y+'px) scale(0.4)',opacity:1},
+   {transform:'translate('+(m.x+dx)+'px,'+(m.y+dy)+'px) scale(1.6)',opacity:0}
+  ],{duration:700+Math.random()*600,delay:i*24,easing:'ease-out'}).onfinish=function(){fl.remove();};
+ })(i);}
+ var line=panel.querySelector('.ansline'),pr=panel.getBoundingClientRect(),tr=line.getBoundingClientRect();
+ var tx=tr.left-pr.left+tr.width/2,ty=tr.top-pr.top;
+ var av=document.createElement('span');
+ av.innerHTML=answerHTML;
+ av.style.cssText='position:absolute;left:0;top:0;font-size:14px;font-weight:700;color:#ffcf8a;pointer-events:none;z-index:7;white-space:nowrap;';
+ panel.appendChild(av);
+ av.animate([
+  {transform:'translate('+m.x+'px,'+m.y+'px) scale(0.4)',opacity:0},
+  {transform:'translate('+(m.x+70)+'px,'+(m.y-18)+'px) scale(1.15)',opacity:1,offset:0.3},
+  {transform:'translate('+((m.x+tx)/2)+'px,'+(ty-46)+'px) scale(1.15)',offset:0.65},
+  {transform:'translate('+(tx-34)+'px,'+(ty+2)+'px) scale(1)',opacity:1}
+ ],{duration:1500,delay:260,easing:'ease-in-out'}).onfinish=function(){
+  av.remove();
+  var a=panel.querySelector('.ans');a.innerHTML=answerHTML;
+  a.animate([{opacity:0},{opacity:1}],{duration:250});
+ };
+ gulp();
+}
 
-  function press(token){
-    expr += token;
-    render();
-  }
+function fmt(v){
+ v=parseFloat(v.toPrecision(10));
+ if(v!==0&&(Math.abs(v)>=1e10||Math.abs(v)<1e-6))return v.toExponential(4);
+ return v.toLocaleString(undefined,{maximumFractionDigits:8});
+}
+function evalSci(ex){
+ ex=ex.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-')
+  .replace(/sin\(/g,'Math.sin(').replace(/cos\(/g,'Math.cos(').replace(/tan\(/g,'Math.tan(')
+  .replace(/log\(/g,'Math.log10(').replace(/ln\(/g,'Math.log(').replace(/√\(/g,'Math.sqrt(')
+  .replace(/\^/g,'**').replace(/π/g,'(Math.PI)').replace(/\be\b/g,'(Math.E)');
+ var bare=ex.replace(/Math\.[A-Za-z0-9]+/g,'');
+ if(!/^[0-9+\-*/(). ]*$/.test(bare))throw 0;
+ return Function('"use strict";return ('+ex+')')();
+}
 
-  function clearAll(){
-    expr = '';
-    trailEl.textContent = '\u00a0';
-    render();
-  }
-
-  function backspace(){
-    expr = expr.slice(0, -1);
-    render();
-  }
-
-  // ---- Safe recursive-descent parser/evaluator ----
-  // Grammar: expr -> term (('+'|'-') term)*
-  //          term -> factor (('*'|'/') factor)*
-  //          factor -> power ('!')?
-  //          power -> unary ('^' unary)?
-  //          unary -> '-' unary | primary
-  //          primary -> NUMBER | CONST | FUNC '(' expr ')' | '(' expr ')'
-  function evaluate(str){
-    let i = 0;
-    const s = str.replace(/\s+/g,'');
-
-    function peek(){ return s[i]; }
-    function consume(ch){
-      if (s[i] !== ch) throw new Error('Expected ' + ch);
-      i++;
-    }
-    function matchWord(w){
-      if (s.startsWith(w, i)){ i += w.length; return true; }
-      return false;
-    }
-
-    function parseExpr(){
-      let v = parseTerm();
-      while (peek() === '+' || peek() === '-'){
-        const op = s[i]; i++;
-        const rhs = parseTerm();
-        v = op === '+' ? v + rhs : v - rhs;
-      }
-      return v;
-    }
-    function parseTerm(){
-      let v = parseFactor();
-      while (peek() === '*' || peek() === '/'){
-        const op = s[i]; i++;
-        const rhs = parseFactor();
-        v = op === '*' ? v * rhs : v / rhs;
-      }
-      return v;
-    }
-    function parseFactor(){
-      let v = parsePower();
-      while (peek() === '!'){
-        i++;
-        v = factorial(v);
-      }
-      return v;
-    }
-    function parsePower(){
-      let v = parseUnary();
-      if (peek() === '^'){
-        i++;
-        const rhs = parseUnary();
-        v = Math.pow(v, rhs);
-      }
-      return v;
-    }
-    function parseUnary(){
-      if (peek() === '-'){ i++; return -parseUnary(); }
-      if (peek() === '+'){ i++; return parseUnary(); }
-      return parsePrimary();
-    }
-    function parsePrimary(){
-      if (peek() === '('){
-        i++;
-        const v = parseExpr();
-        consume(')');
-        return v;
-      }
-      if (matchWord('sin(')){ const v = parseExpr(); consume(')'); return Math.sin(v * Math.PI/180); }
-      if (matchWord('cos(')){ const v = parseExpr(); consume(')'); return Math.cos(v * Math.PI/180); }
-      if (matchWord('tan(')){ const v = parseExpr(); consume(')'); return Math.tan(v * Math.PI/180); }
-      if (matchWord('log(')){ const v = parseExpr(); consume(')'); return Math.log10(v); }
-      if (matchWord('ln(')){ const v = parseExpr(); consume(')'); return Math.log(v); }
-      if (matchWord('sqrt(')){ const v = parseExpr(); consume(')'); return Math.sqrt(v); }
-      if (matchWord('pi')){ return Math.PI; }
-      // number
-      let start = i;
-      while (i < s.length && /[0-9.]/.test(s[i])) i++;
-      if (i === start) throw new Error('Unexpected token at ' + i);
-      return Number(s.slice(start, i));
-    }
-
-    function factorial(n){
-      if (n < 0 || Math.floor(n) !== n) return NaN;
-      let r = 1;
-      for (let k = 2; k <= n; k++) r *= k;
-      return r;
-    }
-
-    const result = parseExpr();
-    if (i !== s.length) throw new Error('Unexpected trailing input');
-    return result;
-  }
-
-  const dragonStage = document.getElementById('dragonStage');
-  const flameField = document.getElementById('flameField');
-
-  function breatheFire(resultStr){
-    dragonStage.classList.remove('blow');
-    void dragonStage.offsetWidth;
-    dragonStage.classList.add('blow');
-
-    for (let i = 0; i < 6; i++){
-      const puff = document.createElement('div');
-      puff.className = 'flame-puff';
-      const angle = -110 + Math.random()*40;
-      const dist = 40 + Math.random()*40;
-      const rad = angle * Math.PI/180;
-      puff.style.setProperty('--dx', (Math.cos(rad)*dist).toFixed(1)+'px');
-      puff.style.setProperty('--dy', (Math.sin(rad)*dist).toFixed(1)+'px');
-      puff.style.setProperty('--dur', (450+Math.random()*300)+'ms');
-      puff.style.animationDelay = (i*35)+'ms';
-      flameField.appendChild(puff);
-      puff.classList.add('go');
-      puff.addEventListener('animationend', ()=> puff.remove());
-    }
-
-    const digits = resultStr.replace('-','').split('').filter(c => c !== '.');
-    digits.forEach((d, i)=>{
-      const spark = document.createElement('span');
-      spark.className = 'spark';
-      spark.textContent = d;
-      const angle = -100 + (i - digits.length/2) * 12 + (Math.random()*10 - 5);
-      const dist = 70 + Math.random()*40;
-      const rad = angle * Math.PI/180;
-      spark.style.setProperty('--dx', (Math.cos(rad)*dist).toFixed(1)+'px');
-      spark.style.setProperty('--dy', (Math.sin(rad)*dist).toFixed(1)+'px');
-      spark.style.setProperty('--rot', (Math.random()*40-20).toFixed(0)+'deg');
-      spark.style.setProperty('--dur', (700+Math.random()*350)+'ms');
-      spark.style.animationDelay = (60 + i*45)+'ms';
-      flameField.appendChild(spark);
-      spark.classList.add('go');
-      spark.addEventListener('animationend', ()=> spark.remove());
-    });
-  }
-
-  function doEquals(){
-    if (!expr) return;
-    try{
-      const result = evaluate(expr);
-      if (!isFinite(result)) throw new Error('bad result');
-      trailEl.textContent = expr + ' =';
-      const resStr = trimTrailingZeros(Number(result.toPrecision(12)).toString());
-      expr = resStr;
-      render();
-      breatheFire(resStr);
-    } catch(e){
-      trailEl.textContent = expr + ' =';
-      expr = 'Error';
-      render();
-      setTimeout(()=>{ expr=''; render(); }, 900);
-    }
-  }
-
-  function trimTrailingZeros(s){
-    if (s.indexOf('.') === -1) return s;
-    return s.replace(/0+$/,'').replace(/\.$/,'');
-  }
-
-  document.querySelectorAll('[data-op]').forEach(btn=>{
-    btn.addEventListener('click', ()=> press(btn.dataset.op));
-  });
-  document.querySelector('[data-action="clear"]').addEventListener('click', clearAll);
-  document.querySelector('[data-action="back"]').addEventListener('click', backspace);
-  document.querySelector('[data-action="="]').addEventListener('click', doEquals);
-
-  window.addEventListener('keydown', (e)=>{
-    if (/[0-9.+\-*/()^!]/.test(e.key)){ press(e.key); return; }
-    if (e.key === 'Enter' || e.key === '='){ e.preventDefault(); doEquals(); return; }
-    if (e.key === 'Escape'){ clearAll(); return; }
-    if (e.key === 'Backspace'){ backspace(); return; }
-  });
-
-  render();
+function run(){
+ try{
+  var v=evalSci(disp.value);
+  if(typeof v!=='number'||!isFinite(v))throw 0;
+  breathe('E=mc\u00B2',fmt(v));
+ }catch(err){
+  breathe('E=mc\u00B2','<span style="color:#e2a25c">hmm&hellip; check the expression</span>');
+ }
+}
+panel.querySelectorAll('.pad button').forEach(function(b){
+ b.addEventListener('click',function(){
+  var k=b.dataset.k;
+  if(k==='='){run();return;}
+  if(k==='C'){disp.value='';panel.querySelector('.ans').innerHTML='';return;}
+  if(k==='⌫'){disp.value=disp.value.replace(/(sin\(|cos\(|tan\(|log\(|ln\(|√\()$|.$/,'');return;}
+  disp.value+=k;
+  inhale(b.textContent.trim(),b);
+ });
+});
+disp.addEventListener('keydown',function(e){
+ if(e.key==='Enter'||e.key==='='||e.key==='Tab'){e.preventDefault();run();}
+ else if(e.key.length===1&&/[0-9+\-*/().^]/.test(e.key)){inhale(e.key,disp);}
+});
 })();
 </script>
+<script src="lava.js"></script>
 </body>
 </html>
