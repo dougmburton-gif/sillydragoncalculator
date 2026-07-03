@@ -543,6 +543,15 @@ button.eq{ background: var(--key-eq); color: var(--key-eq-text); }
 }
 .panel-wrap .mgo:hover{ filter: brightness(1.08); }
 
+.intro-copy{
+  max-width: 480px;
+  margin: 0 auto 26px;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #a8a396;
+}
+
 /* ---------- Legend ---------- */
 .legend{
   max-width: 520px;

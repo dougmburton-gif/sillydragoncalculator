@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mortgage Calculator | Silly Dragon Calculator</title>
-<meta name="description" content="A free online mortgage calculator with a flying, fire-breathing green dragon that estimates your monthly payment.">
+<title>Reckon — Basic Calculator | Silly Dragon Calculator</title>
+<meta name="description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
 <style>
   :root{
     --ember:#ff7a18; --ember-hot:#ffc23c; --ember-deep:#c62b05;
-    --green:#1f7a3d; --green-hi:#57c46e;
+    --gold:#f4c531; --gold-hi:#ffe98a;
     --ui:#0d0d12; --panel:#15151d; --panel-edge:#2a2a38;
     --text:#f3ead8;
   }
@@ -65,6 +65,7 @@
     animation:glowPulse 2.4s ease-in-out infinite; pointer-events:none;}
   @keyframes glowPulse{0%,100%{opacity:.85;}50%{opacity:1;}}
 
+  /* ---- site nav (replaces tab bar) ---- */
   #sitenav{position:absolute; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:12px 20px; background:rgba(5,5,8,.55); backdrop-filter:blur(4px);
@@ -73,7 +74,7 @@
   #sitenav ul{list-style:none; display:flex; gap:4px; flex-wrap:wrap;}
   #sitenav a.tab-link{color:#b8b3a2; text-decoration:none; padding:6px 10px; border-radius:999px; font-size:12px;}
   #sitenav a.tab-link:hover{background:rgba(255,255,255,.08); color:var(--text);}
-  #sitenav a.tab-link.active{background:var(--green); color:#eaffee; font-weight:bold;}
+  #sitenav a.tab-link.active{background:var(--gold); color:#4a3300; font-weight:bold;}
   #intro{position:absolute; top:52px; left:6%; right:6%; z-index:45; text-align:center;
     font-size:11px; color:rgba(243,234,216,.55); line-height:1.5;}
 
@@ -113,16 +114,10 @@
   .key:hover{background:#2a2a3c;}
   .key:active, .key.pressed{transform:scale(.93); background:#3a3a52;}
   .key:focus-visible{outline:2px solid var(--ember-hot); outline-offset:1px;}
-  .key.op{color:var(--green-hi);}
-  .key.eq{background:#134d27; color:#fff; font-weight:bold; grid-column:span 2;}
-  .key.eq:hover{background:var(--green);}
+  .key.op{color:var(--ember-hot);}
+  .key.eq{background:var(--ember-deep); color:#fff; font-weight:bold; grid-column:span 2;}
+  .key.eq:hover{background:var(--ember);}
   .hint{font-size:10px; text-align:center; opacity:.45; margin-top:9px; letter-spacing:.3px;}
-  .mfield{display:flex; justify-content:space-between; align-items:center;
-    background:#05060a; border:1px solid #232332; border-radius:10px;
-    padding:9px 12px; margin-bottom:8px; cursor:pointer; transition:border-color .2s;}
-  .mfield.active-field{border-color:var(--green-hi); box-shadow:0 0 10px rgba(87,196,110,.35);}
-  .mfield .lab{font-size:12px; color:#9ab5a0;}
-  .mfield .val{font-size:17px; font-weight:bold; color:#dfffe8; min-width:40px; text-align:right;}
 
   #dragon{
     position:absolute; z-index:25; font-size:48px;
@@ -197,13 +192,13 @@
     <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
     <ul>
       <li><a href="index.html" class="tab-link">Home</a></li>
-      <li><a href="basic.html" class="tab-link">Basic</a></li>
+      <li><a href="basic.html" class="tab-link active">Basic</a></li>
       <li><a href="scientific.html" class="tab-link">Scientific</a></li>
-      <li><a href="mortgage.html" class="tab-link active">Mortgage</a></li>
+      <li><a href="mortgage.html" class="tab-link">Mortgage</a></li>
       <li><a href="scramble.html" class="tab-link">Word Scramble</a></li>
     </ul>
   </nav>
-  <p id="intro">This free online mortgage calculator estimates your monthly principal and interest payment based on loan amount, rate, and term.</p>
+  <p id="intro">This free online basic calculator handles everyday math right in your browser — no downloads, no sign-up, nothing stored.</p>
 
   <div id="answer-line-wrap">
     <div id="answer-line-label">Answer line</div>
@@ -250,23 +245,22 @@
   </div>
 
   <main id="calc-zone">
-    <section class="calc" id="calc-mortgage" data-calc="mortgage">
-      <h2>Mortgage · green dragon</h2>
-      <div class="mfield active-field" data-f="principal"><span class="lab">Loan amount $</span><span class="val" id="m-principal">250000</span></div>
-      <div class="mfield" data-f="rate"><span class="lab">Interest rate % / yr</span><span class="val" id="m-rate">6.5</span></div>
-      <div class="mfield" data-f="years"><span class="lab">Term (years)</span><span class="val" id="m-years">30</span></div>
-      <div class="display"><div class="expr" id="m-expr">Monthly payment</div><div class="result" id="m-res">—</div></div>
-      <div class="keys" id="m-keys">
+    <section class="calc" id="calc-basic" data-calc="basic">
+      <h2>Basic · yellow dragon</h2>
+      <div class="display"><div class="expr" id="b-expr">&nbsp;</div><div class="result" id="b-res">0</div></div>
+      <div class="keys" id="b-keys">
+        <button class="key op" data-k="C">C</button><button class="key op" data-k="⌫">⌫</button>
+        <button class="key op" data-k="%">%</button><button class="key op" data-k="÷">÷</button>
         <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button>
-        <button class="key" data-k="9">9</button><button class="key op" data-k="C">C</button>
+        <button class="key" data-k="9">9</button><button class="key op" data-k="×">×</button>
         <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button>
-        <button class="key" data-k="6">6</button><button class="key op" data-k="⌫">⌫</button>
+        <button class="key" data-k="6">6</button><button class="key op" data-k="−">−</button>
         <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button>
-        <button class="key" data-k="3">3</button><button class="key op" data-k="▼">▼</button>
+        <button class="key" data-k="3">3</button><button class="key op" data-k="+">+</button>
         <button class="key" data-k="0">0</button><button class="key" data-k=".">.</button>
         <button class="key eq" data-k="=">=</button>
       </div>
-      <p class="hint">▼ or Tab moves between fields. Enter or = computes — the dragon breathes dollar-sign fire.</p>
+      <p class="hint">Type on your keyboard — the dragon inhales every keystroke. Enter, Tab, or = makes it exhale the answer.</p>
     </section>
   </main>
 
@@ -282,11 +276,11 @@
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const THEMES = {
-    mortgage:{ body:'#1f7a3d', belly:'#8fdca4', wing:'#2f9e54', wingFar:'#155c2c', rib:'#0d3f1e',
-            horn:'#d6f5de', spine:'#0f5127', smile:'#053317', flameSymbol:'$', symbolSize:8,
-            flameChars:['$','$','▲'], smiley:false }
+    basic:{ body:'#f4c531', belly:'#ffe98a', wing:'#e0a80f', wingFar:'#b8880a', rib:'#8a6606',
+            horn:'#fff3c4', spine:'#c99312', smile:'#7a5200', flameSymbol:'🔥', symbolSize:10,
+            flameChars:['▲','●','▮'], smiley:true }
   };
-  const current = 'mortgage';
+  const current = 'basic';
 
   function paintDragon(theme){
     const t = THEMES[theme];
@@ -487,7 +481,7 @@
             p.style.textShadow = '0 0 6px #ffc23c, 0 0 12px #ff7a18';
           } else {
             p.textContent = t.flameChars[Math.floor(Math.random()*t.flameChars.length)];
-            p.style.fontSize = (9 + Math.random()*3) + 'px';
+            p.style.fontSize = (current==='basic' ? 10 : 9 + Math.random()*3) + 'px';
             const cols = ['#ffc23c','#ff7a18','#ff5410','#ffe066'];
             p.style.color = cols[Math.floor(Math.random()*cols.length)];
             p.style.textShadow = '0 0 8px #ff7a18';
@@ -528,41 +522,96 @@
     };
   }
 
-  const mFields=['principal','rate','years'];
-  let mActive=0;
-  const mVals={principal:'250000', rate:'6.5', years:'30'};
-  function mRender(){
-    mFields.forEach((f,i)=>{
-      document.getElementById('m-'+f).textContent = mVals[f]||'0';
-      document.querySelector(`.mfield[data-f="${f}"]`).classList.toggle('active-field', i===mActive);
-    });
+  let bExpr = '';
+  const bExprEl=document.getElementById('b-expr'), bResEl=document.getElementById('b-res');
+  function bPress(k){
+    if(k==='C'){ bExpr=''; bResEl.textContent='0'; }
+    else if(k==='⌫'){ bExpr=bExpr.slice(0,-1); }
+    else if(k==='='){ return bEquals(); }
+    else { bExpr += k; }
+    bExprEl.innerHTML = bExpr || '&nbsp;';
   }
-  document.querySelectorAll('.mfield').forEach(el=>{
-    el.addEventListener('click', ()=>{ mActive=mFields.indexOf(el.dataset.f); mRender(); });
-  });
-  function mPress(k){
-    const f=mFields[mActive];
-    if(k==='C'){ mVals[f]=''; }
-    else if(k==='⌫'){ mVals[f]=mVals[f].slice(0,-1); }
-    else if(k==='▼'){ mActive=(mActive+1)%3; }
-    else if(k==='='){ return mEquals(); }
-    else if(/^[0-9.]$/.test(k)){ if(mVals[f].length<10) mVals[f]+=k; }
-    mRender();
-  }
-  function mEquals(){
-    const P=parseFloat(mVals.principal), annual=parseFloat(mVals.rate), yrs=parseFloat(mVals.years);
-    let txt;
-    if(!isFinite(P)||!isFinite(annual)||!isFinite(yrs)||P<=0||yrs<=0){ txt='ROAR?!'; }
-    else{
-      const r=annual/100/12, n=yrs*12;
-      const pay = r===0 ? P/n : P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-      txt='$'+pay.toFixed(2)+' / mo';
-    }
-    document.getElementById('m-res').textContent = txt;
+  function bEquals(){
+    const val = safeEval(bExpr);
+    const txt = val===null ? 'ROAR?!' : fmt(val);
+    bResEl.textContent = txt;
     exhaleAnswer(txt);
+    if(val!==null) bExpr = String(val);
+    bExprEl.innerHTML = bExpr || '&nbsp;';
   }
 
-  const pressFns = {mortgage:mPress};
+  function fmt(v){
+    if (Math.abs(v)>=1e12 || (v!==0 && Math.abs(v)<1e-9)) return v.toExponential(6);
+    return String(Math.round(v*1e10)/1e10);
+  }
+  function factorial(n){
+    if(n<0||n>170||Math.floor(n)!==n) return NaN;
+    let r=1; for(let i=2;i<=n;i++) r*=i; return r;
+  }
+  function safeEval(src){
+    try{
+      src = src.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/√/g,'sqrt').replace(/π/g,'pi');
+      const tokens=[];
+      const re=/\s*([0-9]*\.?[0-9]+|sin|cos|tan|ln|log|sqrt|pi|e|[()+\-*/^%!])/gy;
+      let m, idx=0;
+      while(idx<src.length){
+        re.lastIndex=idx; m=re.exec(src);
+        if(!m) return null;
+        tokens.push(m[1]); idx=re.lastIndex;
+      }
+      if(!tokens.length) return null;
+      const FN={sin:x=>Math.sin(x),cos:x=>Math.cos(x),tan:x=>Math.tan(x),ln:x=>Math.log(x),log:x=>Math.log10(x),sqrt:x=>Math.sqrt(x)};
+      const PREC={'+':1,'-':1,'*':2,'/':2,'%':2,'^':3,'u-':4};
+      const out=[], ops=[];
+      let prev=null;
+      for(const tk of tokens){
+        if(/^[0-9.]/.test(tk)){ out.push(parseFloat(tk)); }
+        else if(tk==='pi'){ out.push(Math.PI); }
+        else if(tk==='e'){ out.push(Math.E); }
+        else if(FN[tk]){ ops.push(tk); }
+        else if(tk==='!'){
+          const a=out.pop(); if(a===undefined) return null; out.push(factorial(a));
+        }
+        else if(tk==='('){ ops.push(tk); }
+        else if(tk===')'){
+          while(ops.length && ops[ops.length-1]!=='(') applyOp(out,ops.pop());
+          if(!ops.length) return null;
+          ops.pop();
+          if(ops.length && FN[ops[ops.length-1]]) applyOp(out,ops.pop());
+        }
+        else{
+          let op=tk;
+          if(op==='-' && (prev===null||['(','+','-','*','/','^','%'].includes(prev))) op='u-';
+          while(ops.length){
+            const top=ops[ops.length-1];
+            if(top==='('||FN[top]) break;
+            if(PREC[top]>PREC[op] || (PREC[top]===PREC[op] && op!=='^' && op!=='u-')) applyOp(out,ops.pop());
+            else break;
+          }
+          ops.push(op);
+        }
+        prev=tk;
+      }
+      while(ops.length){ const op=ops.pop(); if(op==='(') return null; applyOp(out,op); }
+      if(out.length!==1) return null;
+      const v=out[0];
+      return (typeof v==='number' && isFinite(v)) ? v : null;
+
+      function applyOp(stk,op){
+        if(FN[op]){ const a=stk.pop(); stk.push(FN[op](a)); return; }
+        if(op==='u-'){ const a=stk.pop(); stk.push(-a); return; }
+        const b=stk.pop(), a=stk.pop();
+        if(a===undefined||b===undefined){ stk.push(NaN); return; }
+        switch(op){
+          case '+':stk.push(a+b);break; case '-':stk.push(a-b);break;
+          case '*':stk.push(a*b);break; case '/':stk.push(a/b);break;
+          case '%':stk.push(a%b);break; case '^':stk.push(Math.pow(a,b));break;
+        }
+      }
+    }catch(e){ return null; }
+  }
+
+  const pressFns = {basic:bPress};
 
   function handleKeyPress(k, sourceEl){
     let x, y;
@@ -596,11 +645,11 @@
     const kmap = {'*':'×','/':'÷','-':'−','x':'×','X':'×'};
     let k = e.key;
     if (k === 'Enter' || k === '=' ) { e.preventDefault(); handleKeyPress('='); return; }
-    if (k === 'Tab'){ e.preventDefault(); handleKeyPress('▼'); return; }
+    if (k === 'Tab'){ e.preventDefault(); handleKeyPress('='); return; }
     if (k === 'Backspace'){ e.preventDefault(); handleKeyPress('⌫'); return; }
     if (k === 'Escape' || k==='c' || k==='C'){ handleKeyPress('C'); return; }
     if (kmap[k]) k = kmap[k];
-    const legal = /^[0-9.]$/;
+    const legal = /^[0-9.+()%^!]$|^[×÷−]$/;
     if (legal.test(k)){
       e.preventDefault();
       const btn = document.querySelector(`.calc .key[data-k="${k}"]`);
@@ -615,8 +664,7 @@
     }
   });
 
-  paintDragon('mortgage');
-  mRender();
+  paintDragon('basic');
   setTimeout(flyEntrance, 400);
 })();
 </script>
