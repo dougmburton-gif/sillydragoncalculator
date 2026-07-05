@@ -110,6 +110,14 @@
   .tab.active[data-calc="basic"]{background:var(--gold); color:#4a3300; border-color:var(--gold-hi); font-weight:bold;}
   .tab.active[data-calc="mortgage"]{background:var(--green); color:#eaffee; border-color:var(--green-hi); font-weight:bold;}
   .tab.active[data-calc="scientific"]{background:var(--navy); color:#e6efff; border-color:var(--navy-hi); font-weight:bold;}
+  .tab.hobbyfarm-tab{
+    background:var(--green); color:#d2b48c; border-color:var(--green-hi); font-weight:bold;
+    text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .tab.hobbyfarm-tab:hover{border-color:var(--ember);}
+  .tab.hobbyfarm-tab .dot{
+    width:10px; height:10px; border-radius:50%; background:#ff6700; display:inline-block; flex:none;
+  }
 
   #answer-line-wrap{position:absolute; top:130px; left:6%; right:6%; z-index:20; pointer-events:none;}
   #answer-line-label{font-size:11px; letter-spacing:3px; text-transform:uppercase;
@@ -255,6 +263,7 @@
     <button class="tab active" data-calc="basic">🟡 Básica</button>
     <button class="tab" data-calc="mortgage">🟢 Hipoteca</button>
     <button class="tab" data-calc="scientific">🔵 Científica</button>
+    <a class="tab hobbyfarm-tab" href="hobbyfarm.html"><span class="dot"></span>Granja Hobby</a>
   </nav>
 
   <div id="answer-line-wrap">
