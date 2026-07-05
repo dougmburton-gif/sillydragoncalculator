@@ -53,6 +53,15 @@
   .dir-card.soon{ opacity:0.55; cursor:default; }
   .dir-card.soon:hover{ transform:none; border-color:var(--panel-edge); }
   .dir-card .tag{ font-size:0.6rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin-top:6px; display:block; }
+  .gear-grid{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+  .gear-link{
+    display:inline-block; text-decoration:none; color:var(--accent);
+    background:rgba(255,255,255,0.04); border:1px solid var(--panel-edge);
+    border-radius:999px; padding:8px 14px; font-size:0.8rem;
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .gear-link:hover{ border-color:var(--accent); transform:translateY(-2px); }
+  .amazon-disclosure{ font-size:0.68rem; color:#7a7768; margin:10px 0 0; }
 </style>
 </head>
 <body>
@@ -122,6 +131,24 @@
       <p>Patos, gansos y otras aves de granja</p>
       <span class="tag">Próximamente</span>
     </div>
+  </div>
+
+  <div class="intro-card" style="margin-top:24px;">
+    <h2>Equipo recomendado para empezar</h2>
+    <div class="gear-grid">
+      <a class="gear-link" href="https://www.amazon.com/s?k=livestock+field+fencing&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">Cercado para Ganado</a>
+      <a class="gear-link" href="https://www.amazon.com/s?k=livestock+water+trough&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">Bebederos y Comederos</a>
+      <a class="gear-link" href="https://www.amazon.com/s?k=farm+hand+tools&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">Herramientas de Granja</a>
+      <a class="gear-link" href="https://www.amazon.com/s?k=hobby+farming+beginner+guide+book&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">Guías para Principiantes</a>
+    </div>
+    <p class="amazon-disclosure">Como Afiliado de Amazon, Calculadora Dragón gana por compras que califiquen.</p>
+  </div>
+
+  <div class="intro-card" style="margin-top:24px;">
+    <h2>Más información</h2>
+    <p><a href="https://www.hobbyfarms.com/15-livestock-breeds-small-scale-farmers-can-raise/" target="_blank" rel="noopener" style="color:var(--accent);">15 Livestock Breeds Small-Scale Farmers Can Raise</a> — revista Hobby Farms (en inglés)</p>
+    <p><a href="https://breeds.okstate.edu/cattle" target="_blank" rel="noopener" style="color:var(--accent);">Universidad Estatal de Oklahoma: Razas de Ganado</a> (en inglés)</p>
+    <p><a href="https://breeds.okstate.edu/sheep" target="_blank" rel="noopener" style="color:var(--accent);">Universidad Estatal de Oklahoma: Razas de Ovejas</a> (en inglés)</p>
   </div>
 
   <footer class="site-footer">
