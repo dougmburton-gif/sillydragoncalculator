@@ -31,6 +31,13 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sillydragoncalculator.com/graphing.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/graphing.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/graphing.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://sillydragoncalculator.com/scramble.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scramble.html"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scramble.html"/>
@@ -98,6 +105,13 @@
     <loc>https://sillydragoncalculator.com/es/scientific.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scientific.html"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scientific.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/graphing.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/graphing.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/graphing.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
