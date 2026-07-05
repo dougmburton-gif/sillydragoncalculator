@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Sopa de Letras | Calculadora Dragón</title>
+<meta name="description" content="Un juego gratuito de sopa de letras. Desordena las letras, usa pistas si te atoras, y supera tu racha.">
+<link rel="canonical" href="https://sillydragoncalculator.com/es/scramble.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scramble.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scramble.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/scramble.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillydragoncalculator.com/es/scramble.html">
+<meta property="og:title" content="Sopa de Letras | Calculadora Dragón">
+<meta property="og:description" content="Un juego gratuito de sopa de letras. Desordena las letras, usa pistas si te atoras, y supera tu racha.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Calculadora Dragón">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sopa de Letras | Calculadora Dragón">
+<meta name="twitter:description" content="Un juego gratuito de sopa de letras — supera tu racha.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Calculadora Dragón — Sopa de Letras","applicationCategory":"GameApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/es/scramble.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"es"}
+</script>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .scramble-letters{
+    font-size: 2rem;
+    letter-spacing: 0.15em;
+    text-align:center;
+    font-weight: 700;
+    color: var(--lcd-ink);
+    background: var(--lcd-bg);
+    border-radius: 8px;
+    padding: 22px 10px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+    margin-bottom: 16px;
+    word-break: break-all;
+  }
+  .stat-row{
+    display:flex;
+    justify-content:space-between;
+    font-size: 0.75rem;
+    color: #a8a396;
+    margin-bottom: 14px;
+  }
+  .stat-row span b{ color: var(--accent); }
+  .btn-row{ display:flex; gap: 8px; margin-top: 10px; }
+  .btn-row .btn-solid{ flex:1; }
+  .btn-ghost{
+    background: var(--key-fn);
+    color: var(--key-fn-text);
+  }
+  .feedback{
+    margin-top: 12px;
+    min-height: 20px;
+    font-size: 0.85rem;
+    text-align:center;
+  }
+  .feedback.good{ color: #9fd18a; }
+  .feedback.bad{ color: #e2a25c; }
+</style>
+</head>
+<body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
+
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Calculadora Dragón</a>
+    <ul>
+      <li><a href="index.html" class="tab">Inicio</a></li>
+      <li><a href="basic.html" class="tab">Básica</a></li>
+      <li><a href="scientific.html" class="tab">Científica</a></li>
+      <li><a href="mortgage.html" class="tab">Hipoteca</a></li>
+      <li><a href="scramble.html" class="tab active">Sopa de Letras</a></li>
+      <li><a href="wordpuzzle.html" class="tab">Adivina la Palabra</a></li>
+      <li><a href="hangman.html" class="tab">Ahorcado</a></li>
+      <li><a href="hobbyfarm.html" class="tab">Granja Hobby</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Desordena las letras</div>
+    <h1>Sopa de Letras</h1>
+    <p>El dragón revolvió una palabra. Escribe tu respuesta, presiona enter o verificar, y mira qué tan larga puedes hacer tu racha.</p>
+  </div>
+
+  <p class="intro-copy">Juega este juego gratuito de sopa de letras en línea — desordena las letras para adivinar la palabra oculta, usa pistas si te atoras, e intenta superar tu propio récord. Un juego rápido, sin descargas, para un breve descanso mental.</p>
+
+  <div class="card">
+    <div class="stat-row">
+      <span>Puntos: <b id="score">0</b></span>
+      <span>Racha: <b id="streak">0</b></span>
+      <span>Pistas usadas: <b id="hintsUsed">0</b></span>
+    </div>
+
+    <div class="scramble-letters" id="scrambleLetters">CARGANDO</div>
+
+    <div class="field">
+      <label for="guessInput">Tu respuesta</label>
+      <input type="text" id="guessInput" autocomplete="off" spellcheck="false" placeholder="escribe la palabra sin revolver">
+    </div>
+
+    <div class="feedback" id="feedback">&nbsp;</div>
+
+    <div class="btn-row">
+      <button class="btn-solid" id="checkBtn">Verificar</button>
+      <button class="btn-solid btn-ghost" id="hintBtn">Pista</button>
+      <button class="btn-solid btn-ghost" id="skipBtn">Saltar</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <h2>Cómo jugar</h2>
+    <dl>
+      <dt>Verificar</dt><dd>Envía tu respuesta — también se activa al presionar Enter.</dd>
+      <dt>Pista</dt><dd>Revela una letra más en su lugar. Cada pista usada resta un poco de los puntos de esa palabra.</dd>
+      <dt>Saltar</dt><dd>Pasa a una palabra nueva sin penalizar los puntos de la racha, pero sí reinicia la racha.</dd>
+    </dl>
+  </div>
+
+  <footer class="site-footer">
+    Funciona completamente en tu navegador. Nada de lo que escribes se guarda ni se envía a ningún lado. &middot; <a href="privacy.html" style="color:#7a7768;">Política de Privacidad</a> &middot; <a href="../scramble.html" style="color:#7a7768;">English</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visitas&amp;color=b5651d" alt="contador de visitas" style="vertical-align:middle;height:13px;opacity:.85;">
+    <p class="disclaimer">Este juego se ofrece solo con fines de entretenimiento. Calculadora Dragón no se hace responsable de las decisiones tomadas con base en los resultados.</p>
+  </footer>
+
+<script>
+(function(){
+  const WORDS = [
+    'dragon','llama','fuego','castillo','acertijo','tesoro','escama','bosque','linterna','sombra',
+    'susurro','caldero','viaje','brujula','trueno','cristal','pradera','duende','ancla','puerto',
+    'mago','glaciar','pluma','guijarro','halcon','arce','huerto','tunel','volcan','isla',
+    'brisa','choza','marmol','terciopelo','cobre','ambar','sauce','roca','valle','sendero'
+  ];
+
+  const $ = id => document.getElementById(id);
+  let currentWord = '';
+  let revealed = [];
+  let score = 0, streak = 0, hintsUsedTotal = 0, hintsThisWord = 0;
+
+  function scramble(word){
+    let letters = word.split('');
+    let attempts = 0;
+    let result;
+    do {
+      result = letters.slice().sort(()=> Math.random()-0.5).join('');
+      attempts++;
+    } while (result === word && attempts < 10);
+    return result;
+  }
+
+  function pickWord(){
+    currentWord = WORDS[Math.floor(Math.random()*WORDS.length)];
+    revealed = new Array(currentWord.length).fill(false);
+    hintsThisWord = 0;
+    render();
+  }
+
+  function render(){
+    let display = scramble(currentWord).toUpperCase();
+    // if hints revealed some letters, show partial pattern beneath scramble instead
+    $('scrambleLetters').textContent = display.split('').join(' ');
+    $('score').textContent = score;
+    $('streak').textContent = streak;
+    $('hintsUsed').textContent = hintsUsedTotal;
+    $('guessInput').value = '';
+    updateHintPattern();
+  }
+
+  function updateHintPattern(){
+    if (hintsThisWord === 0) return;
+    const pattern = currentWord.split('').map((ch,i)=> revealed[i] ? ch.toUpperCase() : '_').join(' ');
+    $('feedback').textContent = 'Patrón: ' + pattern;
+    $('feedback').className = 'feedback';
+  }
+
+  function checkGuess(){
+    const guess = $('guessInput').value.trim().toLowerCase();
+    if (!guess) return;
+    if (guess === currentWord){
+      const points = Math.max(10 - hintsThisWord * 3, 2);
+      score += points;
+      streak += 1;
+      $('feedback').textContent = '¡Correcto! +' + points + ' puntos. Era "' + currentWord + '".';
+      $('feedback').className = 'feedback good';
+      setTimeout(pickWord, 900);
+    } else {
+      streak = 0;
+      $('feedback').textContent = 'No es correcto — intenta de nuevo, o usa una pista.';
+      $('feedback').className = 'feedback bad';
+    }
+    $('score').textContent = score;
+    $('streak').textContent = streak;
+  }
+
+  function giveHint(){
+    const unrevealedIdx = revealed.map((r,i)=> r ? -1 : i).filter(i=> i !== -1);
+    if (unrevealedIdx.length === 0) return;
+    const idx = unrevealedIdx[Math.floor(Math.random()*unrevealedIdx.length)];
+    revealed[idx] = true;
+    hintsThisWord += 1;
+    hintsUsedTotal += 1;
+    $('hintsUsed').textContent = hintsUsedTotal;
+    updateHintPattern();
+  }
+
+  function skipWord(){
+    streak = 0;
+    $('streak').textContent = streak;
+    $('feedback').textContent = 'Saltado. La palabra era "' + currentWord + '".';
+    $('feedback').className = 'feedback';
+    pickWord();
+  }
+
+  $('checkBtn').addEventListener('click', checkGuess);
+  $('hintBtn').addEventListener('click', giveHint);
+  $('skipBtn').addEventListener('click', skipWord);
+  $('guessInput').addEventListener('keydown', e=>{
+    if (e.key === 'Enter'){ e.preventDefault(); checkGuess(); }
+  });
+
+  pickWord();
+})();
+</script>
+<script src="../lava.js"></script>
+</body>
+</html>

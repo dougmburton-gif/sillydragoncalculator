@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reckon — Basic Calculator | Silly Dragon Calculator</title>
-<meta name="description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
-<link rel="canonical" href="https://sillydragoncalculator.com/basic.html">
-<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/basic.html">
-<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/basic.html">
-<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/basic.html">
+<title>Ahorcado — Adivina la Palabra | Calculadora Dragón</title>
+<meta name="description" content="Un juego gratuito en línea de ahorcado con un dragón volador y lanzallamas que inhala tus letras, exhala fuego cuando resuelves la palabra, y te asa cuando se te acaban los intentos.">
+<link rel="canonical" href="https://sillydragoncalculator.com/es/hangman.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/hangman.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/hangman.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/hangman.html">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sillydragoncalculator.com/basic.html">
-<meta property="og:title" content="Reckon — Basic Calculator | Silly Dragon Calculator">
-<meta property="og:description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="es_ES">
-<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta property="og:url" content="https://sillydragoncalculator.com/es/hangman.html">
+<meta property="og:title" content="Ahorcado — Adivina la Palabra | Calculadora Dragón">
+<meta property="og:description" content="Un juego gratuito en línea de ahorcado con un dragón volador y lanzallamas.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Calculadora Dragón">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Reckon — Basic Calculator | Silly Dragon Calculator">
-<meta name="twitter:description" content="A free online basic calculator with a flying, fire-breathing yellow dragon.">
+<meta name="twitter:title" content="Ahorcado | Calculadora Dragón">
+<meta name="twitter:description" content="Un juego gratuito de ahorcado con un dragón lanzallamas.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"Silly Dragon Calculator — Basic","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/basic.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"en"}
+{"@context":"https://schema.org","@type":"WebApplication","name":"Calculadora Dragón — Ahorcado","applicationCategory":"GameApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/es/hangman.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"es"}
 </script>
 <style>
   :root{
@@ -82,7 +82,6 @@
     animation:glowPulse 2.4s ease-in-out infinite; pointer-events:none;}
   @keyframes glowPulse{0%,100%{opacity:.85;}50%{opacity:1;}}
 
-  /* ---- site nav (replaces tab bar) ---- */
   #sitenav{position:absolute; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:12px 20px; background:rgba(5,5,8,.55); backdrop-filter:blur(4px);
@@ -109,32 +108,66 @@
     text-shadow:0 0 10px var(--ember), 0 0 22px var(--ember-deep);
     min-height:20px;
   }
-  #calc-zone{position:absolute; right:5%; top:54%; transform:translateY(-52%); z-index:15; width:340px;}
+  #game-zone{position:absolute; right:5%; top:54%; transform:translateY(-52%); z-index:15; width:360px;}
   .calc{background:var(--panel); border:1px solid var(--panel-edge);
     border-radius:18px; padding:16px; box-shadow:0 18px 60px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.03) inset;
-    animation:calcIn .4s ease;}
+    animation:calcIn .4s ease; position:relative;}
   @keyframes calcIn{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;}}
   .calc h2{font-size:13px; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; opacity:.75;}
-  .display{
+  .stat-row{display:flex; justify-content:space-between; font-size:11px; color:#a8a396; margin-bottom:10px;}
+  .stat-row b{color:var(--ember-hot);}
+  .blanks-box{
     background:#05060a; border:1px solid #232332; border-radius:10px;
-    padding:12px 14px; margin-bottom:12px; text-align:right; min-height:74px;
-    display:flex; flex-direction:column; justify-content:center; gap:2px;
+    padding:16px 10px; margin-bottom:10px; text-align:center;
+    font-size:1.5rem; font-weight:bold; letter-spacing:.22em; color:#fff;
+    word-break:break-all;
   }
-  .expr{font-size:13px; color:#8f8fa8; min-height:16px; word-break:break-all;}
-  .result{font-size:26px; font-weight:bold; color:var(--text); min-height:32px; word-break:break-all;}
-  .keys{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
-  .key{
-    background:#1e1e2a; border:1px solid #30304200; color:var(--text);
-    border-radius:10px; padding:12px 0; font-size:16px; cursor:pointer; font-family:inherit;
-    transition:transform .08s, background .15s; user-select:none;
+  .lives-row{ text-align:center; font-size:1rem; letter-spacing:.3em; margin-bottom:10px; min-height:20px; }
+  .feedback{ min-height:18px; font-size:.78rem; text-align:center; margin-bottom:10px; }
+  .feedback.good{ color:#9fd18a; }
+  .feedback.bad{ color:#e2a25c; }
+  .feedback.over{ color:#ff6b5e; font-weight:bold; }
+  .keyboard{
+    display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:10px;
   }
-  .key:hover{background:#2a2a3c;}
-  .key:active, .key.pressed{transform:scale(.93); background:#3a3a52;}
-  .key:focus-visible{outline:2px solid var(--ember-hot); outline-offset:1px;}
-  .key.op{color:var(--ember-hot);}
-  .key.eq{background:var(--ember-deep); color:#fff; font-weight:bold; grid-column:span 2;}
-  .key.eq:hover{background:var(--ember);}
+  .keyboard button{
+    appearance:none; border:none; border-radius:6px; padding:8px 0;
+    font-family:inherit; font-weight:bold; font-size:.8rem; cursor:pointer;
+    color:var(--text); background:#1e1e2a;
+  }
+  .keyboard button:hover:not(:disabled){ background:#2a2a3c; }
+  .keyboard button:disabled{ opacity:.3; cursor:default; }
+  .keyboard button.correct{ background:#134d27; color:#dfffe8; }
+  .keyboard button.wrong{ background:#5c1a12; color:#ffd8d0; }
+  .btn-row{ display:flex; gap:8px; }
+  .btn-row button{
+    flex:1; appearance:none; border:none; border-radius:8px; padding:10px 0;
+    font-family:inherit; font-weight:bold; font-size:.85rem; cursor:pointer;
+    color:#fff6ea; background:var(--ember-deep);
+  }
+  .btn-row button:hover{ filter:brightness(1.1); }
   .hint{font-size:10px; text-align:center; opacity:.45; margin-top:9px; letter-spacing:.3px;}
+
+  #player-avatar{
+    position:absolute; top:-46px; right:14px; z-index:5;
+    font-size:30px; line-height:1; text-align:center; pointer-events:none;
+  }
+  #player-avatar .hair-fire{
+    position:absolute; top:-20px; left:50%; transform:translateX(-50%) scale(0);
+    font-size:20px; opacity:0; transition:transform .15s ease, opacity .15s ease;
+  }
+  #player-avatar.on-fire .hair-fire{
+    transform:translateX(-50%) scale(1);
+    opacity:1;
+    animation:hairWiggle .3s ease-in-out infinite alternate;
+  }
+  #player-avatar.on-fire .face{ animation:wince .4s ease; }
+  @keyframes hairWiggle{ 0%{transform:translateX(-50%) rotate(-8deg) scale(1);} 100%{transform:translateX(-50%) rotate(8deg) scale(1.08);} }
+  @keyframes wince{ 0%,100%{transform:scale(1);} 50%{transform:scale(.85) rotate(-4deg);} }
+  #player-label{
+    position:absolute; top:-8px; right:8px; z-index:5; font-size:9px;
+    letter-spacing:.1em; text-transform:uppercase; color:rgba(243,234,216,.5);
+  }
 
   #dragon{
     position:absolute; z-index:25; font-size:48px;
@@ -190,7 +223,7 @@
     #dragon.flying .wing-near,#dragon.flying .wing-far{animation:none !important;}
   }
   @media (max-width:760px){
-    #calc-zone{width:88%; right:6%; top:58%;}
+    #game-zone{width:88%; right:6%; top:58%;}
     #dragon{font-size:34px;}
     #sitenav ul{display:none;}
     #answer-line-wrap{top:110px;}
@@ -206,22 +239,22 @@
   <div id="floor-fire"></div>
 
   <nav id="sitenav">
-    <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+    <a href="index.html" class="brand">🐲 Calculadora Dragón</a>
     <ul>
-      <li><a href="index.html" class="tab-link">Home</a></li>
-      <li><a href="basic.html" class="tab-link active">Basic</a></li>
-      <li><a href="scientific.html" class="tab-link">Scientific</a></li>
-      <li><a href="mortgage.html" class="tab-link">Mortgage</a></li>
-      <li><a href="scramble.html" class="tab-link">Word Scramble</a></li>
-      <li><a href="wordpuzzle.html" class="tab-link">Word Puzzle</a></li>
-      <li><a href="hangman.html" class="tab-link">Hangman</a></li>
-      <li><a href="hobbyfarm.html" class="tab-link">Hobby Farm</a></li>
+      <li><a href="index.html" class="tab-link">Inicio</a></li>
+      <li><a href="basic.html" class="tab-link">Básica</a></li>
+      <li><a href="scientific.html" class="tab-link">Científica</a></li>
+      <li><a href="mortgage.html" class="tab-link">Hipoteca</a></li>
+      <li><a href="scramble.html" class="tab-link">Sopa de Letras</a></li>
+      <li><a href="wordpuzzle.html" class="tab-link">Adivina la Palabra</a></li>
+      <li><a href="hangman.html" class="tab-link active">Ahorcado</a></li>
+      <li><a href="hobbyfarm.html" class="tab-link">Granja Hobby</a></li>
     </ul>
   </nav>
-  <p id="intro">This free online basic calculator handles everyday math right in your browser — no downloads, no sign-up, nothing stored.</p>
+  <p id="intro">Adivina una letra a la vez. Cada letra que eliges es inhalada por el dragón. Acierta y se acerca a exhalar toda la palabra en llamas — falla y te lanza fuego directo.</p>
 
   <div id="answer-line-wrap">
-    <div id="answer-line-label">Answer line</div>
+    <div id="answer-line-label">Línea de respuesta</div>
     <div id="answer-line"></div>
     <div id="answer-landing" aria-live="polite"></div>
   </div>
@@ -264,28 +297,29 @@
     </svg>
   </div>
 
-  <main id="calc-zone">
-    <section class="calc" id="calc-basic" data-calc="basic">
-      <h2>Basic · yellow dragon</h2>
-      <div class="display"><div class="expr" id="b-expr">&nbsp;</div><div class="result" id="b-res">0</div></div>
-      <div class="keys" id="b-keys">
-        <button class="key op" data-k="C">C</button><button class="key op" data-k="⌫">⌫</button>
-        <button class="key op" data-k="%">%</button><button class="key op" data-k="÷">÷</button>
-        <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button>
-        <button class="key" data-k="9">9</button><button class="key op" data-k="×">×</button>
-        <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button>
-        <button class="key" data-k="6">6</button><button class="key op" data-k="−">−</button>
-        <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button>
-        <button class="key" data-k="3">3</button><button class="key op" data-k="+">+</button>
-        <button class="key" data-k="0">0</button><button class="key" data-k=".">.</button>
-        <button class="key eq" data-k="=">=</button>
+  <main id="game-zone">
+    <section class="calc" id="game-panel">
+      <div id="player-label">Tú</div>
+      <div id="player-avatar"><span class="hair-fire">🔥</span><span class="face">🙂</span></div>
+      <h2>Ahorcado · dragón carmesí</h2>
+      <div class="stat-row">
+        <span>Puntos: <b id="score">0</b></span>
+        <span>Fallos: <b id="wrongCount">0</b>/<b id="maxWrong">6</b></span>
+        <span>Racha: <b id="streak">0</b></span>
       </div>
-      <p class="hint">Type on your keyboard — the dragon inhales every keystroke. Enter, Tab, or = makes it exhale the answer.</p>
+      <div class="blanks-box" id="blanksBox">_ _ _ _</div>
+      <div class="lives-row" id="livesRow">❤️❤️❤️❤️❤️❤️</div>
+      <div class="feedback" id="feedback">&nbsp;</div>
+      <div class="keyboard" id="keyboard"></div>
+      <div class="btn-row">
+        <button id="newWordBtn">Nueva Palabra</button>
+      </div>
+      <p class="hint">Haz clic en una letra o escribe en tu teclado. Cada fallo acerca la llama a ti — seis fallos y se acaba el juego para esa palabra.</p>
     </section>
   </main>
 
-  <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="es/basic.html">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
-    <p class="disclaimer">This calculator is provided for general informational purposes only and is not a substitute for professional advice. Results are estimates — Silly Dragon Calculator is not responsible for any decisions made based on these results.</p>
+  <div id="sitefooter">&copy; Calculadora Dragón &middot; <a href="privacy.html">Política de Privacidad</a> &middot; <a href="../hangman.html">English</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visitas&amp;color=b5651d" alt="contador de visitas" style="vertical-align:middle;height:13px;opacity:.85;">
+    <p class="disclaimer">Este juego se ofrece solo con fines de entretenimiento. Calculadora Dragón no se hace responsable de las decisiones tomadas con base en los resultados.</p>
   </div>
 </div>
 
@@ -295,17 +329,15 @@
   const stage = document.getElementById('stage');
   const dragon = document.getElementById('dragon');
   const answerLanding = document.getElementById('answer-landing');
+  const avatar = document.getElementById('player-avatar');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const THEMES = {
-    basic:{ body:'#f4c531', belly:'#ffe98a', wing:'#e0a80f', wingFar:'#b8880a', rib:'#8a6606',
-            horn:'#fff3c4', spine:'#c99312', smile:'#7a5200', flameSymbol:'🔥', symbolSize:10,
-            flameChars:['▲','●','▮'], smiley:true }
-  };
-  const current = 'basic';
+  const THEME = { body:'#c0392b', belly:'#f1948a', wing:'#922b21', wingFar:'#641e16', rib:'#3b0d0a',
+    horn:'#fadbd8', spine:'#78281f', smile:'#4a1a13', flameSymbol:'🔥', symbolSize:10,
+    flameChars:['▲','●','▮'], smiley:true };
 
-  function paintDragon(theme){
-    const t = THEMES[theme];
+  function paintDragon(){
+    const t = THEME;
     const set = (sel, attr, val)=> dragon.querySelectorAll(sel).forEach(el=>el.setAttribute(attr, val));
     set('.c-body','fill',t.body);
     set('.c-belly','fill',t.belly);
@@ -319,7 +351,7 @@
     set('.c-nostril','fill','rgba(0,0,0,.5)');
     const smile = dragon.querySelector('.c-smile');
     smile.setAttribute('stroke', t.smile);
-    smile.setAttribute('d', t.smiley ? 'M152 61 Q 166 67 179 61' : 'M152 61 Q 166 63 179 61');
+    smile.setAttribute('d', 'M152 61 Q 166 67 179 61');
   }
 
   setInterval(()=>{ dragon.classList.add('blink'); setTimeout(()=>dragon.classList.remove('blink'),140); }, 4200);
@@ -331,7 +363,7 @@
              y: r.top + r.height*0.42 };
   }
   function perchSpot(){
-    const cz = document.getElementById('calc-zone').getBoundingClientRect();
+    const cz = document.getElementById('game-zone').getBoundingClientRect();
     const dr = dragon.getBoundingClientRect();
     const w = dr.width || 210, h = dr.height || 150;
     let x = cz.left - w - 20;
@@ -474,7 +506,7 @@
 
   let breathing = false;
   function exhaleAnswer(answerText){
-    const t = THEMES[current];
+    const t = THEME;
     const mouth = dragonMouthPoint();
     const lineRect = document.getElementById('answer-line').getBoundingClientRect();
     const landX = lineRect.right - 30, landY = lineRect.top - 20;
@@ -491,19 +523,18 @@
       }
       if (!reduceMotion){
         const m = dragonMouthPoint();
-        const count = 5;
-        for(let i=0;i<count;i++){
+        for(let i=0;i<5;i++){
           const isSymbol = Math.random() < 0.42;
           const p = document.createElement('div');
           p.className = 'fire-particle';
-          if (isSymbol && t.flameSymbol !== '🔥'){
+          if (isSymbol){
             p.textContent = t.flameSymbol;
             p.style.fontSize = t.symbolSize + 'px';
             p.style.color = '#fff8e0';
             p.style.textShadow = '0 0 6px #ffc23c, 0 0 12px #ff7a18';
           } else {
             p.textContent = t.flameChars[Math.floor(Math.random()*t.flameChars.length)];
-            p.style.fontSize = (current==='basic' ? 10 : 9 + Math.random()*3) + 'px';
+            p.style.fontSize = (10) + 'px';
             const cols = ['#ffc23c','#ff7a18','#ff5410','#ffe066'];
             p.style.color = cols[Math.floor(Math.random()*cols.length)];
             p.style.textShadow = '0 0 8px #ff7a18';
@@ -544,138 +575,145 @@
     };
   }
 
-  let bExpr = '';
-  const bExprEl=document.getElementById('b-expr'), bResEl=document.getElementById('b-res');
-  function bPress(k){
-    if(k==='C'){ bExpr=''; bResEl.textContent='0'; }
-    else if(k==='⌫'){ bExpr=bExpr.slice(0,-1); }
-    else if(k==='='){ return bEquals(); }
-    else { bExpr += k; }
-    bExprEl.innerHTML = bExpr || '&nbsp;';
-  }
-  function bEquals(){
-    const val = safeEval(bExpr);
-    const txt = val===null ? 'ROAR?!' : fmt(val);
-    bResEl.textContent = txt;
-    exhaleAnswer(txt);
-    if(val!==null) bExpr = String(val);
-    bExprEl.innerHTML = bExpr || '&nbsp;';
-  }
+  function blowFireAtPlayer(){
+    dragon.classList.add('mouth-open');
+    const mouth = dragonMouthPoint();
+    const target = avatar.getBoundingClientRect();
+    const tx = target.left + target.width/2, ty = target.top + target.height/2;
+    const dur = reduceMotion ? 200 : 500;
+    const start = performance.now();
 
-  function fmt(v){
-    if (Math.abs(v)>=1e12 || (v!==0 && Math.abs(v)<1e-9)) return v.toExponential(6);
-    return String(Math.round(v*1e10)/1e10);
-  }
-  function factorial(n){
-    if(n<0||n>170||Math.floor(n)!==n) return NaN;
-    let r=1; for(let i=2;i<=n;i++) r*=i; return r;
-  }
-  function safeEval(src){
-    try{
-      src = src.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/√/g,'sqrt').replace(/π/g,'pi');
-      const tokens=[];
-      const re=/\s*([0-9]*\.?[0-9]+|sin|cos|tan|ln|log|sqrt|pi|e|[()+\-*/^%!])/gy;
-      let m, idx=0;
-      while(idx<src.length){
-        re.lastIndex=idx; m=re.exec(src);
-        if(!m) return null;
-        tokens.push(m[1]); idx=re.lastIndex;
+    function spew(now){
+      if (now - start > dur){
+        dragon.classList.remove('mouth-open');
+        avatar.classList.add('on-fire');
+        setTimeout(()=> avatar.classList.remove('on-fire'), 1500);
+        return;
       }
-      if(!tokens.length) return null;
-      const FN={sin:x=>Math.sin(x),cos:x=>Math.cos(x),tan:x=>Math.tan(x),ln:x=>Math.log(x),log:x=>Math.log10(x),sqrt:x=>Math.sqrt(x)};
-      const PREC={'+':1,'-':1,'*':2,'/':2,'%':2,'^':3,'u-':4};
-      const out=[], ops=[];
-      let prev=null;
-      for(const tk of tokens){
-        if(/^[0-9.]/.test(tk)){ out.push(parseFloat(tk)); }
-        else if(tk==='pi'){ out.push(Math.PI); }
-        else if(tk==='e'){ out.push(Math.E); }
-        else if(FN[tk]){ ops.push(tk); }
-        else if(tk==='!'){
-          const a=out.pop(); if(a===undefined) return null; out.push(factorial(a));
-        }
-        else if(tk==='('){ ops.push(tk); }
-        else if(tk===')'){
-          while(ops.length && ops[ops.length-1]!=='(') applyOp(out,ops.pop());
-          if(!ops.length) return null;
-          ops.pop();
-          if(ops.length && FN[ops[ops.length-1]]) applyOp(out,ops.pop());
-        }
-        else{
-          let op=tk;
-          if(op==='-' && (prev===null||['(','+','-','*','/','^','%'].includes(prev))) op='u-';
-          while(ops.length){
-            const top=ops[ops.length-1];
-            if(top==='('||FN[top]) break;
-            if(PREC[top]>PREC[op] || (PREC[top]===PREC[op] && op!=='^' && op!=='u-')) applyOp(out,ops.pop());
-            else break;
-          }
-          ops.push(op);
-        }
-        prev=tk;
-      }
-      while(ops.length){ const op=ops.pop(); if(op==='(') return null; applyOp(out,op); }
-      if(out.length!==1) return null;
-      const v=out[0];
-      return (typeof v==='number' && isFinite(v)) ? v : null;
-
-      function applyOp(stk,op){
-        if(FN[op]){ const a=stk.pop(); stk.push(FN[op](a)); return; }
-        if(op==='u-'){ const a=stk.pop(); stk.push(-a); return; }
-        const b=stk.pop(), a=stk.pop();
-        if(a===undefined||b===undefined){ stk.push(NaN); return; }
-        switch(op){
-          case '+':stk.push(a+b);break; case '-':stk.push(a-b);break;
-          case '*':stk.push(a*b);break; case '/':stk.push(a/b);break;
-          case '%':stk.push(a%b);break; case '^':stk.push(Math.pow(a,b));break;
+      if (!reduceMotion){
+        const m = dragonMouthPoint();
+        for(let i=0;i<4;i++){
+          const p = document.createElement('div');
+          p.className = 'fire-particle';
+          p.textContent = Math.random() < 0.5 ? '🔥' : ['▲','●','▮'][Math.floor(Math.random()*3)];
+          p.style.fontSize = (Math.random()<0.5 ? 20 : 12) + 'px';
+          p.style.left = m.x+'px'; p.style.top = m.y+'px';
+          stage.appendChild(p);
+          const dx = (tx - m.x) + (Math.random()-0.5)*30;
+          const dy = (ty - m.y) + (Math.random()-0.5)*20;
+          p.animate([
+            {transform:'translate(0,0) scale(.6)', opacity:1},
+            {transform:`translate(${dx*0.6}px, ${dy*0.6 - 30}px) scale(1.5) rotate(${(Math.random()-.5)*90}deg)`, opacity:.95, offset:.6},
+            {transform:`translate(${dx}px, ${dy}px) scale(.4) rotate(${(Math.random()-.5)*180}deg)`, opacity:0}
+          ],{duration:400+Math.random()*300, easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>p.remove();
         }
       }
-    }catch(e){ return null; }
-  }
-
-  const pressFns = {basic:bPress};
-
-  function handleKeyPress(k, sourceEl){
-    let x, y;
-    if (sourceEl){
-      const r = sourceEl.getBoundingClientRect();
-      x = r.left + r.width/2; y = r.top;
-      sourceEl.classList.add('pressed');
-      setTimeout(()=>sourceEl.classList.remove('pressed'), 120);
-    } else {
-      const cz = document.getElementById('calc-zone').getBoundingClientRect();
-      x = cz.left + cz.width/2; y = cz.bottom - 60;
+      requestAnimationFrame(spew);
     }
-    if (k === '='){
-      pressFns[current]('=');
-    } else {
-      const shown = k==='⌫' ? '⌫' : k==='▼' ? '▼' : k.replace('(','');
-      floatAndInhale(shown || k, x, y);
-      pressFns[current](k);
+    requestAnimationFrame(spew);
+  }
+
+  const WORDS = [
+    'dragon','llama','fuego','castillo','acertijo','tesoro','escama','bosque','linterna','sombra',
+    'susurro','caldero','viaje','brujula','trueno','cristal','pradera','duende','ancla','puerto',
+    'mago','glaciar','pluma','guijarro','halcon','arce','huerto','tunel','volcan','isla',
+    'brisa','choza','marmol','terciopelo','cobre','ambar','sauce','roca','valle','sendero'
+  ];
+  const MAX_WRONG = 6;
+  const HEARTS = ['❤️','❤️','❤️','❤️','❤️','❤️'];
+
+  const $ = id => document.getElementById(id);
+  let currentWord = '';
+  let guessed = new Set();
+  let wrongCount = 0;
+  let score = 0, streak = 0;
+  let over = false;
+
+  function pickWord(){
+    currentWord = WORDS[Math.floor(Math.random()*WORDS.length)];
+    guessed = new Set();
+    wrongCount = 0;
+    over = false;
+    $('maxWrong').textContent = MAX_WRONG;
+    $('feedback').innerHTML = '&nbsp;';
+    $('feedback').className = 'feedback';
+    buildKeyboard();
+    render();
+  }
+
+  function buildKeyboard(){
+    const kb = $('keyboard');
+    kb.innerHTML = '';
+    for(let c=97; c<=122; c++){
+      const letter = String.fromCharCode(c);
+      const btn = document.createElement('button');
+      btn.textContent = letter.toUpperCase();
+      btn.dataset.letter = letter;
+      btn.addEventListener('click', ()=> guessLetter(letter, btn));
+      kb.appendChild(btn);
     }
   }
 
-  document.querySelectorAll('.calc').forEach(calc=>{
-    calc.addEventListener('click', e=>{
-      const key = e.target.closest('.key');
-      if(!key) return;
-      handleKeyPress(key.dataset.k, key);
-    });
-  });
+  function render(){
+    $('blanksBox').textContent = currentWord.split('').map(ch=> guessed.has(ch) ? ch.toUpperCase() : '_').join(' ');
+    $('livesRow').textContent = HEARTS.slice(0, MAX_WRONG - wrongCount).join('') || '💀';
+    $('score').textContent = score;
+    $('streak').textContent = streak;
+    $('wrongCount').textContent = wrongCount;
+  }
+
+  function guessLetter(letter, btnEl){
+    if (over) return;
+    if (guessed.has(letter)) return;
+    guessed.add(letter);
+
+    const r = (btnEl || $('keyboard')).getBoundingClientRect();
+    floatAndInhale(letter.toUpperCase(), r.left + r.width/2, r.top);
+
+    if (currentWord.includes(letter)){
+      if (btnEl) btnEl.classList.add('correct');
+      if (btnEl) btnEl.disabled = true;
+      const solved = currentWord.split('').every(ch=> guessed.has(ch));
+      if (solved){
+        const points = Math.max(10 - wrongCount * 2, 3);
+        score += points;
+        streak += 1;
+        over = true;
+        $('feedback').textContent = '¡Resuelto! +' + points + ' puntos.';
+        $('feedback').className = 'feedback good';
+        exhaleAnswer(currentWord.toUpperCase());
+        setTimeout(pickWord, 1800);
+      } else {
+        $('feedback').textContent = 'Bien — esa letra está en la palabra.';
+        $('feedback').className = 'feedback good';
+      }
+    } else {
+      if (btnEl) btnEl.classList.add('wrong');
+      if (btnEl) btnEl.disabled = true;
+      wrongCount += 1;
+      blowFireAtPlayer();
+      if (wrongCount >= MAX_WRONG){
+        over = true;
+        streak = 0;
+        $('feedback').textContent = '¡Asado! La palabra era "' + currentWord + '".';
+        $('feedback').className = 'feedback over';
+        setTimeout(pickWord, 2200);
+      } else {
+        $('feedback').textContent = 'No está en la palabra — el dragón no está contento.';
+        $('feedback').className = 'feedback bad';
+      }
+    }
+    render();
+  }
+
+  $('newWordBtn').addEventListener('click', pickWord);
 
   document.addEventListener('keydown', e=>{
-    const kmap = {'*':'×','/':'÷','-':'−','x':'×','X':'×'};
-    let k = e.key;
-    if (k === 'Enter' || k === '=' ) { e.preventDefault(); handleKeyPress('='); return; }
-    if (k === 'Tab'){ e.preventDefault(); handleKeyPress('='); return; }
-    if (k === 'Backspace'){ e.preventDefault(); handleKeyPress('⌫'); return; }
-    if (k === 'Escape' || k==='c' || k==='C'){ handleKeyPress('C'); return; }
-    if (kmap[k]) k = kmap[k];
-    const legal = /^[0-9.+()%^!]$|^[×÷−]$/;
-    if (legal.test(k)){
-      e.preventDefault();
-      const btn = document.querySelector(`.calc .key[data-k="${k}"]`);
-      handleKeyPress(k, btn);
+    if (over) return;
+    const k = e.key.toLowerCase();
+    if (k.length === 1 && /[a-z]/.test(k)){
+      const btn = document.querySelector(`#keyboard button[data-letter="${k}"]`);
+      if (btn && !btn.disabled) guessLetter(k, btn);
     }
   });
 
@@ -686,7 +724,8 @@
     }
   });
 
-  paintDragon('basic');
+  paintDragon();
+  pickWord();
   setTimeout(flyEntrance, 400);
 })();
 </script>

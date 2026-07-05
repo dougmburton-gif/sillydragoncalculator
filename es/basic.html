@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reckon — Basic Calculator | Silly Dragon Calculator</title>
-<meta name="description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
-<link rel="canonical" href="https://sillydragoncalculator.com/basic.html">
+<title>Calcula — Calculadora Básica | Calculadora Dragón</title>
+<meta name="description" content="Una calculadora básica gratuita en línea con un dragón amarillo volador que inhala tus teclas y exhala la respuesta en llamas.">
+<link rel="canonical" href="https://sillydragoncalculator.com/es/basic.html">
 <link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/basic.html">
 <link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/basic.html">
 <link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/basic.html">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sillydragoncalculator.com/basic.html">
-<meta property="og:title" content="Reckon — Basic Calculator | Silly Dragon Calculator">
-<meta property="og:description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="es_ES">
-<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta property="og:url" content="https://sillydragoncalculator.com/es/basic.html">
+<meta property="og:title" content="Calcula — Calculadora Básica | Calculadora Dragón">
+<meta property="og:description" content="Una calculadora básica gratuita en línea con un dragón amarillo volador que inhala tus teclas y exhala la respuesta en llamas.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Calculadora Dragón">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Reckon — Basic Calculator | Silly Dragon Calculator">
-<meta name="twitter:description" content="A free online basic calculator with a flying, fire-breathing yellow dragon.">
+<meta name="twitter:title" content="Calcula — Calculadora Básica | Calculadora Dragón">
+<meta name="twitter:description" content="Calculadora básica gratuita con un dragón amarillo volador.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"Silly Dragon Calculator — Basic","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/basic.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"en"}
+{"@context":"https://schema.org","@type":"WebApplication","name":"Calculadora Dragón — Básica","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/es/basic.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"es"}
 </script>
 <style>
   :root{
@@ -82,7 +82,6 @@
     animation:glowPulse 2.4s ease-in-out infinite; pointer-events:none;}
   @keyframes glowPulse{0%,100%{opacity:.85;}50%{opacity:1;}}
 
-  /* ---- site nav (replaces tab bar) ---- */
   #sitenav{position:absolute; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:12px 20px; background:rgba(5,5,8,.55); backdrop-filter:blur(4px);
@@ -206,22 +205,22 @@
   <div id="floor-fire"></div>
 
   <nav id="sitenav">
-    <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+    <a href="index.html" class="brand">🐲 Calculadora Dragón</a>
     <ul>
-      <li><a href="index.html" class="tab-link">Home</a></li>
-      <li><a href="basic.html" class="tab-link active">Basic</a></li>
-      <li><a href="scientific.html" class="tab-link">Scientific</a></li>
-      <li><a href="mortgage.html" class="tab-link">Mortgage</a></li>
-      <li><a href="scramble.html" class="tab-link">Word Scramble</a></li>
-      <li><a href="wordpuzzle.html" class="tab-link">Word Puzzle</a></li>
-      <li><a href="hangman.html" class="tab-link">Hangman</a></li>
-      <li><a href="hobbyfarm.html" class="tab-link">Hobby Farm</a></li>
+      <li><a href="index.html" class="tab-link">Inicio</a></li>
+      <li><a href="basic.html" class="tab-link active">Básica</a></li>
+      <li><a href="scientific.html" class="tab-link">Científica</a></li>
+      <li><a href="mortgage.html" class="tab-link">Hipoteca</a></li>
+      <li><a href="scramble.html" class="tab-link">Sopa de Letras</a></li>
+      <li><a href="wordpuzzle.html" class="tab-link">Adivina la Palabra</a></li>
+      <li><a href="hangman.html" class="tab-link">Ahorcado</a></li>
+      <li><a href="hobbyfarm.html" class="tab-link">Granja Hobby</a></li>
     </ul>
   </nav>
-  <p id="intro">This free online basic calculator handles everyday math right in your browser — no downloads, no sign-up, nothing stored.</p>
+  <p id="intro">Esta calculadora básica gratuita en línea resuelve las matemáticas cotidianas directo en tu navegador — sin descargas, sin registro, sin guardar nada.</p>
 
   <div id="answer-line-wrap">
-    <div id="answer-line-label">Answer line</div>
+    <div id="answer-line-label">Línea de respuesta</div>
     <div id="answer-line"></div>
     <div id="answer-landing" aria-live="polite"></div>
   </div>
@@ -266,7 +265,7 @@
 
   <main id="calc-zone">
     <section class="calc" id="calc-basic" data-calc="basic">
-      <h2>Basic · yellow dragon</h2>
+      <h2>Básica · dragón amarillo</h2>
       <div class="display"><div class="expr" id="b-expr">&nbsp;</div><div class="result" id="b-res">0</div></div>
       <div class="keys" id="b-keys">
         <button class="key op" data-k="C">C</button><button class="key op" data-k="⌫">⌫</button>
@@ -280,12 +279,12 @@
         <button class="key" data-k="0">0</button><button class="key" data-k=".">.</button>
         <button class="key eq" data-k="=">=</button>
       </div>
-      <p class="hint">Type on your keyboard — the dragon inhales every keystroke. Enter, Tab, or = makes it exhale the answer.</p>
+      <p class="hint">Escribe en tu teclado — el dragón inhala cada tecla. Enter, Tab o = hace que exhale la respuesta.</p>
     </section>
   </main>
 
-  <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="es/basic.html">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
-    <p class="disclaimer">This calculator is provided for general informational purposes only and is not a substitute for professional advice. Results are estimates — Silly Dragon Calculator is not responsible for any decisions made based on these results.</p>
+  <div id="sitefooter">&copy; Calculadora Dragón &middot; <a href="privacy.html">Política de Privacidad</a> &middot; <a href="../basic.html">English</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visitas&amp;color=b5651d" alt="contador de visitas" style="vertical-align:middle;height:13px;opacity:.85;">
+    <p class="disclaimer">Esta calculadora se ofrece solo con fines informativos generales y no sustituye el asesoramiento profesional. Los resultados son estimaciones — Calculadora Dragón no se hace responsable de las decisiones tomadas con base en estos resultados.</p>
   </div>
 </div>
 
@@ -555,7 +554,7 @@
   }
   function bEquals(){
     const val = safeEval(bExpr);
-    const txt = val===null ? 'ROAR?!' : fmt(val);
+    const txt = val===null ? '¡ROAR!' : fmt(val);
     bResEl.textContent = txt;
     exhaleAnswer(txt);
     if(val!==null) bExpr = String(val);

@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mortgage Calculator | Silly Dragon Calculator</title>
 <meta name="description" content="A free online mortgage calculator with a flying, fire-breathing green dragon that estimates your monthly payment.">
+<link rel="canonical" href="https://sillydragoncalculator.com/mortgage.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/mortgage.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/mortgage.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/mortgage.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillydragoncalculator.com/mortgage.html">
+<meta property="og:title" content="Mortgage Calculator | Silly Dragon Calculator">
+<meta property="og:description" content="A free online mortgage calculator with a flying, fire-breathing green dragon that estimates your monthly payment.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mortgage Calculator | Silly Dragon Calculator">
+<meta name="twitter:description" content="A free online mortgage calculator with a flying, fire-breathing green dragon.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Silly Dragon Calculator — Mortgage","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/mortgage.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"en"}
+</script>
 <style>
   :root{
     --ember:#ff7a18; --ember-hot:#ffc23c; --ember-deep:#c62b05;
@@ -170,9 +187,9 @@
     background:radial-gradient(circle, rgba(255,194,60,.9), rgba(198,43,5,.4) 60%, transparent 75%);
     mix-blend-mode:screen; will-change:transform, opacity;}
 
-  #sitefooter{position:absolute; bottom:6px; left:10px; z-index:50; font-size:10px; color:rgba(243,234,216,.4);}
+  #sitefooter{position:absolute; bottom:6px; right:10px; text-align:right; z-index:50; font-size:10px; color:rgba(243,234,216,.4); max-width:300px;}
   #sitefooter a{color:rgba(243,234,216,.55);}
-
+  #sitefooter .disclaimer{margin-top:4px; font-size:9px; line-height:1.4; opacity:.85;}
   @media (prefers-reduced-motion: reduce){
     .bg-smoke,.bg-smoke2,.tongue,.spark,#floor-glow,.tail-grp,#dragon.perched,
     #dragon.flying .wing-near,#dragon.flying .wing-far{animation:none !important;}
@@ -201,6 +218,9 @@
       <li><a href="scientific.html" class="tab-link">Scientific</a></li>
       <li><a href="mortgage.html" class="tab-link active">Mortgage</a></li>
       <li><a href="scramble.html" class="tab-link">Word Scramble</a></li>
+      <li><a href="wordpuzzle.html" class="tab-link">Word Puzzle</a></li>
+      <li><a href="hangman.html" class="tab-link">Hangman</a></li>
+      <li><a href="hobbyfarm.html" class="tab-link">Hobby Farm</a></li>
     </ul>
   </nav>
   <p id="intro">This free online mortgage calculator estimates your monthly principal and interest payment based on loan amount, rate, and term.</p>
@@ -270,7 +290,9 @@
     </section>
   </main>
 
-  <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a></div>
+  <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="es/mortgage.html">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
+    <p class="disclaimer">This mortgage calculator provides estimates only and does not constitute financial, lending, or legal advice, nor a loan offer or pre-qualification of any kind. Actual rates, terms, taxes, insurance, and fees vary by lender and location. Consult a licensed mortgage professional or financial advisor before making any home-buying decision. Silly Dragon Calculator is not responsible for any decisions made based on these estimates.</p>
+  </div>
 </div>
 
 <script>

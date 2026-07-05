@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reckon — Basic Calculator | Silly Dragon Calculator</title>
-<meta name="description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
-<link rel="canonical" href="https://sillydragoncalculator.com/basic.html">
-<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/basic.html">
-<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/basic.html">
-<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/basic.html">
+<title>Calculadora Científica | Calculadora Dragón</title>
+<meta name="description" content="Una calculadora científica gratuita en línea con un dragón azul marino volador: trigonometría, logaritmos, potencias, raíces.">
+<link rel="canonical" href="https://sillydragoncalculator.com/es/scientific.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scientific.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scientific.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/scientific.html">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sillydragoncalculator.com/basic.html">
-<meta property="og:title" content="Reckon — Basic Calculator | Silly Dragon Calculator">
-<meta property="og:description" content="A free online basic calculator with a flying, fire-breathing yellow dragon that inhales your keys and breathes out the answer.">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="es_ES">
-<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta property="og:url" content="https://sillydragoncalculator.com/es/scientific.html">
+<meta property="og:title" content="Calculadora Científica | Calculadora Dragón">
+<meta property="og:description" content="Una calculadora científica gratuita en línea con un dragón azul marino volador: trigonometría, logaritmos, potencias, raíces.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Calculadora Dragón">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Reckon — Basic Calculator | Silly Dragon Calculator">
-<meta name="twitter:description" content="A free online basic calculator with a flying, fire-breathing yellow dragon.">
+<meta name="twitter:title" content="Calculadora Científica | Calculadora Dragón">
+<meta name="twitter:description" content="Calculadora científica gratuita con un dragón azul marino volador.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"Silly Dragon Calculator — Basic","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/basic.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"en"}
+{"@context":"https://schema.org","@type":"WebApplication","name":"Calculadora Dragón — Científica","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/es/scientific.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"es"}
 </script>
 <style>
   :root{
     --ember:#ff7a18; --ember-hot:#ffc23c; --ember-deep:#c62b05;
-    --gold:#f4c531; --gold-hi:#ffe98a;
+    --navy:#16305e; --navy-hi:#3f66b0;
     --ui:#0d0d12; --panel:#15151d; --panel-edge:#2a2a38;
     --text:#f3ead8;
   }
@@ -82,7 +82,6 @@
     animation:glowPulse 2.4s ease-in-out infinite; pointer-events:none;}
   @keyframes glowPulse{0%,100%{opacity:.85;}50%{opacity:1;}}
 
-  /* ---- site nav (replaces tab bar) ---- */
   #sitenav{position:absolute; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:12px 20px; background:rgba(5,5,8,.55); backdrop-filter:blur(4px);
@@ -91,7 +90,7 @@
   #sitenav ul{list-style:none; display:flex; gap:4px; flex-wrap:wrap;}
   #sitenav a.tab-link{color:#b8b3a2; text-decoration:none; padding:6px 10px; border-radius:999px; font-size:12px;}
   #sitenav a.tab-link:hover{background:rgba(255,255,255,.08); color:var(--text);}
-  #sitenav a.tab-link.active{background:var(--gold); color:#4a3300; font-weight:bold;}
+  #sitenav a.tab-link.active{background:var(--navy); color:#e6efff; font-weight:bold;}
   #intro{position:absolute; top:52px; left:6%; right:6%; z-index:45; text-align:center;
     font-size:11px; color:rgba(243,234,216,.55); line-height:1.5;}
 
@@ -123,17 +122,20 @@
   .expr{font-size:13px; color:#8f8fa8; min-height:16px; word-break:break-all;}
   .result{font-size:26px; font-weight:bold; color:var(--text); min-height:32px; word-break:break-all;}
   .keys{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+  .keys.sci{grid-template-columns:repeat(5,1fr);}
   .key{
     background:#1e1e2a; border:1px solid #30304200; color:var(--text);
     border-radius:10px; padding:12px 0; font-size:16px; cursor:pointer; font-family:inherit;
     transition:transform .08s, background .15s; user-select:none;
   }
+  .keys.sci .key{padding:10px 0; font-size:13px;}
   .key:hover{background:#2a2a3c;}
   .key:active, .key.pressed{transform:scale(.93); background:#3a3a52;}
   .key:focus-visible{outline:2px solid var(--ember-hot); outline-offset:1px;}
-  .key.op{color:var(--ember-hot);}
-  .key.eq{background:var(--ember-deep); color:#fff; font-weight:bold; grid-column:span 2;}
-  .key.eq:hover{background:var(--ember);}
+  .key.op{color:var(--navy-hi);}
+  .key.eq{background:#12224a; color:#fff; font-weight:bold;}
+  .key.eq:hover{background:var(--navy-hi);}
+  .key.fn{color:#9fc1ff; font-size:12px;}
   .hint{font-size:10px; text-align:center; opacity:.45; margin-top:9px; letter-spacing:.3px;}
 
   #dragon{
@@ -206,22 +208,22 @@
   <div id="floor-fire"></div>
 
   <nav id="sitenav">
-    <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+    <a href="index.html" class="brand">🐲 Calculadora Dragón</a>
     <ul>
-      <li><a href="index.html" class="tab-link">Home</a></li>
-      <li><a href="basic.html" class="tab-link active">Basic</a></li>
-      <li><a href="scientific.html" class="tab-link">Scientific</a></li>
-      <li><a href="mortgage.html" class="tab-link">Mortgage</a></li>
-      <li><a href="scramble.html" class="tab-link">Word Scramble</a></li>
-      <li><a href="wordpuzzle.html" class="tab-link">Word Puzzle</a></li>
-      <li><a href="hangman.html" class="tab-link">Hangman</a></li>
-      <li><a href="hobbyfarm.html" class="tab-link">Hobby Farm</a></li>
+      <li><a href="index.html" class="tab-link">Inicio</a></li>
+      <li><a href="basic.html" class="tab-link">Básica</a></li>
+      <li><a href="scientific.html" class="tab-link active">Científica</a></li>
+      <li><a href="mortgage.html" class="tab-link">Hipoteca</a></li>
+      <li><a href="scramble.html" class="tab-link">Sopa de Letras</a></li>
+      <li><a href="wordpuzzle.html" class="tab-link">Adivina la Palabra</a></li>
+      <li><a href="hangman.html" class="tab-link">Ahorcado</a></li>
+      <li><a href="hobbyfarm.html" class="tab-link">Granja Hobby</a></li>
     </ul>
   </nav>
-  <p id="intro">This free online basic calculator handles everyday math right in your browser — no downloads, no sign-up, nothing stored.</p>
+  <p id="intro">Esta calculadora científica gratuita en línea admite trigonometría, logaritmos, exponentes, raíces cuadradas y paréntesis completos.</p>
 
   <div id="answer-line-wrap">
-    <div id="answer-line-label">Answer line</div>
+    <div id="answer-line-label">Línea de respuesta</div>
     <div id="answer-line"></div>
     <div id="answer-landing" aria-live="polite"></div>
   </div>
@@ -265,27 +267,35 @@
   </div>
 
   <main id="calc-zone">
-    <section class="calc" id="calc-basic" data-calc="basic">
-      <h2>Basic · yellow dragon</h2>
-      <div class="display"><div class="expr" id="b-expr">&nbsp;</div><div class="result" id="b-res">0</div></div>
-      <div class="keys" id="b-keys">
-        <button class="key op" data-k="C">C</button><button class="key op" data-k="⌫">⌫</button>
-        <button class="key op" data-k="%">%</button><button class="key op" data-k="÷">÷</button>
+    <section class="calc" id="calc-scientific" data-calc="scientific">
+      <h2>Científica · dragón azul marino</h2>
+      <div class="display"><div class="expr" id="s-expr">&nbsp;</div><div class="result" id="s-res">0</div></div>
+      <div class="keys sci" id="s-keys">
+        <button class="key fn" data-k="sin(">sin</button><button class="key fn" data-k="cos(">cos</button>
+        <button class="key fn" data-k="tan(">tan</button><button class="key fn" data-k="ln(">ln</button>
+        <button class="key fn" data-k="log(">log</button>
+        <button class="key fn" data-k="√(">√</button><button class="key fn" data-k="^">xʸ</button>
+        <button class="key fn" data-k="π">π</button><button class="key fn" data-k="e">e</button>
+        <button class="key fn" data-k="!">n!</button>
         <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button>
-        <button class="key" data-k="9">9</button><button class="key op" data-k="×">×</button>
+        <button class="key" data-k="9">9</button><button class="key op" data-k="(">(</button>
+        <button class="key op" data-k=")">)</button>
         <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button>
-        <button class="key" data-k="6">6</button><button class="key op" data-k="−">−</button>
+        <button class="key" data-k="6">6</button><button class="key op" data-k="×">×</button>
+        <button class="key op" data-k="÷">÷</button>
         <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button>
         <button class="key" data-k="3">3</button><button class="key op" data-k="+">+</button>
+        <button class="key op" data-k="−">−</button>
         <button class="key" data-k="0">0</button><button class="key" data-k=".">.</button>
-        <button class="key eq" data-k="=">=</button>
+        <button class="key op" data-k="C">C</button><button class="key op" data-k="⌫">⌫</button>
+        <button class="key eq" style="grid-column:span 1" data-k="=">=</button>
       </div>
-      <p class="hint">Type on your keyboard — the dragon inhales every keystroke. Enter, Tab, or = makes it exhale the answer.</p>
+      <p class="hint">El dragón azul marino exhala E = mc² entre sus llamas.</p>
     </section>
   </main>
 
-  <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="es/basic.html">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
-    <p class="disclaimer">This calculator is provided for general informational purposes only and is not a substitute for professional advice. Results are estimates — Silly Dragon Calculator is not responsible for any decisions made based on these results.</p>
+  <div id="sitefooter">&copy; Calculadora Dragón &middot; <a href="privacy.html">Política de Privacidad</a> &middot; <a href="../scientific.html">English</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visitas&amp;color=b5651d" alt="contador de visitas" style="vertical-align:middle;height:13px;opacity:.85;">
+    <p class="disclaimer">Esta calculadora se ofrece solo con fines informativos generales y no sustituye el asesoramiento profesional. Los resultados son estimaciones — Calculadora Dragón no se hace responsable de las decisiones tomadas con base en estos resultados.</p>
   </div>
 </div>
 
@@ -298,11 +308,11 @@
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const THEMES = {
-    basic:{ body:'#f4c531', belly:'#ffe98a', wing:'#e0a80f', wingFar:'#b8880a', rib:'#8a6606',
-            horn:'#fff3c4', spine:'#c99312', smile:'#7a5200', flameSymbol:'🔥', symbolSize:10,
-            flameChars:['▲','●','▮'], smiley:true }
+    scientific:{ body:'#16305e', belly:'#7fa4e0', wing:'#274a8f', wingFar:'#0d1e3f', rib:'#091430',
+            horn:'#cfe0ff', spine:'#0e2148', smile:'#061229', flameSymbol:'E=mc²', symbolSize:8,
+            flameChars:['E=mc²','▲','E=mc²'], smiley:false }
   };
-  const current = 'basic';
+  const current = 'scientific';
 
   function paintDragon(theme){
     const t = THEMES[theme];
@@ -503,7 +513,7 @@
             p.style.textShadow = '0 0 6px #ffc23c, 0 0 12px #ff7a18';
           } else {
             p.textContent = t.flameChars[Math.floor(Math.random()*t.flameChars.length)];
-            p.style.fontSize = (current==='basic' ? 10 : 9 + Math.random()*3) + 'px';
+            p.style.fontSize = (9 + Math.random()*3) + 'px';
             const cols = ['#ffc23c','#ff7a18','#ff5410','#ffe066'];
             p.style.color = cols[Math.floor(Math.random()*cols.length)];
             p.style.textShadow = '0 0 8px #ff7a18';
@@ -544,22 +554,22 @@
     };
   }
 
-  let bExpr = '';
-  const bExprEl=document.getElementById('b-expr'), bResEl=document.getElementById('b-res');
-  function bPress(k){
-    if(k==='C'){ bExpr=''; bResEl.textContent='0'; }
-    else if(k==='⌫'){ bExpr=bExpr.slice(0,-1); }
-    else if(k==='='){ return bEquals(); }
-    else { bExpr += k; }
-    bExprEl.innerHTML = bExpr || '&nbsp;';
+  let sExpr='';
+  const sExprEl=document.getElementById('s-expr'), sResEl=document.getElementById('s-res');
+  function sPress(k){
+    if(k==='C'){ sExpr=''; sResEl.textContent='0'; }
+    else if(k==='⌫'){ sExpr=sExpr.slice(0,-1); }
+    else if(k==='='){ return sEquals(); }
+    else { sExpr += k; }
+    sExprEl.innerHTML = sExpr || '&nbsp;';
   }
-  function bEquals(){
-    const val = safeEval(bExpr);
-    const txt = val===null ? 'ROAR?!' : fmt(val);
-    bResEl.textContent = txt;
+  function sEquals(){
+    const val = safeEval(sExpr);
+    const txt = val===null ? '¡ROAR!' : fmt(val);
+    sResEl.textContent = txt;
     exhaleAnswer(txt);
-    if(val!==null) bExpr = String(val);
-    bExprEl.innerHTML = bExpr || '&nbsp;';
+    if(val!==null) sExpr = String(val);
+    sExprEl.innerHTML = sExpr || '&nbsp;';
   }
 
   function fmt(v){
@@ -633,7 +643,7 @@
     }catch(e){ return null; }
   }
 
-  const pressFns = {basic:bPress};
+  const pressFns = {scientific:sPress};
 
   function handleKeyPress(k, sourceEl){
     let x, y;
@@ -686,7 +696,7 @@
     }
   });
 
-  paintDragon('basic');
+  paintDragon('scientific');
   setTimeout(flyEntrance, 400);
 })();
 </script>

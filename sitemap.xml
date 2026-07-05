@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://sillydragoncalculator.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/basic.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/basic.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/basic.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/mortgage.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/mortgage.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/mortgage.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/scientific.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scientific.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scientific.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/scramble.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scramble.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scramble.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/wordpuzzle.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/wordpuzzle.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/wordpuzzle.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/hangman.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/hangman.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/hangman.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/hobbyfarm.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/hobbyfarm.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/hobbyfarm.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/dogbreeds.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/dogbreeds.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/dogbreeds.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/privacy.html"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://sillydragoncalculator.com/es/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/basic.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/basic.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/basic.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/mortgage.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/mortgage.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/mortgage.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/scientific.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scientific.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scientific.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/scramble.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/scramble.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/scramble.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/wordpuzzle.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/wordpuzzle.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/wordpuzzle.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/hangman.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/hangman.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/hangman.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/hobbyfarm.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/hobbyfarm.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/hobbyfarm.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/dogbreeds.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/dogbreeds.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/dogbreeds.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/privacy.html"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
+</urlset>
