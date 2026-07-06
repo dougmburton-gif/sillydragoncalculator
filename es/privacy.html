@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐲</text></svg>">
+<link rel="stylesheet" href="../nav-dropdown.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232900363298551" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDMXQYL7T9"></script>
 <script>
@@ -47,16 +48,39 @@
     <a href="index.html" class="brand"><span class="flame">🐲</span> Calculadora Dragón</a>
     <ul>
       <li><a href="index.html" class="tab">Inicio</a></li>
-      <li><a href="basic.html" class="tab">Básica</a></li>
-      <li><a href="scientific.html" class="tab">Científica</a></li>
-      <li><a href="graphing.html" class="tab">Gráfica</a></li>
-      <li><a href="mortgage.html" class="tab">Hipoteca</a></li>
-      <li><a href="scramble.html" class="tab">Sopa de Letras</a></li>
-      <li><a href="wordpuzzle.html" class="tab">Adivina la Palabra</a></li>
-      <li><a href="hangman.html" class="tab">Ahorcado</a></li>
-      <li><a href="hobbyfarm.html" class="tab">Granja Hobby</a></li>
-<li><a href="memorytricks.html" class="tab">Trucos de Memoria</a></li>
-<li><a href="lottery.html" class="tab">Números de la Suerte</a></li>      <li><a href="horoscope.html" class="tab">Horóscopo</a></li>      <li><a href="numerology.html" class="tab">Numerología</a></li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Calculadoras ▾</button>
+        <div class="dropdown-menu">
+          <a href="basic.html">Básica</a>
+          <a href="scientific.html">Científica</a>
+          <a href="graphing.html">Gráfica</a>
+          <a href="mortgage.html">Hipoteca</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Juegos ▾</button>
+        <div class="dropdown-menu">
+          <a href="scramble.html">Sopa de Letras</a>
+          <a href="wordpuzzle.html">Adivina la Palabra</a>
+          <a href="hangman.html">Ahorcado</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Granja y Mascotas ▾</button>
+        <div class="dropdown-menu">
+          <a href="hobbyfarm.html">Granja Hobby</a>
+          <a href="dogbreeds.html">Razas de Perros</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Diversión y Extras ▾</button>
+        <div class="dropdown-menu">
+          <a href="memorytricks.html" class="theme-memory">Trucos de Memoria</a>
+          <a href="lottery.html" class="theme-lottery">Números de la Suerte</a>
+          <a href="horoscope.html" class="theme-horoscope">Horóscopo</a>
+          <a href="numerology.html" class="theme-numerology">Numerología</a>
+        </div>
+      </li>
     </ul>
   </nav>
 
@@ -103,6 +127,7 @@
   </footer>
 
 <script src="../lava.js"></script>
+<script src="../nav-dropdown.js"></script>
 <script src="../tip-widget.js"></script>
 </body>
 </html>

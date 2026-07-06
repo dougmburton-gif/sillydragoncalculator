@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐲</text></svg>">
+<link rel="stylesheet" href="nav-dropdown.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232900363298551" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDMXQYL7T9"></script>
 <script>
@@ -250,16 +251,39 @@
     <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
     <ul>
       <li><a href="index.html" class="tab-link">Home</a></li>
-      <li><a href="basic.html" class="tab-link">Basic</a></li>
-      <li><a href="scientific.html" class="tab-link">Scientific</a></li>
-      <li><a href="graphing.html" class="tab-link">Graphing</a></li>
-      <li><a href="mortgage.html" class="tab-link">Mortgage</a></li>
-      <li><a href="scramble.html" class="tab-link active">Word Scramble</a></li>
-      <li><a href="wordpuzzle.html" class="tab-link">Word Puzzle</a></li>
-      <li><a href="hangman.html" class="tab-link">Hangman</a></li>
-      <li><a href="hobbyfarm.html" class="tab-link">Hobby Farm</a></li>
-<li><a href="memorytricks.html" class="tab-link">Memory Tricks</a></li>
-<li><a href="lottery.html" class="tab-link">Lucky Numbers</a></li>      <li><a href="horoscope.html" class="tab-link">Horoscope</a></li>      <li><a href="numerology.html" class="tab-link">Numerology</a></li>
+      <li class="nav-dropdown">
+        <button class="tab-link dropdown-trigger" type="button">Calculators ▾</button>
+        <div class="dropdown-menu">
+          <a href="basic.html">Basic</a>
+          <a href="scientific.html">Scientific</a>
+          <a href="graphing.html">Graphing</a>
+          <a href="mortgage.html">Mortgage</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab-link dropdown-trigger active" type="button">Games ▾</button>
+        <div class="dropdown-menu">
+          <a href="scramble.html" class=" active">Word Scramble</a>
+          <a href="wordpuzzle.html">Word Puzzle</a>
+          <a href="hangman.html">Hangman</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab-link dropdown-trigger" type="button">Farm & Pets ▾</button>
+        <div class="dropdown-menu">
+          <a href="hobbyfarm.html">Hobby Farm</a>
+          <a href="dogbreeds.html">Dog Breeds</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab-link dropdown-trigger" type="button">Fun & Extras ▾</button>
+        <div class="dropdown-menu">
+          <a href="memorytricks.html" class="theme-memory">Memory Tricks</a>
+          <a href="lottery.html" class="theme-lottery">Lucky Numbers</a>
+          <a href="horoscope.html" class="theme-horoscope">Horoscope</a>
+          <a href="numerology.html" class="theme-numerology">Numerology</a>
+        </div>
+      </li>
     </ul>
   </nav>
   <p id="intro">Unscramble the letters. Every letter you type gets inhaled by the dragon — guess right and it breathes the answer out in flame. Guess wrong and it blows fire right back at you.</p>
@@ -743,6 +767,7 @@
   setTimeout(flyEntrance, 400);
 })();
 </script>
+<script src="nav-dropdown.js"></script>
 <script src="tip-widget.js"></script>
 </body>
 </html>

@@ -1,0 +1,25 @@
+.nav-dropdown{ position:relative; }
+.dropdown-trigger{
+  background:none; border:none; cursor:pointer; font-family:inherit;
+  color:#a8a396; font-size:0.78rem; padding:7px 11px; border-radius:6px;
+  transition:background .12s ease, color .12s ease;
+}
+.dropdown-trigger:hover{ background:var(--panel); color:#efe9da; }
+.dropdown-trigger.active{ background:var(--key-op, var(--accent)); color:var(--key-op-text, #fff6ea); font-weight:700; }
+.dropdown-menu{
+  display:none; position:absolute; top:100%; left:0; margin-top:6px;
+  background:var(--panel); border:1px solid var(--panel-edge); border-radius:10px;
+  padding:6px; min-width:190px; z-index:200; flex-direction:column; gap:2px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.nav-dropdown.open .dropdown-menu{ display:flex; }
+.dropdown-menu a{
+  display:block; padding:8px 12px; border-radius:6px; text-decoration:none;
+  color:#efe9da; font-size:0.82rem; white-space:nowrap;
+}
+.dropdown-menu a:hover{ background:rgba(255,255,255,0.08); }
+.dropdown-menu a.active{ color:var(--accent); font-weight:bold; }
+.theme-memory{ color:#5f9ab8 !important; }
+.theme-lottery{ color:#c9944f !important; }
+.theme-horoscope{ color:#9b6fc9 !important; }
+.theme-numerology{ color:#6fc9a0 !important; }
