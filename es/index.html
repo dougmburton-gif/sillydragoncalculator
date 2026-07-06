@@ -113,6 +113,8 @@
   #tagline-block .moment-line a{color:var(--gold-hi); pointer-events:auto; text-decoration:none; font-weight:bold;}
   #tagline-block .moment-line a:hover{text-decoration:underline;}
   #tagline-block .trust-line{margin-top:2px; font-size:10px; color:rgba(243,234,216,.5); text-shadow:0 1px 6px #000;}
+  #tagline-block .tagline-flame{display:inline-block; margin-right:4px; animation:taglineFlicker 1.8s ease-in-out infinite;}
+  @keyframes taglineFlicker{ 0%,100%{opacity:1; transform:scale(1) translateY(0);} 50%{opacity:.7; transform:scale(1.12) translateY(-1px);} }
 
   #tabs{position:absolute; top:126px; left:50%; transform:translateX(-50%);
     display:flex; gap:10px; z-index:40;}
@@ -303,7 +305,7 @@
   </nav>
 
   <div id="tagline-block">
-    <div class="tagline">Lo Que Vives, Lo Exhalamos</div>
+    <div class="tagline"><span class="tagline-flame">🐲🔥</span>Lo Que Vives, Lo Exhalamos</div>
     <div class="moment-line">✨ Horóscopo Diario — una lectura nueva para los 12 signos, cada día — <a href="horoscope.html">ver la de hoy →</a></div>
     <div class="trust-line">Sin registro. Sin correo. No se guarda nada. Solo por diversión.</div>
   </div>

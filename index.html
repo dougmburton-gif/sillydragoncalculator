@@ -119,6 +119,8 @@
   #tagline-block .moment-line a{color:var(--gold-hi); pointer-events:auto; text-decoration:none; font-weight:bold;}
   #tagline-block .moment-line a:hover{text-decoration:underline;}
   #tagline-block .trust-line{margin-top:2px; font-size:10px; color:rgba(243,234,216,.5); text-shadow:0 1px 6px #000;}
+  #tagline-block .tagline-flame{display:inline-block; margin-right:4px; animation:taglineFlicker 1.8s ease-in-out infinite;}
+  @keyframes taglineFlicker{ 0%,100%{opacity:1; transform:scale(1) translateY(0);} 50%{opacity:.7; transform:scale(1.12) translateY(-1px);} }
 
   /* ============ TABS ============ */
   #tabs{position:absolute; top:126px; left:50%; transform:translateX(-50%);
@@ -315,7 +317,7 @@
   </nav>
 
   <div id="tagline-block">
-    <div class="tagline">What You Live, We Breathe</div>
+    <div class="tagline"><span class="tagline-flame">🐲🔥</span>What You Live, We Breathe</div>
     <div class="moment-line">✨ Daily Horoscope — a new reading for all 12 signs, every day — <a href="horoscope.html">see today's →</a></div>
     <div class="trust-line">No sign-up. No email. Nothing stored. Just for fun.</div>
   </div>
