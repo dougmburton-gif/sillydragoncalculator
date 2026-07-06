@@ -63,8 +63,19 @@
 
   document.body.appendChild(bar);
 
+  var siteFooter = document.getElementById('sitefooter');
+  if (siteFooter){
+    var footerPos = getComputedStyle(siteFooter).position;
+    if (footerPos === 'absolute' || footerPos === 'fixed'){
+      siteFooter.style.bottom = '54px';
+    }
+  }
+
   bar.querySelector('button').addEventListener('click', function(){
     localStorage.setItem(todayKey, '1');
     bar.remove();
+    if (siteFooter && (getComputedStyle(siteFooter).position === 'absolute' || getComputedStyle(siteFooter).position === 'fixed')){
+      siteFooter.style.bottom = '';
+    }
   });
 })();
