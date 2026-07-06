@@ -126,50 +126,60 @@
   #welcome-dragon{
     position:fixed; left:3%; bottom:8%; z-index:90; pointer-events:none;
     display:flex; align-items:flex-end; gap:8px;
-    animation:wdFadeInOut 4.2s ease forwards;
+    animation:wdFadeInOut 5.8s ease forwards;
   }
   .wd-dragon-wrap{ position:relative; flex:none; }
-  .wd-dragon-svg{ width:64px; height:54px; display:block; animation:wdTurn 4.2s ease forwards; transform-origin:50% 60%; }
+  .wd-dragon-svg{ width:80px; height:67px; display:block; animation:wdTurn 5.8s ease forwards; transform-origin:50% 60%; }
   .wd-welcome{
     position:absolute; top:-24px; left:50%; transform:translateX(-50%);
     background:#fff8ec; color:#4a3300; font-size:11px; font-weight:bold; padding:3px 9px;
     border-radius:8px; white-space:nowrap; opacity:0;
-    animation:wdWelcomeShow 4.2s ease forwards;
+    animation:wdWelcomeShow 5.8s ease forwards;
   }
   .wd-welcome::after{
     content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%);
     width:8px; height:8px; background:#fff8ec; clip-path:polygon(0 0,100% 0,50% 100%);
   }
-  .wd-breath{ display:flex; align-items:center; gap:6px; padding-bottom:12px; }
+  .wd-breath{ display:flex; align-items:center; gap:6px; padding-bottom:14px; }
   .wd-flame{
     font-size:20px; opacity:0; display:inline-block; transform-origin:left center;
-    animation:wdFlameOut 4.2s ease forwards;
+    animation:wdFlameOut 5.8s ease forwards;
   }
-  .wd-words{
+  .wd-words-wrap{ position:relative; display:inline-block; height:18px; }
+  .wd-words1, .wd-words2{
+    position:absolute; left:0; top:0;
     font-size:14px; font-weight:bold; color:var(--ember-hot); text-shadow:0 1px 8px #000;
     white-space:nowrap; opacity:0;
-    animation:wdWordsIn 4.2s ease forwards;
   }
+  .wd-words1{ animation:wdWords1In 5.8s ease forwards; }
+  .wd-words2{ animation:wdWords2In 5.8s ease forwards; }
   @keyframes wdFadeInOut{
-    0%{opacity:0;} 8%{opacity:1;} 85%{opacity:1;} 100%{opacity:0;}
+    0%{opacity:0;} 5%{opacity:1;} 90%{opacity:1;} 100%{opacity:0;}
   }
   @keyframes wdTurn{
-    0%,42%{ transform:scaleX(-1); } 52%,100%{ transform:scaleX(1); }
+    0%,38%{ transform:scaleX(-1); } 46%,100%{ transform:scaleX(1); }
   }
   @keyframes wdWelcomeShow{
-    0%,8%{opacity:0; transform:translateX(-50%) translateY(4px);}
-    16%{opacity:1; transform:translateX(-50%) translateY(0);}
-    38%{opacity:1;} 46%{opacity:0;} 100%{opacity:0;}
+    0%,5%{opacity:0; transform:translateX(-50%) translateY(4px);}
+    12%{opacity:1; transform:translateX(-50%) translateY(0);}
+    33%{opacity:1;} 40%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdFlameOut{
-    0%,55%{opacity:0; transform:scaleX(.3) translateX(-8px);}
-    65%{opacity:1; transform:scaleX(1) translateX(0);}
-    85%{opacity:1;} 100%{opacity:0;}
+    0%,48%{opacity:0; transform:scaleX(.3) translateX(-8px);}
+    56%{opacity:1; transform:scaleX(1) translateX(0);}
+    88%{opacity:1;} 100%{opacity:0;}
   }
-  @keyframes wdWordsIn{
-    0%,60%{opacity:0; transform:translateX(-8px);}
-    70%{opacity:1; transform:translateX(0);}
-    85%{opacity:1;} 100%{opacity:0;}
+  @keyframes wdWords1In{
+    0%,52%{opacity:0; transform:translateX(-8px);}
+    60%{opacity:1; transform:translateX(0);}
+    66%{opacity:1;} 72%{opacity:0;} 100%{opacity:0;}
+  }
+  @keyframes wdWords2In{
+    0%,70%{opacity:0; transform:translateY(0);}
+    76%{opacity:1; transform:translateY(0);}
+    80%{opacity:1; transform:translateY(-3px);}
+    84%{opacity:1; transform:translateY(0);}
+    88%{opacity:1;} 100%{opacity:0;}
   }
   @media (prefers-reduced-motion: reduce){
     #welcome-dragon{ display:none; }
@@ -372,7 +382,7 @@
   <div id="tagline-block">
     <div class="tagline"><span class="tagline-flame">🐲🔥</span>What You Live, We Breathe</div>
     <div class="moment-line">✨ Daily Horoscope — a new reading for all 12 signs, every day — <a href="horoscope.html">see today's →</a></div>
-    <div class="trust-line">No sign-up. No email. Nothing stored. Just for fun.</div>
+    <div class="trust-line">No sign-up. No email. Nothing stored. Just for fun. &middot; <a href="graphing.html" style="color:var(--gold-hi); pointer-events:auto; text-decoration:none; font-weight:bold;">📈 Graphing Calculator</a></div>
   </div>
 
   <div id="welcome-dragon" aria-hidden="true">
@@ -384,18 +394,26 @@
         <ellipse fill="#ffe98a" cx="58" cy="68" rx="17" ry="11"/>
         <ellipse fill="#f4c531" cx="45" cy="82" rx="6" ry="8"/>
         <ellipse fill="#f4c531" cx="65" cy="82" rx="6" ry="8"/>
-        <path fill="#f4c531" d="M75 38 Q90 30 100 38 Q104 44 98 48 L78 50 Q73 45 75 38 Z"/>
-        <path fill="#fff3c4" d="M82 32 L79 20 L88 30 Z"/>
-        <path fill="#fff3c4" d="M92 30 L92 20 L98 28 Z"/>
-        <circle fill="#1a1208" cx="90" cy="38" r="2.6"/>
-        <circle fill="#fff" cx="91" cy="37" r="0.9"/>
-        <path fill="none" stroke="#7a5200" stroke-width="1.8" stroke-linecap="round" d="M80 46 Q90 50 98 46"/>
+        <path fill="#c99312" d="M40 44 l5 -10 l4 9 Z"/>
+        <path fill="#c99312" d="M52 40 l5 -10 l4 9 Z"/>
+        <path fill="#c99312" d="M64 40 l5 -9 l4 9 Z"/>
+        <path fill="#f4c531" d="M75 36 Q92 26 103 36 Q108 43 100 48 L78 51 Q71 45 75 36 Z"/>
+        <path fill="#fff3c4" d="M83 30 L77 14 L90 28 Z"/>
+        <path fill="#fff3c4" d="M95 28 L95 14 L103 26 Z"/>
+        <path fill="#c99312" d="M84 33 Q91 30 97 33 L96 36 Q90 33 85 36 Z"/>
+        <ellipse fill="#1a1208" cx="91" cy="38" rx="3.4" ry="1.8" transform="rotate(-12 91 38)"/>
+        <path fill="none" stroke="#7a5200" stroke-width="1.8" stroke-linecap="round" d="M80 46 Q90 49 99 45"/>
+        <path fill="#fff" d="M86 47 L88 51 L90 47 Z"/>
+        <path fill="#fff" d="M93 46 L95 50 L97 46 Z"/>
       </svg>
       <div class="wd-welcome">Welcome!</div>
     </div>
     <div class="wd-breath">
       <span class="wd-flame">🔥🔥🔥</span>
-      <span class="wd-words">What you live... we breathe...</span>
+      <span class="wd-words-wrap">
+        <span class="wd-words1">What you live... we breathe...</span>
+        <span class="wd-words2">By the way... we have a graphing calculator! 📈</span>
+      </span>
     </div>
   </div>
 
@@ -1003,7 +1021,7 @@
 <script>
 (function(){
   var wd = document.getElementById('welcome-dragon');
-  if (wd) setTimeout(function(){ wd.remove(); }, 4300);
+  if (wd) setTimeout(function(){ wd.remove(); }, 5900);
 })();
 </script>
 <script src="nav-dropdown.js"></script>
