@@ -107,7 +107,13 @@
   #sitenav a.tab-link{color:#b8b3a2; text-decoration:none; padding:6px 10px; border-radius:999px; font-size:12px;}
   #sitenav a.tab-link:hover{background:rgba(255,255,255,.08); color:var(--text);}
 
-  #tabs{position:absolute; top:64px; left:50%; transform:translateX(-50%);
+  #tagline-block{position:absolute; top:44px; left:6%; right:6%; z-index:41; text-align:center; pointer-events:none;}
+  #tagline-block .tagline{font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ember-hot); text-shadow:0 1px 6px #000; font-weight:bold;}
+  #tagline-block .moment-line{margin-top:3px; font-size:12px; color:rgba(243,234,216,.85); text-shadow:0 1px 6px #000;}
+  #tagline-block .moment-line a{color:var(--gold-hi); pointer-events:auto; text-decoration:none;}
+  #tagline-block .moment-line a:hover{text-decoration:underline;}
+
+  #tabs{position:absolute; top:104px; left:50%; transform:translateX(-50%);
     display:flex; gap:10px; z-index:40;}
   .tab{
     background:var(--panel); border:1px solid var(--panel-edge); color:var(--text);
@@ -128,7 +134,7 @@
     width:10px; height:10px; border-radius:50%; background:#ff6700; display:inline-block; flex:none;
   }
 
-  #answer-line-wrap{position:absolute; top:130px; left:6%; right:6%; z-index:20; pointer-events:none;}
+  #answer-line-wrap{position:absolute; top:170px; left:6%; right:6%; z-index:20; pointer-events:none;}
   #answer-line-label{font-size:11px; letter-spacing:3px; text-transform:uppercase;
     color:rgba(243,234,216,.65); margin-bottom:6px; text-shadow:0 1px 4px #000;}
   #answer-line{
@@ -241,8 +247,9 @@
     #calc-zone{width:88%; right:6%;}
     #dragon{font-size:38px;}
     #sitenav ul{display:none;}
-    #tabs{top:56px;}
-    #answer-line-wrap{top:110px;}
+    #tagline-block{top:40px;}
+    #tabs{top:80px;}
+    #answer-line-wrap{top:150px;}
   }
 </style>
 </head>
@@ -293,6 +300,11 @@
       </li>
     </ul>
   </nav>
+
+  <div id="tagline-block">
+    <div class="tagline">Lo Que Vives, Lo Exhalamos</div>
+    <div class="moment-line" id="momentLine"></div>
+  </div>
 
   <nav id="tabs" aria-label="Elige una calculadora">
     <button class="tab active" data-calc="basic">🟡 Básica</button>
@@ -888,6 +900,28 @@
   paintDragon('basic');
   mRender();
   setTimeout(flyEntrance, 400);
+})();
+</script>
+<script>
+(function(){
+  const MOMENTS = [
+    { text: '🏠 Alguien acaba de calcular la hipoteca de su primera casa', href: 'mortgage.html' },
+    { text: '📚 Un estudiante acaba de dominar sus tarjetas de estudio', href: 'memorytricks.html' },
+    { text: '✨ Alguien acaba de revisar lo que depara el día de hoy', href: 'horoscope.html' },
+    { text: '🎰 Alguien acaba de elegir sus números de la suerte', href: 'lottery.html' },
+    { text: '🐕 Una familia acaba de encontrar la raza perfecta para su granja', href: 'dogbreeds.html' },
+    { text: '🔢 Alguien acaba de descubrir su número de camino de vida', href: 'numerology.html' },
+    { text: '🎮 Alguien acaba de ganar un rompecabezas en tiempo récord', href: 'wordpuzzle.html' },
+    { text: '🐐 Una familia acaba de empezar a planear su granja hobby', href: 'hobbyfarm.html' }
+  ];
+  function dayOfYear(){
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    return Math.floor((now - start) / 86400000);
+  }
+  const m = MOMENTS[dayOfYear() % MOMENTS.length];
+  const el = document.getElementById('momentLine');
+  if (el) el.innerHTML = m.text + ' — <a href="' + m.href + '">pruébalo →</a>';
 })();
 </script>
 <script src="../nav-dropdown.js"></script>
