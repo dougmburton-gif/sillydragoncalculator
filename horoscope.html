@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐲</text></svg>">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232900363298551" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FDMXQYL7T9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FDMXQYL7T9');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Horoscope &amp; Zodiac Signs | Silly Dragon Calculator</title>
+<meta name="description" content="Free daily horoscope for all 12 zodiac signs, plus each sign's element, ruling planet, and traits. Updated automatically every day.">
+<link rel="canonical" href="https://sillydragoncalculator.com/horoscope.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/horoscope.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/horoscope.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/horoscope.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillydragoncalculator.com/horoscope.html">
+<meta property="og:title" content="Daily Horoscope & Zodiac Signs | Silly Dragon Calculator">
+<meta property="og:description" content="Free daily horoscope for all 12 zodiac signs.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Daily Horoscope | Silly Dragon Calculator">
+<meta name="twitter:description" content="Free daily horoscope for all 12 zodiac signs.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Daily Horoscope","description":"Daily horoscope and zodiac sign information for entertainment purposes.","url":"https://sillydragoncalculator.com/horoscope.html","inLanguage":"en"}
+</script>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero{padding-top:26px;}
+  .intro-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:18px auto 0;
+    font-size:0.88rem; line-height:1.7; color:#cfc9b8;
+  }
+  .intro-card h2{font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; margin:0 0 8px;}
+  .sign-grid{
+    width:100%; max-width:720px; display:grid;
+    grid-template-columns:repeat(4,1fr); gap:12px; margin-top:24px;
+  }
+  @media (max-width:640px){ .sign-grid{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:420px){ .sign-grid{ grid-template-columns:repeat(2,1fr); } }
+  .sign-btn{
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:12px;
+    padding:14px 6px; cursor:pointer; font-family:inherit; color:#efe9da;
+    transition:transform .12s ease, border-color .12s ease;
+  }
+  .sign-btn:hover{ transform:translateY(-3px); border-color:var(--accent); }
+  .sign-btn.active{ border-color:var(--accent); background:linear-gradient(180deg,#2a2419,#201f1b); }
+  .sign-btn .sym{ font-size:1.6rem; }
+  .sign-btn .name{ font-size:0.7rem; }
+  .reading-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:20px auto 0;
+    display:none;
+  }
+  .reading-card.show{ display:block; }
+  .reading-card .sign-title{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .reading-card .sign-title .sym{ font-size:2rem; }
+  .reading-card h2{ font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; margin:0; color:#efe9da; }
+  .reading-card .meta{ font-size:0.72rem; color:#a8a396; margin-bottom:14px; }
+  .reading-card .today{ font-size:0.95rem; line-height:1.7; color:#efe9da; padding:12px 0; border-top:1px dashed var(--panel-edge); border-bottom:1px dashed var(--panel-edge); margin-bottom:12px; }
+  .trait-row{ display:flex; gap:18px; flex-wrap:wrap; font-size:0.78rem; color:#cfc9b8; }
+  .trait-row strong{ color:var(--focus); }
+  .cta-line{ font-size:0.75rem; margin-top:16px; }
+  .cta-line a{ color:var(--accent); }
+  .draw-btn{
+    background:rgba(255,255,255,0.06); color:#efe9da; border:1px solid var(--panel-edge); border-radius:999px;
+    padding:8px 16px; font-size:0.78rem; cursor:pointer; font-family:inherit; margin-top:10px;
+  }
+  @media print{
+    .site-nav, .sign-grid, .draw-btn, #sdc-tip-widget, .site-footer, .cta-line{ display:none !important; }
+    body{ background:#fff !important; color:#000 !important; }
+  }
+</style>
+</head>
+<body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li><a href="basic.html" class="tab">Basic</a></li>
+      <li><a href="scientific.html" class="tab">Scientific</a></li>
+      <li><a href="graphing.html" class="tab">Graphing</a></li>
+      <li><a href="mortgage.html" class="tab">Mortgage</a></li>
+      <li><a href="scramble.html" class="tab">Word Scramble</a></li>
+      <li><a href="wordpuzzle.html" class="tab">Word Puzzle</a></li>
+      <li><a href="hangman.html" class="tab">Hangman</a></li>
+      <li><a href="hobbyfarm.html" class="tab">Hobby Farm</a></li>
+      <li><a href="memorytricks.html" class="tab">Memory Tricks</a></li>
+      <li><a href="lottery.html" class="tab">Lucky Numbers</a></li>
+      <li><a href="horoscope.html" class="tab active">Horoscope</a></li>
+      <li><a href="numerology.html" class="tab">Numerology</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Updates every day, automatically</div>
+    <h1>✨ Daily Horoscope</h1>
+    <p>Pick your sign to see today's reading, plus its element, ruling planet, and traits.</p>
+  </div>
+
+  <div class="sign-grid" id="signGrid"></div>
+
+  <div class="reading-card" id="readingCard">
+    <div class="sign-title"><span class="sym" id="rSym"></span><h2 id="rName"></h2></div>
+    <div class="meta" id="rDates"></div>
+    <div class="today" id="rToday"></div>
+    <div class="trait-row">
+      <span><strong>Element:</strong> <span id="rElement"></span></span>
+      <span><strong>Ruling planet:</strong> <span id="rPlanet"></span></span>
+      <span><strong>Traits:</strong> <span id="rTraits"></span></span>
+    </div>
+    <button class="draw-btn" id="printBtn">🖨️ Print / Save as PDF</button>
+    <p class="cta-line">✨ Wear your sign — <a href="https://www.amazon.com/s?k=zodiac+sign+jewelry&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">shop zodiac &amp; birthstone jewelry →</a></p>
+  </div>
+
+  <div class="intro-card">
+    <h2>Just for fun</h2>
+    <p>This horoscope is generated for entertainment purposes and rotates daily using the calendar date — it is not based on astronomical calculation or scientific validation. Enjoy it the way you'd enjoy a fortune cookie.</p>
+  </div>
+
+  <footer class="site-footer">
+    &copy; Silly Dragon Calculator. Runs entirely in your browser. &middot; <a href="privacy.html" style="color:#7a7768;">Privacy Policy</a> &middot; <a href="es/horoscope.html" style="color:#7a7768;">Español</a>
+    <p class="disclaimer">This horoscope is provided for entertainment purposes only and is not a substitute for professional advice of any kind. As an Amazon Associate, Silly Dragon Calculator earns from qualifying purchases.</p>
+  </footer>
+
+<script src="lava.js"></script>
+<script>
+(function(){
+  const ZODIAC = [
+    { key:'aries', sym:'♈', name:'Aries', dates:'Mar 21 – Apr 19', element:'Fire', planet:'Mars', traits:'Bold, energetic, competitive' },
+    { key:'taurus', sym:'♉', name:'Taurus', dates:'Apr 20 – May 20', element:'Earth', planet:'Venus', traits:'Steady, patient, loyal' },
+    { key:'gemini', sym:'♊', name:'Gemini', dates:'May 21 – Jun 20', element:'Air', planet:'Mercury', traits:'Curious, witty, adaptable' },
+    { key:'cancer', sym:'♋', name:'Cancer', dates:'Jun 21 – Jul 22', element:'Water', planet:'Moon', traits:'Nurturing, intuitive, protective' },
+    { key:'leo', sym:'♌', name:'Leo', dates:'Jul 23 – Aug 22', element:'Fire', planet:'Sun', traits:'Confident, generous, dramatic' },
+    { key:'virgo', sym:'♍', name:'Virgo', dates:'Aug 23 – Sep 22', element:'Earth', planet:'Mercury', traits:'Practical, precise, helpful' },
+    { key:'libra', sym:'♎', name:'Libra', dates:'Sep 23 – Oct 22', element:'Air', planet:'Venus', traits:'Diplomatic, fair, social' },
+    { key:'scorpio', sym:'♏', name:'Scorpio', dates:'Oct 23 – Nov 21', element:'Water', planet:'Pluto', traits:'Intense, resourceful, determined' },
+    { key:'sagittarius', sym:'♐', name:'Sagittarius', dates:'Nov 22 – Dec 21', element:'Fire', planet:'Jupiter', traits:'Adventurous, honest, optimistic' },
+    { key:'capricorn', sym:'♑', name:'Capricorn', dates:'Dec 22 – Jan 19', element:'Earth', planet:'Saturn', traits:'Disciplined, ambitious, responsible' },
+    { key:'aquarius', sym:'♒', name:'Aquarius', dates:'Jan 20 – Feb 18', element:'Air', planet:'Uranus', traits:'Independent, inventive, humanitarian' },
+    { key:'pisces', sym:'♓', name:'Pisces', dates:'Feb 19 – Mar 20', element:'Water', planet:'Neptune', traits:'Imaginative, compassionate, dreamy' }
+  ];
+
+  const TEMPLATES = [
+    "Today favors bold decisions — trust the instinct you'd normally second-guess.",
+    "A conversation today could open a door you weren't expecting. Stay open to it.",
+    "Slow down before you commit to anything financial today — a second look pays off.",
+    "Your energy is contagious today; use it to bring people together.",
+    "Something you've been putting off is easier than you think — start small.",
+    "A small act of patience today prevents a bigger headache tomorrow.",
+    "Trust your gut over the group opinion today.",
+    "An old idea deserves a second chance — revisit it with fresh eyes.",
+    "Today rewards focus over multitasking. Pick one thing and finish it.",
+    "A compliment or kind word today will land further than you expect.",
+    "Your curiosity leads somewhere useful today — follow it.",
+    "Rest counts as productivity today. Don't skip it.",
+    "A minor disagreement today isn't worth the energy — let it go.",
+    "You'll notice a detail others miss today. Speak up about it.",
+    "Today is a good day to ask for help instead of doing it all yourself.",
+    "Your plans may shift today — the new direction works out better anyway.",
+    "A creative solution beats the obvious one today.",
+    "Someone from your past may reappear today, in a good way.",
+    "Today's the day to finally send that message you've been drafting.",
+    "Keep your circle small today — quality over quantity.",
+    "A routine task today teaches you something unexpectedly useful.",
+    "Money matters go smoother today if you double-check the details.",
+    "Your sense of humor is your best tool today.",
+    "Today favors listening more than talking.",
+    "A short walk today clears up a problem you've been overthinking."
+  ];
+
+  function dayOfYear(){
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    return Math.floor((now - start) / 86400000);
+  }
+
+  function readingFor(idx){
+    const doy = dayOfYear();
+    const templateIdx = (doy * 7 + idx * 13) % TEMPLATES.length;
+    return TEMPLATES[templateIdx];
+  }
+
+  const grid = document.getElementById('signGrid');
+  ZODIAC.forEach((z, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'sign-btn';
+    btn.dataset.idx = idx;
+    btn.innerHTML = `<span class="sym">${z.sym}</span><span class="name">${z.name}</span>`;
+    btn.addEventListener('click', () => selectSign(idx));
+    grid.appendChild(btn);
+  });
+
+  function selectSign(idx){
+    const z = ZODIAC[idx];
+    document.querySelectorAll('.sign-btn').forEach(b => b.classList.toggle('active', Number(b.dataset.idx) === idx));
+    document.getElementById('rSym').textContent = z.sym;
+    document.getElementById('rName').textContent = z.name;
+    document.getElementById('rDates').textContent = z.dates;
+    document.getElementById('rToday').textContent = readingFor(idx);
+    document.getElementById('rElement').textContent = z.element;
+    document.getElementById('rPlanet').textContent = z.planet;
+    document.getElementById('rTraits').textContent = z.traits;
+    document.getElementById('readingCard').classList.add('show');
+    document.getElementById('readingCard').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  // Auto-select today's sign based on the date, if it falls in a known range
+  (function autoSelect(){
+    const now = new Date();
+    const m = now.getMonth() + 1, d = now.getDate();
+    const ranges = [
+      [0,3,21,4,19],[1,4,20,5,20],[2,5,21,6,20],[3,6,21,7,22],[4,7,23,8,22],[5,8,23,9,22],
+      [6,9,23,10,22],[7,10,23,11,21],[8,11,22,12,21],[9,12,22,1,19],[10,1,20,2,18],[11,2,19,3,20]
+    ];
+    for (const [idx, m1, d1, m2, d2] of ranges){
+      if ((m === m1 && d >= d1) || (m === m2 && d <= d2)){ selectSign(idx); return; }
+    }
+    selectSign(0);
+  })();
+})();
+</script>
+<script src="tip-widget.js"></script>
+</body>
+</html>

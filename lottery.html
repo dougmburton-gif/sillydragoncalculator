@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐲</text></svg>">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232900363298551" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FDMXQYL7T9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FDMXQYL7T9');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky Numbers Picker — Mega Millions &amp; Powerball Style Generator | Silly Dragon Calculator</title>
+<meta name="description" content="Free lucky numbers picker for Mega Millions and Powerball style play — random number generator for entertainment purposes, no tickets sold or purchased here.">
+<link rel="canonical" href="https://sillydragoncalculator.com/lottery.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/lottery.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/lottery.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/lottery.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillydragoncalculator.com/lottery.html">
+<meta property="og:title" content="Lucky Numbers Picker | Silly Dragon Calculator">
+<meta property="og:description" content="Free random number generator styled after Mega Millions and Powerball — for entertainment only.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucky Numbers Picker | Silly Dragon Calculator">
+<meta name="twitter:description" content="Free Mega Millions / Powerball style random number generator.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Lucky Numbers Picker","description":"Random number generator styled after Mega Millions and Powerball, for entertainment purposes only.","url":"https://sillydragoncalculator.com/lottery.html","inLanguage":"en"}
+</script>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero{padding-top:26px;}
+  .intro-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:18px auto 0;
+    font-size:0.88rem; line-height:1.7; color:#cfc9b8;
+  }
+  .intro-card h2{font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; margin:0 0 8px;}
+  .draw-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:18px auto 0;
+  }
+  .draw-card h2{font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; margin:0 0 10px; font-size:1.15rem;}
+  .draw-card .odds{font-size:0.7rem; color:#a8a396; margin-bottom:14px;}
+  .ball-row{display:flex; gap:10px; flex-wrap:wrap; min-height:52px; align-items:center;}
+  .ball{
+    width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:bold; font-size:1.05rem; color:#1a1005;
+    background:radial-gradient(circle at 35% 30%, #ffe9a8, #f4c531 55%, #b5651d 100%);
+    box-shadow:0 3px 8px rgba(0,0,0,.5);
+    animation:ballPop .35s ease;
+  }
+  .ball.special{
+    background:radial-gradient(circle at 35% 30%, #ffd0d0, #ff7a18 55%, #c62b05 100%);
+    color:#fff5e6;
+  }
+  @keyframes ballPop{ from{ transform:scale(0.3); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .draw-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+  .draw-btn{
+    background:var(--accent); color:#fff6ea; border:none; border-radius:999px;
+    padding:10px 20px; font-size:0.85rem; font-weight:bold; cursor:pointer;
+    font-family:inherit;
+  }
+  .draw-btn:hover{ filter:brightness(1.1); }
+  .draw-btn.secondary{ background:rgba(255,255,255,0.06); color:#efe9da; border:1px solid var(--panel-edge); }
+  .cta-line{ font-size:0.75rem; margin-top:14px; }
+  .cta-line a{ color:var(--accent); }
+  @media print{
+    .site-nav, .draw-btn, #sdc-tip-widget, .site-footer, .cta-line{ display:none !important; }
+    body{ background:#fff !important; color:#000 !important; }
+  }
+</style>
+</head>
+<body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li><a href="basic.html" class="tab">Basic</a></li>
+      <li><a href="scientific.html" class="tab">Scientific</a></li>
+      <li><a href="graphing.html" class="tab">Graphing</a></li>
+      <li><a href="mortgage.html" class="tab">Mortgage</a></li>
+      <li><a href="scramble.html" class="tab">Word Scramble</a></li>
+      <li><a href="wordpuzzle.html" class="tab">Word Puzzle</a></li>
+      <li><a href="hangman.html" class="tab">Hangman</a></li>
+      <li><a href="hobbyfarm.html" class="tab">Hobby Farm</a></li>
+      <li><a href="memorytricks.html" class="tab">Memory Tricks</a></li>
+      <li><a href="lottery.html" class="tab active">Lucky Numbers</a></li>
+      <li><a href="horoscope.html" class="tab">Horoscope</a></li>
+      <li><a href="numerology.html" class="tab">Numerology</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Just for fun</div>
+    <h1>🎰 Lucky Numbers Picker</h1>
+    <p>The dragon breathes out a random set of numbers, styled after two popular multi-state drawings. This is a free entertainment tool only — it does not sell, purchase, or represent any real lottery ticket.</p>
+  </div>
+
+  <div class="draw-card">
+    <h2>Mega Millions Style</h2>
+    <div class="odds">5 numbers from 1–70, plus 1 Mega Ball from 1–25</div>
+    <div class="ball-row" id="mmBalls"></div>
+    <div class="draw-actions">
+      <button class="draw-btn" id="mmDraw">🐲 Breathe Out Numbers</button>
+      <button class="draw-btn secondary" id="mmCopy">📋 Copy</button>
+    </div>
+  </div>
+
+  <div class="draw-card">
+    <h2>Powerball Style</h2>
+    <div class="odds">5 numbers from 1–69, plus 1 Powerball from 1–26</div>
+    <div class="ball-row" id="pbBalls"></div>
+    <div class="draw-actions">
+      <button class="draw-btn" id="pbDraw">🐲 Breathe Out Numbers</button>
+      <button class="draw-btn secondary" id="pbCopy">📋 Copy</button>
+    </div>
+  </div>
+
+  <div class="draw-card">
+    <div class="draw-actions">
+      <button class="draw-btn secondary" id="printBtn">🖨️ Print / Save as PDF</button>
+    </div>
+    <p class="cta-line">🍀 Keep your numbers close — <a href="https://www.amazon.com/s?k=lucky+lottery+number+journal&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">shop lucky number journals &amp; lottery gear →</a></p>
+  </div>
+
+  <div class="intro-card">
+    <h2>How this works</h2>
+    <p>Each click uses your browser's random number generator to pick unique numbers in the same ranges as the real drawings — nothing is transmitted anywhere, and no purchase happens through this page. If you choose to play an actual lottery, only do so through your state's official, licensed lottery retailer or website, and only if you are of legal age in your jurisdiction.</p>
+  </div>
+
+  <footer class="site-footer">
+    &copy; Silly Dragon Calculator. Runs entirely in your browser. &middot; <a href="privacy.html" style="color:#7a7768;">Privacy Policy</a> &middot; <a href="es/lottery.html" style="color:#7a7768;">Español</a> <a href="https://www.amazon.com/s?k=lucky+lottery+number+journal&tag=sillydragonca-20" target="_blank" rel="sponsored noopener" style="color:#7a7768;">.</a>
+    <p class="disclaimer">This tool is for entertainment purposes only. It is not affiliated with, endorsed by, or connected to Mega Millions, Powerball, or any state lottery. It does not sell or facilitate the purchase of lottery tickets and does not guarantee any winnings. As an Amazon Associate, Silly Dragon Calculator earns from qualifying purchases.</p>
+  </footer>
+
+<script src="lava.js"></script>
+<script>
+(function(){
+  function draw(main, mainMax, specialMax){
+    const nums = new Set();
+    while(nums.size < main){ nums.add(1 + Math.floor(Math.random()*mainMax)); }
+    const sorted = Array.from(nums).sort((a,b)=>a-b);
+    const special = 1 + Math.floor(Math.random()*specialMax);
+    return { sorted, special };
+  }
+  function render(containerId, sorted, special){
+    const el = document.getElementById(containerId);
+    el.innerHTML = '';
+    sorted.forEach(n => {
+      const b = document.createElement('div');
+      b.className = 'ball';
+      b.textContent = n;
+      el.appendChild(b);
+    });
+    const s = document.createElement('div');
+    s.className = 'ball special';
+    s.textContent = special;
+    el.appendChild(s);
+  }
+  function copyResult(containerId){
+    const el = document.getElementById(containerId);
+    const text = Array.from(el.children).map(c => c.textContent).join(' - ');
+    if (text) navigator.clipboard && navigator.clipboard.writeText(text);
+  }
+
+  document.getElementById('mmDraw').addEventListener('click', () => {
+    const { sorted, special } = draw(5, 70, 25);
+    render('mmBalls', sorted, special);
+  });
+  document.getElementById('pbDraw').addEventListener('click', () => {
+    const { sorted, special } = draw(5, 69, 26);
+    render('pbBalls', sorted, special);
+  });
+  document.getElementById('mmCopy').addEventListener('click', () => copyResult('mmBalls'));
+  document.getElementById('pbCopy').addEventListener('click', () => copyResult('pbBalls'));
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  document.getElementById('mmDraw').click();
+  document.getElementById('pbDraw').click();
+})();
+</script>
+<script src="tip-widget.js"></script>
+</body>
+</html>

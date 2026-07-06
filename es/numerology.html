@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐲</text></svg>">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232900363298551" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FDMXQYL7T9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FDMXQYL7T9');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora del Número de Camino de Vida | Calculadora Dragón</title>
+<meta name="description" content="Calculadora gratuita de numerología — ingresa tu fecha de nacimiento para encontrar tu número de camino de vida y su significado.">
+<link rel="canonical" href="https://sillydragoncalculator.com/es/numerology.html">
+<link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/numerology.html">
+<link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/numerology.html">
+<link rel="alternate" hreflang="x-default" href="https://sillydragoncalculator.com/numerology.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillydragoncalculator.com/es/numerology.html">
+<meta property="og:title" content="Calculadora del Número de Camino de Vida | Calculadora Dragón">
+<meta property="og:description" content="Calculadora gratuita de numerología.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Calculadora Dragón">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calculadora del Número de Camino de Vida | Calculadora Dragón">
+<meta name="twitter:description" content="Calculadora gratuita de numerología.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Calculadora del Número de Camino de Vida","description":"Calculadora de numerología con fines de entretenimiento.","url":"https://sillydragoncalculator.com/es/numerology.html","inLanguage":"es"}
+</script>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .hero{padding-top:26px;}
+  .intro-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:18px auto 0;
+    font-size:0.88rem; line-height:1.7; color:#cfc9b8;
+  }
+  .intro-card h2{font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; margin:0 0 8px;}
+  .calc-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:18px auto 0;
+  }
+  .calc-card label{ font-size:0.8rem; color:#cfc9b8; display:block; margin-bottom:6px; }
+  #birthdate{
+    background:#0d0d12; border:1px solid var(--panel-edge); color:#efe9da;
+    padding:10px 14px; border-radius:8px; font-size:0.95rem; font-family:inherit;
+  }
+  .draw-btn{
+    background:var(--accent); color:#fff6ea; border:none; border-radius:999px;
+    padding:10px 20px; font-size:0.85rem; font-weight:bold; cursor:pointer;
+    font-family:inherit; margin-left:10px;
+  }
+  .draw-btn.secondary{ background:rgba(255,255,255,0.06); color:#efe9da; border:1px solid var(--panel-edge); margin-left:0; margin-top:14px; }
+  .result-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:22px 24px; max-width:720px; width:100%; margin:18px auto 0;
+    display:none; text-align:center;
+  }
+  .result-card.show{ display:block; }
+  .result-card .big-num{ font-size:3.2rem; font-weight:bold; color:var(--focus); text-shadow:0 0 20px var(--accent); }
+  .result-card .meaning{ font-size:0.95rem; color:#efe9da; margin-top:10px; text-align:left; }
+  .cta-line{ font-size:0.75rem; margin-top:16px; }
+  .cta-line a{ color:var(--accent); }
+  .meaning-grid{ width:100%; max-width:720px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:16px; }
+  @media (max-width:600px){ .meaning-grid{ grid-template-columns:repeat(2,1fr); } }
+  .meaning-card{ background:rgba(255,255,255,0.04); border:1px solid var(--panel-edge); border-radius:10px; padding:12px; }
+  .meaning-card .num{ font-size:1.4rem; font-weight:bold; color:var(--focus); }
+  .meaning-card p{ font-size:0.72rem; color:#a8a396; margin:4px 0 0; }
+  @media print{
+    .site-nav, .calc-card, #sdc-tip-widget, .site-footer, .cta-line{ display:none !important; }
+    body{ background:#fff !important; color:#000 !important; }
+  }
+</style>
+</head>
+<body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Calculadora Dragón</a>
+    <ul>
+      <li><a href="index.html" class="tab">Inicio</a></li>
+      <li><a href="basic.html" class="tab">Básica</a></li>
+      <li><a href="scientific.html" class="tab">Científica</a></li>
+      <li><a href="graphing.html" class="tab">Gráfica</a></li>
+      <li><a href="mortgage.html" class="tab">Hipoteca</a></li>
+      <li><a href="scramble.html" class="tab">Sopa de Letras</a></li>
+      <li><a href="wordpuzzle.html" class="tab">Adivina la Palabra</a></li>
+      <li><a href="hangman.html" class="tab">Ahorcado</a></li>
+      <li><a href="hobbyfarm.html" class="tab">Granja Hobby</a></li>
+      <li><a href="memorytricks.html" class="tab">Trucos de Memoria</a></li>
+      <li><a href="lottery.html" class="tab">Números de la Suerte</a></li>
+      <li><a href="horoscope.html" class="tab">Horóscopo</a></li>
+      <li><a href="numerology.html" class="tab active">Numerología</a></li>
+    </ul>
+  </nav>
+
+  <div class="masthead">
+    <div class="eyebrow">Solo por diversión</div>
+    <h1>🔢 Calculadora del Número de Camino de Vida</h1>
+    <p>Ingresa tu fecha de nacimiento y el dragón la reducirá a tu número de camino de vida numerológico.</p>
+  </div>
+
+  <div class="calc-card">
+    <label for="birthdate">Tu fecha de nacimiento</label>
+    <input type="date" id="birthdate">
+    <button class="draw-btn" id="calcBtn">🐲 Calcular</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="big-num" id="bigNum">—</div>
+    <div class="meaning" id="meaningText"></div>
+    <button class="draw-btn secondary" id="printBtn">🖨️ Imprimir / Guardar como PDF</button>
+    <p class="cta-line">🔮 Profundiza más — <a href="https://www.amazon.com/s?k=numerology+book&tag=sillydragonca-20" target="_blank" rel="sponsored noopener">compra libros de numerología y diarios de camino de vida →</a></p>
+  </div>
+
+  <div class="intro-card">
+    <h2>¿Qué es un número de camino de vida?</h2>
+    <p>En numerología, tu número de camino de vida se encuentra reduciendo tu fecha de nacimiento completa a un solo dígito (o a un "número maestro" — 11, 22 o 33 — que se mantienen completos). Se supone que describe tu personalidad central y dirección de vida. Esto se ofrece solo con fines de entretenimiento.</p>
+  </div>
+
+  <div class="meaning-grid" id="meaningGrid"></div>
+
+  <footer class="site-footer">
+    &copy; Calculadora Dragón. Funciona completamente en tu navegador. &middot; <a href="privacy.html" style="color:#7a7768;">Política de Privacidad</a> &middot; <a href="../numerology.html" style="color:#7a7768;">English</a>
+    <p class="disclaimer">Esta herramienta de numerología se ofrece solo con fines de entretenimiento y no sustituye el asesoramiento profesional de ningún tipo. Tu fecha de nacimiento se usa solo en tu navegador y nunca se envía ni se almacena en ningún lugar. Como Afiliado de Amazon, Calculadora Dragón gana por compras que califiquen.</p>
+  </footer>
+
+<script src="../lava.js"></script>
+<script>
+(function(){
+  const MEANINGS = {
+    1: 'Líder — independiente, decidido, un pionero natural al que le gusta ir primero.',
+    2: 'Diplomático — cooperativo, sensible, un pacificador y compañero natural.',
+    3: 'Creativo — expresivo, sociable, atraído por el arte, las palabras y la actuación.',
+    4: 'Constructor — práctico, disciplinado, quien hace que los planes realmente sucedan.',
+    5: 'Espíritu libre — aventurero, adaptable, ansía el cambio y nuevas experiencias.',
+    6: 'Cuidador — responsable, cariñoso, en quien otros se apoyan.',
+    7: 'Buscador — analítico, introspectivo, atraído por preguntas más profundas y la calma.',
+    8: 'Triunfador — ambicioso, seguro de sí mismo, enfocado en resultados y éxito.',
+    9: 'Humanitario — compasivo, sabio, impulsado a ayudar a mayor escala.',
+    11: 'Maestro Intuitivo — un visionario altamente sensible y que inspira de forma natural. (Número Maestro)',
+    22: 'Maestro Constructor — convierte grandes sueños idealistas en resultados reales y duraderos. (Número Maestro)',
+    33: 'Maestro Sanador — un número raro y desinteresado enfocado en sanar y guiar. (Número Maestro)'
+  };
+
+  function digitSum(n){
+    return String(n).split('').reduce((a,b) => a + (Number(b) || 0), 0);
+  }
+  function reduce(n){
+    while (n > 9 && n !== 11 && n !== 22 && n !== 33){
+      n = digitSum(n);
+    }
+    return n;
+  }
+  function lifePath(year, month, day){
+    const rM = reduce(month);
+    const rD = reduce(day);
+    const rY = reduce(year);
+    return reduce(rM + rD + rY);
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', () => {
+    const val = document.getElementById('birthdate').value;
+    if (!val) return;
+    const [y, m, d] = val.split('-').map(Number);
+    const num = lifePath(y, m, d);
+    document.getElementById('bigNum').textContent = num;
+    document.getElementById('meaningText').textContent = MEANINGS[num] || '';
+    document.getElementById('resultCard').classList.add('show');
+    document.getElementById('resultCard').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  });
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  const grid = document.getElementById('meaningGrid');
+  Object.keys(MEANINGS).forEach(num => {
+    const card = document.createElement('div');
+    card.className = 'meaning-card';
+    card.innerHTML = `<div class="num">${num}</div><p>${MEANINGS[num]}</p>`;
+    grid.appendChild(card);
+  });
+})();
+</script>
+<script src="../tip-widget.js"></script>
+</body>
+</html>

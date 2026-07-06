@@ -86,6 +86,27 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/lottery.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/lottery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/lottery.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/horoscope.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/horoscope.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/horoscope.html"/>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/numerology.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/numerology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/numerology.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
   <url>
     <loc>https://sillydragoncalculator.com/es/index.html</loc>
@@ -170,6 +191,27 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/memorytricks.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/lottery.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/lottery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/lottery.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/horoscope.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/horoscope.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/horoscope.html"/>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sillydragoncalculator.com/es/numerology.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sillydragoncalculator.com/numerology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://sillydragoncalculator.com/es/numerology.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
