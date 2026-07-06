@@ -125,31 +125,51 @@
   /* ============ WELCOME DRAGON (one-time entrance) ============ */
   #welcome-dragon{
     position:fixed; left:3%; bottom:8%; z-index:90; pointer-events:none;
-    display:flex; align-items:center; gap:6px;
-    animation:wdFadeInOut 3.4s ease forwards;
+    display:flex; align-items:flex-end; gap:8px;
+    animation:wdFadeInOut 4.2s ease forwards;
   }
-  #welcome-dragon .wd-dragon{ font-size:50px; display:inline-block; line-height:1; }
-  #welcome-dragon .wd-flame{
+  .wd-dragon-wrap{ position:relative; flex:none; }
+  .wd-dragon-svg{ width:64px; height:54px; display:block; animation:wdTurn 4.2s ease forwards; transform-origin:50% 60%; }
+  .wd-welcome{
+    position:absolute; top:-24px; left:50%; transform:translateX(-50%);
+    background:#fff8ec; color:#4a3300; font-size:11px; font-weight:bold; padding:3px 9px;
+    border-radius:8px; white-space:nowrap; opacity:0;
+    animation:wdWelcomeShow 4.2s ease forwards;
+  }
+  .wd-welcome::after{
+    content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%);
+    width:8px; height:8px; background:#fff8ec; clip-path:polygon(0 0,100% 0,50% 100%);
+  }
+  .wd-breath{ display:flex; align-items:center; gap:6px; padding-bottom:12px; }
+  .wd-flame{
     font-size:20px; opacity:0; display:inline-block; transform-origin:left center;
-    animation:wdFlameOut 3.4s ease forwards;
+    animation:wdFlameOut 4.2s ease forwards;
   }
-  #welcome-dragon .wd-words{
+  .wd-words{
     font-size:14px; font-weight:bold; color:var(--ember-hot); text-shadow:0 1px 8px #000;
     white-space:nowrap; opacity:0;
-    animation:wdWordsIn 3.4s ease forwards;
+    animation:wdWordsIn 4.2s ease forwards;
   }
   @keyframes wdFadeInOut{
-    0%{opacity:0;} 12%{opacity:1;} 78%{opacity:1;} 100%{opacity:0;}
+    0%{opacity:0;} 8%{opacity:1;} 85%{opacity:1;} 100%{opacity:0;}
+  }
+  @keyframes wdTurn{
+    0%,42%{ transform:scaleX(-1); } 52%,100%{ transform:scaleX(1); }
+  }
+  @keyframes wdWelcomeShow{
+    0%,8%{opacity:0; transform:translateX(-50%) translateY(4px);}
+    16%{opacity:1; transform:translateX(-50%) translateY(0);}
+    38%{opacity:1;} 46%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdFlameOut{
-    0%,15%{opacity:0; transform:scaleX(.3) translateX(-8px);}
-    32%{opacity:1; transform:scaleX(1) translateX(0);}
-    78%{opacity:1;} 100%{opacity:0;}
+    0%,55%{opacity:0; transform:scaleX(.3) translateX(-8px);}
+    65%{opacity:1; transform:scaleX(1) translateX(0);}
+    85%{opacity:1;} 100%{opacity:0;}
   }
   @keyframes wdWordsIn{
-    0%,28%{opacity:0; transform:translateX(-8px);}
-    45%{opacity:1; transform:translateX(0);}
-    78%{opacity:1;} 100%{opacity:0;}
+    0%,60%{opacity:0; transform:translateX(-8px);}
+    70%{opacity:1; transform:translateX(0);}
+    85%{opacity:1;} 100%{opacity:0;}
   }
   @media (prefers-reduced-motion: reduce){
     #welcome-dragon{ display:none; }
@@ -356,9 +376,27 @@
   </div>
 
   <div id="welcome-dragon" aria-hidden="true">
-    <span class="wd-dragon">🐲</span>
-    <span class="wd-flame">🔥🔥🔥</span>
-    <span class="wd-words">What you live... we breathe...</span>
+    <div class="wd-dragon-wrap">
+      <svg class="wd-dragon-svg" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#f4c531" d="M15 68 Q5 63 8 56 Q15 60 22 64 Z"/>
+        <path fill="#e0a80f" d="M45 40 Q30 15 15 20 Q28 28 32 38 Q20 35 15 42 Q35 48 45 40 Z"/>
+        <ellipse fill="#f4c531" cx="55" cy="62" rx="26" ry="20"/>
+        <ellipse fill="#ffe98a" cx="58" cy="68" rx="17" ry="11"/>
+        <ellipse fill="#f4c531" cx="45" cy="82" rx="6" ry="8"/>
+        <ellipse fill="#f4c531" cx="65" cy="82" rx="6" ry="8"/>
+        <path fill="#f4c531" d="M75 38 Q90 30 100 38 Q104 44 98 48 L78 50 Q73 45 75 38 Z"/>
+        <path fill="#fff3c4" d="M82 32 L79 20 L88 30 Z"/>
+        <path fill="#fff3c4" d="M92 30 L92 20 L98 28 Z"/>
+        <circle fill="#1a1208" cx="90" cy="38" r="2.6"/>
+        <circle fill="#fff" cx="91" cy="37" r="0.9"/>
+        <path fill="none" stroke="#7a5200" stroke-width="1.8" stroke-linecap="round" d="M80 46 Q90 50 98 46"/>
+      </svg>
+      <div class="wd-welcome">Welcome!</div>
+    </div>
+    <div class="wd-breath">
+      <span class="wd-flame">🔥🔥🔥</span>
+      <span class="wd-words">What you live... we breathe...</span>
+    </div>
   </div>
 
   <nav id="tabs" aria-label="Choose a calculator">
@@ -965,7 +1003,7 @@
 <script>
 (function(){
   var wd = document.getElementById('welcome-dragon');
-  if (wd) setTimeout(function(){ wd.remove(); }, 3600);
+  if (wd) setTimeout(function(){ wd.remove(); }, 4300);
 })();
 </script>
 <script src="nav-dropdown.js"></script>
