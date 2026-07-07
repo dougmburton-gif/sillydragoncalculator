@@ -210,9 +210,45 @@
     #sitenav ul{display:none;}
     #answer-line-wrap{top:110px;}
   }
+  #themeToggle{
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:var(--text);
+    border-radius:999px; padding:8px 12px; font-size:16px; cursor:pointer; font-family:inherit;
+    margin-left:8px;
+  }
+  #themeToggle:hover{ background:rgba(255,255,255,.16); }
+
+  body[data-theme="light"]{ background:#f7f5ef; color:#2a2a38; }
+  body[data-theme="light"] #stage{ background:#f7f5ef; }
+  body[data-theme="light"] .bg-layer,
+  body[data-theme="light"] #floor-fire,
+  body[data-theme="light"] #floor-glow,
+  body[data-theme="light"] #stars{ display:none; }
+  body[data-theme="light"] #sitenav{ background:rgba(255,255,255,.9); border-bottom-color:rgba(0,0,0,.08); }
+  body[data-theme="light"] #sitenav .brand{ color:#2a2a38; }
+  body[data-theme="light"] #sitenav a.tab-link,
+  body[data-theme="light"] .dropdown-trigger{ color:#1f6fa8 !important; text-shadow:none !important; }
+  body[data-theme="light"] .dropdown-trigger.active{ background:var(--key-op, #e8b94d); color:#2a2a38 !important; }
+  body[data-theme="light"] #themeToggle{ background:rgba(0,0,0,.05); border-color:rgba(0,0,0,.15); color:#2a2a38; }
+  body[data-theme="light"] #intro{ color:rgba(42,42,56,.62); }
+  body[data-theme="light"] #answer-line-label{ color:rgba(42,42,56,.55); }
+  body[data-theme="light"] #answer-landing{ color:var(--green); text-shadow:none; }
+  body[data-theme="light"] .calc{ background:#fff; border-color:#e3ddcf; box-shadow:0 10px 30px rgba(0,0,0,.12); }
+  body[data-theme="light"] .display{ background:#f1efe6; border-color:#ddd6c4; }
+  body[data-theme="light"] .mfield{ background:#f1efe6; border-color:#ddd6c4; }
+  body[data-theme="light"] .mfield .lab{ color:#6b8a72; }
+  body[data-theme="light"] .mfield .val{ color:#1f5a2f; }
+  body[data-theme="light"] .expr{ color:#6b6b7a; }
+  body[data-theme="light"] .result{ color:#2a2a38; }
+  body[data-theme="light"] .key{ background:#fff; border-color:#e3ddcf; color:#2a2a38; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  body[data-theme="light"] .key:hover{ background:#f1efe6; }
+  body[data-theme="light"] .key.op{ color:var(--green); }
+  body[data-theme="light"] .hint{ color:rgba(42,42,56,.55); }
+  body[data-theme="light"] #sitefooter{ color:rgba(42,42,56,.5); }
+  body[data-theme="light"] #sitefooter a{ color:rgba(42,42,56,.65); }
 </style>
 </head>
 <body>
+<script>if(localStorage.getItem('sdc_theme')==='light'){document.body.dataset.theme='light';}</script>
 <div id="stage">
   <div class="bg-layer bg-smoke"></div>
   <div class="bg-layer bg-smoke2"></div>
@@ -250,6 +286,7 @@
       </li>
       <li><a href="homeschool.html" class="tab-link">Homeschool</a></li>
     </ul>
+    <button id="themeToggle" type="button" aria-label="Toggle light/dark mode">☀️</button>
   </nav>
   <p id="intro">This free online mortgage calculator estimates your monthly principal and interest payment based on loan amount, rate, and term.</p>
 
@@ -442,7 +479,7 @@
 
   (function buildAmbience(){
     const ff = document.getElementById('floor-fire');
-    const n = Math.max(10, Math.floor(innerWidth/70));
+    const n = Math.max(6, Math.floor(innerWidth/110));
     for(let i=0;i<n;i++){
       const t=document.createElement('div'); t.className='tongue';
       const wd=60+Math.random()*110, ht=70+Math.random()*90;
@@ -453,7 +490,7 @@
       ff.appendChild(t);
     }
     if(!reduceMotion){
-      for(let i=0;i<26;i++){
+      for(let i=0;i<12;i++){
         const s=document.createElement('div'); s.className='spark';
         s.textContent=Math.random()<0.5?'✦':'•';
         s.style.left=(Math.random()*100)+'%';
@@ -463,13 +500,30 @@
       }
     }
     const stars=document.getElementById('stars');
-    for(let i=0;i<60;i++){
+    for(let i=0;i<25;i++){
       const st=document.createElement('div'); st.className='star';
       st.style.left=Math.random()*100+'%';
       st.style.top=Math.random()*70+'%';
       st.style.animationDelay=(Math.random()*3)+'s';
       stars.appendChild(st);
     }
+  })();
+
+  (function initThemeToggle(){
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    function updateBtn(){ btn.textContent = document.body.dataset.theme === 'light' ? '🌙' : '☀️'; }
+    updateBtn();
+    btn.addEventListener('click', function(){
+      if (document.body.dataset.theme === 'light'){
+        delete document.body.dataset.theme;
+        localStorage.setItem('sdc_theme', 'dark');
+      } else {
+        document.body.dataset.theme = 'light';
+        localStorage.setItem('sdc_theme', 'light');
+      }
+      updateBtn();
+    });
   })();
 
   function floatAndInhale(char, fromX, fromY){
