@@ -125,35 +125,42 @@
 
   /* ============ WELCOME DRAGON (one-time entrance) ============ */
   #welcome-dragon{
-    position:fixed; left:3%; bottom:8%; z-index:90; pointer-events:none;
-    display:flex; align-items:flex-end; gap:8px;
+    position:fixed; inset:0; z-index:90; pointer-events:none;
     animation:wdFadeInOut 6.2s ease forwards;
   }
-  .wd-dragon-wrap{ position:relative; flex:none; }
+  #wd-backdrop{
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,.5), rgba(0,0,0,.78) 72%);
+  }
   .wd-dragon-video{
-    width:112px; height:84px; display:block; object-fit:cover; border-radius:8px;
-    filter:sepia(.7) saturate(3) hue-rotate(-15deg) brightness(1.2) contrast(1.05);
+    position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
+    width:min(560px,72vw); aspect-ratio:16/9; display:block; object-fit:cover;
+    border-radius:14px; box-shadow:0 20px 80px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.05);
   }
   .wd-welcome{
-    position:absolute; top:-24px; left:50%; transform:translateX(-50%);
-    background:#fff8ec; color:#4a3300; font-size:11px; font-weight:bold; padding:3px 9px;
-    border-radius:8px; white-space:nowrap; opacity:0;
+    position:absolute; left:50%; top:13%; transform:translateX(-50%);
+    background:#fff8ec; color:#4a3300; font-size:20px; font-weight:bold; padding:7px 20px;
+    border-radius:12px; white-space:nowrap; opacity:0;
     animation:wdWelcomeShow 6.2s ease forwards;
   }
   .wd-welcome::after{
-    content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%);
-    width:8px; height:8px; background:#fff8ec; clip-path:polygon(0 0,100% 0,50% 100%);
+    content:''; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
+    width:12px; height:12px; background:#fff8ec; clip-path:polygon(0 0,100% 0,50% 100%);
   }
-  .wd-breath{ display:flex; align-items:center; gap:6px; padding-bottom:14px; }
-  .wd-words-wrap{ position:relative; display:inline-block; height:18px; }
+  .wd-words-wrap{ position:absolute; left:50%; bottom:12%; transform:translateX(-50%); height:26px; }
   .wd-words1, .wd-words2, .wd-words3{
-    position:absolute; left:0; top:0;
-    font-size:14px; font-weight:bold; color:var(--ember-hot); text-shadow:0 1px 8px #000;
+    position:absolute; left:50%; top:0; transform:translateX(-50%);
+    font-size:19px; font-weight:bold; color:var(--ember-hot); text-shadow:0 2px 10px #000;
     white-space:nowrap; opacity:0;
   }
   .wd-words1{ animation:wdWords1In 6.2s ease forwards; }
   .wd-words2{ animation:wdWords2In 6.2s ease forwards; }
   .wd-words3{ animation:wdWords3In 6.2s ease forwards; }
+  @media (max-width:600px){
+    .wd-dragon-video{ width:82vw; }
+    .wd-welcome{ font-size:15px; padding:6px 14px; }
+    .wd-words1, .wd-words2, .wd-words3{ font-size:14px; }
+  }
   @keyframes wdFadeInOut{
     0%{opacity:0;} 4%{opacity:1;} 94%{opacity:1;} 100%{opacity:0;}
   }
@@ -397,17 +404,14 @@
   </div>
 
   <div id="welcome-dragon" aria-hidden="true">
-    <div class="wd-dragon-wrap">
-      <video class="wd-dragon-video" src="welcome-dragon.mp4" autoplay muted playsinline></video>
-      <div class="wd-welcome">Welcome!</div>
-    </div>
-    <div class="wd-breath">
-      <span class="wd-words-wrap">
-        <span class="wd-words1">What you live... we breathe...</span>
-        <span class="wd-words2">By the way... we have a graphing calculator! 📈</span>
-        <span class="wd-words3">Oh, and check out our Top Picks! 🛒</span>
-      </span>
-    </div>
+    <div id="wd-backdrop"></div>
+    <div class="wd-welcome">Welcome!</div>
+    <video class="wd-dragon-video" src="welcome-dragon.mp4" autoplay muted playsinline></video>
+    <span class="wd-words-wrap">
+      <span class="wd-words1">What you live... we breathe...</span>
+      <span class="wd-words2">By the way... we have a graphing calculator! 📈</span>
+      <span class="wd-words3">Oh, and check out our Top Picks! 🛒</span>
+    </span>
   </div>
 
   <nav id="tabs" aria-label="Choose a calculator">
