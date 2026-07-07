@@ -300,6 +300,16 @@
   @keyframes breathe{0%,100%{margin-top:0;}50%{margin-top:-4px;}}
   .eye-lid{opacity:0;}
   #dragon.blink .eye-lid{opacity:1;}
+  #dragon.puffing{ animation:dragonPuff 1.8s ease-in-out; transform-origin:50% 68%; }
+  @keyframes dragonPuff{
+    0%{ transform:scaleX(var(--face,1)) scale(1); }
+    40%{ transform:scaleX(var(--face,1)) scale(2); }
+    55%{ transform:scaleX(var(--face,1)) scale(2); }
+    100%{ transform:scaleX(var(--face,1)) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #dragon.puffing{ animation:none; }
+  }
 
   /* ============ PARTICLES ============ */
   .float-char{
@@ -1112,42 +1122,63 @@
     var dragon = document.getElementById('dragon');
     var flame = document.getElementById('privacy-flame');
     if (!dragon || !flame) return;
-    var r = dragon.getBoundingClientRect();
-    var facingLeft = dragon.classList.contains('face-left');
-    var mouthX = facingLeft ? r.left + r.width * 0.13 : r.left + r.width * 0.87;
-    var mouthY = r.top + r.height * 0.42;
-    var containerH = 380;
-    flame.style.top = Math.max(0, mouthY - containerH * 0.55) + 'px';
 
-    var burst = flame.querySelector('.flame-burst');
-    Array.prototype.slice.call(burst.querySelectorAll('.fire-blob')).forEach(function(el){ el.remove(); });
-    var localMouthY = mouthY - parseFloat(flame.style.top);
-    var dir = facingLeft ? -1 : 1;
-    var maxSpread = Math.min(innerWidth * 0.55, 480);
-    var n = 10;
-    for (var i = 0; i < n; i++){
-      var frac = i / (n - 1);
-      var b = document.createElement('div');
-      b.className = 'fire-blob';
-      var size = 210 - frac * 100 + Math.random() * 40;
-      var x = mouthX + dir * (frac * maxSpread) + (Math.random() * 40 - 20) - size / 2;
-      var y = localMouthY + (Math.random() * 70 - 35) - size / 2;
-      b.style.width = size + 'px';
-      b.style.height = size + 'px';
-      b.style.left = x + 'px';
-      b.style.top = y + 'px';
-      b.style.animationDelay = (frac * 0.15) + 's, ' + (Math.random() * 0.3) + 's';
-      b.style.animationDuration = '.55s, ' + (0.9 + Math.random() * 0.5) + 's';
-      burst.appendChild(b);
-    }
+    dragon.style.setProperty('--face', dragon.classList.contains('face-left') ? -1 : 1);
+    dragon.classList.add('puffing');
 
-    dragon.classList.add('mouth-open');
-    requestAnimationFrame(function(){ flame.classList.add('show'); });
     setTimeout(function(){
-      flame.classList.remove('show');
-      dragon.classList.remove('mouth-open');
-      setTimeout(function(){ flame.remove(); }, 700);
-    }, 4200);
+      var r = dragon.getBoundingClientRect();
+      var facingLeft = dragon.classList.contains('face-left');
+      var mouthX = facingLeft ? r.left + r.width * 0.13 : r.left + r.width * 0.87;
+      var mouthY = r.top + r.height * 0.42;
+      var containerH = 380;
+      flame.style.top = Math.max(0, mouthY - containerH * 0.55) + 'px';
+
+      var burst = flame.querySelector('.flame-burst');
+      Array.prototype.slice.call(burst.querySelectorAll('.fire-blob')).forEach(function(el){ el.remove(); });
+      var localMouthY = mouthY - parseFloat(flame.style.top);
+      var dir = facingLeft ? -1 : 1;
+      var maxSpread = Math.min(innerWidth * 0.55, 480);
+      var n = 10;
+      for (var i = 0; i < n; i++){
+        var frac = i / (n - 1);
+        var b = document.createElement('div');
+        b.className = 'fire-blob';
+        var size = 210 - frac * 100 + Math.random() * 40;
+        var x = mouthX + dir * (frac * maxSpread) + (Math.random() * 40 - 20) - size / 2;
+        var y = localMouthY + (Math.random() * 70 - 35) - size / 2;
+        b.style.width = size + 'px';
+        b.style.height = size + 'px';
+        b.style.left = x + 'px';
+        b.style.top = y + 'px';
+        b.style.animationDelay = (frac * 0.15) + 's, ' + (Math.random() * 0.3) + 's';
+        b.style.animationDuration = '.55s, ' + (0.9 + Math.random() * 0.5) + 's';
+        burst.appendChild(b);
+      }
+
+      dragon.classList.add('mouth-open');
+      requestAnimationFrame(function(){ flame.classList.add('show'); });
+      setTimeout(function(){
+        flame.classList.remove('show');
+        dragon.classList.remove('mouth-open');
+        dragon.classList.remove('puffing');
+        setTimeout(function(){ flame.remove(); }, 700);
+        cascadeNavDropdowns();
+      }, 2000);
+    }, 990);
+  }
+
+  function cascadeNavDropdowns(){
+    var drops = Array.prototype.slice.call(document.querySelectorAll('#sitenav .nav-dropdown'));
+    var i = 0;
+    function next(){
+      if (i > 0) drops[i-1].classList.remove('open');
+      if (i >= drops.length) return;
+      drops[i].classList.add('open');
+      i++;
+      setTimeout(next, 1500);
+    }
+    next();
   }
 })();
 </script>
