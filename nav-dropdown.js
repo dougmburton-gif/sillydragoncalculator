@@ -61,3 +61,44 @@
     setTimeout(function(){ icons.classList.remove('show', 'sun-phase'); }, 6000);
   });
 })();
+
+(function(){
+  "use strict";
+  var pageUrl = encodeURIComponent(location.href);
+  var pageTitle = encodeURIComponent(document.title);
+
+  var wrap = document.createElement('div');
+  wrap.id = 'shareWidget';
+  wrap.innerHTML =
+    '<button id="shareToggle" type="button" aria-expanded="false">Share ▸</button>' +
+    '<div id="shareMenu" role="menu">' +
+      '<a href="https://www.facebook.com/sharer/sharer.php?u=' + pageUrl + '" target="_blank" rel="noopener">📘 Facebook</a>' +
+      '<a href="https://twitter.com/intent/tweet?url=' + pageUrl + '&text=' + pageTitle + '" target="_blank" rel="noopener">🐦 X / Twitter</a>' +
+      '<a href="https://pinterest.com/pin/create/button/?url=' + pageUrl + '&description=' + pageTitle + '" target="_blank" rel="noopener">📌 Pinterest</a>' +
+      '<a href="mailto:?subject=' + pageTitle + '&body=' + pageUrl + '">✉️ Email</a>' +
+      '<button type="button" id="shareCopyLink">🔗 Copy Link</button>' +
+    '</div>';
+  document.body.appendChild(wrap);
+
+  var toggle = document.getElementById('shareToggle');
+  toggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    var isOpen = wrap.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e){
+    if (!wrap.contains(e.target)) wrap.classList.remove('open');
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') wrap.classList.remove('open');
+  });
+
+  document.getElementById('shareCopyLink').addEventListener('click', function(){
+    var btn = this;
+    navigator.clipboard.writeText(location.href).then(function(){
+      var original = btn.textContent;
+      btn.textContent = '✅ Copied!';
+      setTimeout(function(){ btn.textContent = original; }, 1500);
+    });
+  });
+})();
