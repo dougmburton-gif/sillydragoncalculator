@@ -68,10 +68,16 @@
 /* ============ BLOG QUICK LINK (shared) ============ */
 #blogQuickLink{
   position:fixed; bottom:55px; left:0; z-index:60;
-  display:inline-block; background:#000; color:#eaf2ff;
+  display:inline-block; background:#ffcc33; color:#3a2200;
   font-size:16px; font-weight:bold; text-decoration:none;
-  padding:13px 20px; border:1px solid rgba(255,255,255,0.15);
-  border-radius:2px;
+  padding:13px 20px; border:1px solid rgba(255,255,255,0.25);
+  border-radius:0 12px 12px 0;
+  box-shadow:0 0 14px rgba(255,204,51,0.55);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+#blogQuickLink:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 20px rgba(255,204,51,0.8);
 }
 #blogQuickLink:hover{ background:#1a1a1a; }
 
