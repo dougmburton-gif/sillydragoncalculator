@@ -111,10 +111,11 @@ body{
 }
 .site-nav a.tab{
   text-decoration:none;
-  color: #a8a396;
-  font-size: 0.78rem;
-  padding: 7px 11px;
+  color: #eaffff;
+  font-size: 24px;
+  padding: 12px 18px;
   border-radius: 6px;
+  text-shadow: 0 0 6px #bdf3ff, 0 0 14px #7fd8f5, 0 0 22px #4fc3f7;
   transition: background .12s ease, color .12s ease;
 }
 .site-nav a.tab:hover{ background: var(--panel); color: #efe9da; }
