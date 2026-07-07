@@ -58,8 +58,8 @@
 .social-proof-banner.side{
   display:block; position:absolute; bottom:64px; left:0; z-index:50;
   background:#000; color:#eaf2ff; border:1px solid rgba(255,255,255,0.15);
-  font-size:10px; line-height:1.5; padding:10px 14px; border-radius:2px;
-  width:210px; text-align:left;
+  font-size:13px; line-height:1.5; padding:14px 18px; border-radius:2px;
+  width:270px; text-align:left;
 }
 @media (max-width:760px){
   .social-proof-banner.side{ display:none; }
