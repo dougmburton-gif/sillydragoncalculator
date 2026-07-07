@@ -102,3 +102,16 @@
     });
   });
 })();
+
+(function(){
+  "use strict";
+  var isEs = /\/es\//.test(location.pathname);
+  var href = isEs ? '../blog.html' : 'blog.html';
+  var label = isEs ? '📝 Blog' : '📝 Blog';
+
+  var link = document.createElement('a');
+  link.id = 'blogQuickLink';
+  link.href = href;
+  link.textContent = label;
+  document.body.appendChild(link);
+})();
