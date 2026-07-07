@@ -1,7 +1,7 @@
 .nav-dropdown{ position:relative; }
 .dropdown-trigger{
   background:none; border:none; cursor:pointer; font-family:inherit;
-  color:#eaffff; font-size:24px; padding:12px 18px; border-radius:6px;
+  color:#eaffff; font-size:28px; padding:12px 18px; border-radius:6px;
   text-shadow:0 0 6px #bdf3ff, 0 0 14px #7fd8f5, 0 0 22px #4fc3f7;
   transition:background .12s ease, color .12s ease;
 }
