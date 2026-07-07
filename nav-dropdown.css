@@ -45,3 +45,20 @@
 #weatherIcons.show{ opacity:1; }
 #weatherIcons.sun-phase #weatherIconChar{ animation:sunPulse 1s ease-in-out infinite; }
 @keyframes sunPulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.25);} }
+
+/* ============ SOCIAL PROOF BANNER (shared) ============ */
+.social-proof-banner{
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.92); color:#1a2a52;
+  font-size:11px; font-weight:600; line-height:1.4;
+  padding:7px 14px; border-radius:999px;
+  border:1px solid rgba(26,42,82,0.15);
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+.social-proof-banner.corner{
+  position:absolute; bottom:64px; left:10px; z-index:50;
+  font-size:9px; padding:5px 10px; max-width:230px;
+}
+@media (max-width:760px){
+  .social-proof-banner.corner{ display:none; }
+}
