@@ -58,7 +58,8 @@
     '<span style="font-size:1.2rem;">🐲</span>' +
     '<strong style="color:var(--focus,#e8b94d);white-space:nowrap;">' + label + ':</strong>' +
     '<span style="flex:1;min-width:200px;">' + TIPS[dayIndex()] + '</span>' +
-    '<a href="' + linkHref + '" style="color:var(--accent,#b5651d);text-decoration:none;white-space:nowrap;font-weight:bold;">' + moreLabel + ' →</a>' +
+    '<span style="font-size:1.4rem;">👉🏻</span>' +
+    '<a href="' + linkHref + '" style="color:#ffe600;text-decoration:underline;white-space:nowrap;font-weight:bold;font-size:1.5rem;">' + moreLabel + ' → 😊</a>' +
     '<button type="button" aria-label="' + closeLabel + '" style="background:none;border:1px solid #4a4739;color:#a8a396;border-radius:6px;padding:3px 9px;cursor:pointer;font-family:inherit;font-size:0.75rem;">✕</button>';
 
   document.body.appendChild(bar);
