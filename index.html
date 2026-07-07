@@ -322,27 +322,42 @@
 
   #privacy-flame{
     position:fixed; left:0; right:0; z-index:85; pointer-events:none;
-    height:70px; display:flex; align-items:center; justify-content:center;
-    opacity:0; transition:opacity .6s ease;
+    height:380px; display:flex; align-items:center; justify-content:center;
+    opacity:0; transition:opacity .5s ease;
   }
   #privacy-flame.show{ opacity:1; }
-  #privacy-flame .flame-bar{
+  .flame-burst{ position:absolute; inset:0; overflow:visible; }
+  .flame-burst .glow-bloom{
     position:absolute; inset:0;
-    background:linear-gradient(90deg, transparent, var(--ember) 8%, var(--ember-hot) 50%, var(--ember) 92%, transparent);
-    box-shadow:0 0 30px rgba(255,122,24,.85), 0 0 60px rgba(198,43,5,.5);
-    filter:blur(1px);
+    background:radial-gradient(ellipse 60% 70% at 50% 50%, rgba(255,194,60,.35), rgba(198,43,5,.15) 55%, transparent 75%);
+  }
+  .flame-burst .big-tongue{
+    position:absolute; border-radius:48% 52% 18% 18%;
+    background:radial-gradient(ellipse at 50% 88%, var(--ember-hot) 0%, var(--ember) 42%, var(--ember-deep) 74%, transparent 84%);
+    filter:blur(2px); opacity:0; transform-origin:50% 100%; mix-blend-mode:screen;
+    animation:bigFlameGrow .6s ease forwards, bigLick 1.3s ease-in-out infinite;
+  }
+  @keyframes bigFlameGrow{ 0%{opacity:0; transform:scale(.25) rotate(var(--rot,0deg));} 100%{opacity:.94; transform:scale(1) rotate(var(--rot,0deg));} }
+  @keyframes bigLick{
+    0%,100%{transform:scaleY(.75) scaleX(1) translateY(0) rotate(var(--rot,0deg));}
+    35%{transform:scaleY(1.2) scaleX(.88) translateY(-16px) rotate(var(--rot,0deg));}
+    70%{transform:scaleY(.92) scaleX(1.04) translateY(-6px) rotate(var(--rot,0deg));}
   }
   #privacy-flame .flame-text{
-    position:relative; z-index:1; text-align:center; font-weight:bold;
-    color:#fff8e0; text-shadow:0 0 10px #ff7a18, 0 0 20px #c62b05;
-    font-size:15px; padding:0 20px; max-width:92%;
+    position:relative; z-index:2; text-align:center; font-weight:bold;
+    color:#fff8e0; text-shadow:0 0 12px #ff7a18, 0 0 26px #c62b05, 0 0 44px #c62b05;
+    font-size:16px; padding:0 20px; max-width:92%;
   }
   #privacy-flame .flame-text .loud{
-    display:block; margin-top:2px; letter-spacing:.6px; font-size:20px; color:#fff;
+    display:block; margin-top:4px; letter-spacing:.6px; font-size:23px; color:#fff;
   }
   @media (max-width:600px){
-    #privacy-flame .flame-text{ font-size:11px; }
-    #privacy-flame .flame-text .loud{ font-size:14px; }
+    #privacy-flame{ height:280px; }
+    #privacy-flame .flame-text{ font-size:12px; }
+    #privacy-flame .flame-text .loud{ font-size:16px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .flame-burst .big-tongue{ animation:bigFlameGrow .6s ease forwards; }
   }
 
   #sitefooter{position:absolute; bottom:6px; right:10px; text-align:right; z-index:50; font-size:10px; color:rgba(243,234,216,.4); max-width:300px;}
@@ -558,7 +573,7 @@
   </main>
 
   <div id="privacy-flame" aria-hidden="true">
-    <div class="flame-bar"></div>
+    <div class="flame-burst"><div class="glow-bloom"></div></div>
     <div class="flame-text">my big brother values your privacy...<span class="loud">MORE THAN YOU DO</span></div>
   </div>
 
@@ -1058,8 +1073,36 @@
     var flame = document.getElementById('privacy-flame');
     if (!dragon || !flame) return;
     var r = dragon.getBoundingClientRect();
+    var facingLeft = dragon.classList.contains('face-left');
+    var mouthX = facingLeft ? r.left + r.width * 0.13 : r.left + r.width * 0.87;
     var mouthY = r.top + r.height * 0.42;
-    flame.style.top = Math.max(10, mouthY - 35) + 'px';
+    var containerH = 380;
+    flame.style.top = Math.max(0, mouthY - containerH * 0.55) + 'px';
+
+    var burst = flame.querySelector('.flame-burst');
+    Array.prototype.slice.call(burst.querySelectorAll('.big-tongue')).forEach(function(el){ el.remove(); });
+    var localMouthY = mouthY - parseFloat(flame.style.top);
+    var dir = facingLeft ? -1 : 1;
+    var maxSpread = Math.min(innerWidth * 0.7, 640);
+    var n = 18;
+    for (var i = 0; i < n; i++){
+      var frac = i / (n - 1);
+      var t = document.createElement('div');
+      t.className = 'big-tongue';
+      var w = 70 + Math.random() * 150;
+      var h = 150 + Math.random() * 190;
+      var x = mouthX + dir * (frac * maxSpread) + (Math.random() * 60 - 30) - w / 2;
+      var y = localMouthY + (Math.random() * 160 - 80) - h * 0.75;
+      t.style.width = w + 'px';
+      t.style.height = h + 'px';
+      t.style.left = x + 'px';
+      t.style.top = y + 'px';
+      t.style.setProperty('--rot', ((Math.random() * 20) - 10) + 'deg');
+      t.style.animationDelay = (Math.random() * 0.35) + 's, ' + (Math.random() * 0.4) + 's';
+      t.style.animationDuration = '.6s, ' + (1 + Math.random() * 0.8) + 's';
+      burst.appendChild(t);
+    }
+
     dragon.classList.add('mouth-open');
     requestAnimationFrame(function(){ flame.classList.add('show'); });
     setTimeout(function(){
