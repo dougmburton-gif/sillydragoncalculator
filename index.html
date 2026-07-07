@@ -332,12 +332,12 @@
     background:radial-gradient(circle, rgba(255,194,60,.9), rgba(198,43,5,.4) 60%, transparent 75%);
     mix-blend-mode:screen; will-change:transform, opacity;}
 
-  #privacy-flame{
+  .flame-moment{
     position:fixed; left:0; right:0; z-index:85; pointer-events:none;
     height:380px; display:flex; align-items:center; justify-content:center;
     opacity:0; transition:opacity .5s ease;
   }
-  #privacy-flame.show{ opacity:1; }
+  .flame-moment.show{ opacity:1; }
   .flame-burst{ position:absolute; inset:0; overflow:visible; }
   .flame-burst .glow-bloom{
     position:absolute; inset:0;
@@ -351,18 +351,18 @@
   }
   @keyframes blobGrow{ 0%{opacity:0; transform:scale(.2);} 100%{opacity:.96; transform:scale(1);} }
   @keyframes blobPulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.09);} }
-  #privacy-flame .flame-text{
+  .flame-moment .flame-text{
     position:relative; z-index:2; text-align:center; font-weight:bold;
     color:#fff8e0; text-shadow:0 0 12px #ff7a18, 0 0 26px #c62b05, 0 0 44px #c62b05;
     font-size:48px; padding:0 20px; max-width:92%;
   }
-  #privacy-flame .flame-text .loud{
+  .flame-moment .flame-text .loud{
     display:block; margin-top:4px; letter-spacing:.6px; font-size:69px; color:#fff;
   }
   @media (max-width:600px){
-    #privacy-flame{ height:280px; }
-    #privacy-flame .flame-text{ font-size:36px; }
-    #privacy-flame .flame-text .loud{ font-size:48px; }
+    .flame-moment{ height:280px; }
+    .flame-moment .flame-text{ font-size:36px; }
+    .flame-moment .flame-text .loud{ font-size:48px; }
   }
   @media (prefers-reduced-motion: reduce){
     .flame-burst .fire-blob{ animation:blobGrow .55s ease forwards; }
@@ -603,9 +603,14 @@
     </section>
   </main>
 
-  <div id="privacy-flame" aria-hidden="true">
+  <div id="privacy-flame" class="flame-moment" aria-hidden="true">
     <div class="flame-burst"><div class="glow-bloom"></div></div>
     <div class="flame-text">my big brother values your privacy...<span class="loud">MORE THAN YOU DO</span></div>
+  </div>
+
+  <div id="brand-flame" class="flame-moment" aria-hidden="true">
+    <div class="flame-burst"><div class="glow-bloom"></div></div>
+    <div class="flame-text">WE ARE MORE THAN JUST MATH</div>
   </div>
 
   <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="hobbyfarm.html" class="footer-glow">Hobby Farm</a> &middot; <a href="es/index.html" class="footer-glow">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
@@ -1182,12 +1187,54 @@
     var i = 0;
     function next(){
       if (i > 0) drops[i-1].classList.remove('open');
-      if (i >= drops.length) return;
+      if (i >= drops.length){ triggerBrandFlame(); return; }
       drops[i].classList.add('open');
       i++;
       setTimeout(next, 1500);
     }
     next();
+  }
+
+  function triggerBrandFlame(){
+    var dragon = document.getElementById('dragon');
+    var flame = document.getElementById('brand-flame');
+    if (!dragon || !flame) return;
+    var r = dragon.getBoundingClientRect();
+    var facingLeft = dragon.classList.contains('face-left');
+    var mouthX = facingLeft ? r.left + r.width * 0.13 : r.left + r.width * 0.87;
+    var mouthY = r.top + r.height * 0.42;
+    var containerH = 380;
+    flame.style.top = Math.max(0, mouthY - containerH * 0.55) + 'px';
+
+    var burst = flame.querySelector('.flame-burst');
+    Array.prototype.slice.call(burst.querySelectorAll('.fire-blob')).forEach(function(el){ el.remove(); });
+    var localMouthY = mouthY - parseFloat(flame.style.top);
+    var dir = facingLeft ? -1 : 1;
+    var maxSpread = Math.min(innerWidth * 0.55, 480);
+    var n = 10;
+    for (var i = 0; i < n; i++){
+      var frac = i / (n - 1);
+      var b = document.createElement('div');
+      b.className = 'fire-blob';
+      var size = 210 - frac * 100 + Math.random() * 40;
+      var x = mouthX + dir * (frac * maxSpread) + (Math.random() * 40 - 20) - size / 2;
+      var y = localMouthY + (Math.random() * 70 - 35) - size / 2;
+      b.style.width = size + 'px';
+      b.style.height = size + 'px';
+      b.style.left = x + 'px';
+      b.style.top = y + 'px';
+      b.style.animationDelay = (frac * 0.15) + 's, ' + (Math.random() * 0.3) + 's';
+      b.style.animationDuration = '.55s, ' + (0.9 + Math.random() * 0.5) + 's';
+      burst.appendChild(b);
+    }
+
+    dragon.classList.add('mouth-open');
+    requestAnimationFrame(function(){ flame.classList.add('show'); });
+    setTimeout(function(){
+      flame.classList.remove('show');
+      dragon.classList.remove('mouth-open');
+      setTimeout(function(){ flame.remove(); }, 700);
+    }, 2000);
   }
 })();
 </script>
