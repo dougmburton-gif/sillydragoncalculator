@@ -115,26 +115,6 @@
   #sitenav a.tab-link{color:#eaffff; text-decoration:none; padding:12px 18px; border-radius:999px; font-size:28px; text-shadow:0 0 6px #bdf3ff, 0 0 14px #7fd8f5, 0 0 22px #4fc3f7;}
   #sitenav a.tab-link:hover{background:rgba(255,255,255,.08); color:var(--text);}
 
-  /* ============ WEATHER TAB EFFECTS ============ */
-  #weatherFlash{
-    position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
-    background:rgba(5,5,8,.92); border:1px solid rgba(255,255,255,.15); border-radius:10px;
-    padding:10px 14px; z-index:60; white-space:nowrap;
-    opacity:0; pointer-events:none; transition:opacity .3s ease;
-    font-size:12px; color:#eaffff; display:flex; gap:14px;
-  }
-  #weatherFlash.show{ opacity:1; }
-  #weatherFlash .city{ display:flex; flex-direction:column; align-items:center; gap:2px; }
-  #weatherFlash .city b{ font-size:14px; color:var(--ember-hot); }
-  #weatherIcons{
-    position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
-    z-index:59; font-size:30px; opacity:0; pointer-events:none;
-    transition:opacity .3s ease;
-  }
-  #weatherIcons.show{ opacity:1; }
-  #weatherIcons.sun-phase #weatherIconChar{ animation:sunPulse 1s ease-in-out infinite; }
-  @keyframes sunPulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.25);} }
-
   /* ============ TAGLINE ============ */
   #tagline-block{position:absolute; top:62px; left:6%; right:6%; z-index:41; text-align:center; pointer-events:none;}
   #tagline-block .tagline{font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ember-hot); text-shadow:0 1px 6px #000; font-weight:bold;}
@@ -1251,51 +1231,6 @@
       setTimeout(function(){ flame.remove(); }, 700);
     }, 2000);
   }
-})();
-</script>
-<script>
-(function(){
-  var tab = document.getElementById('weatherTab');
-  var flash = document.getElementById('weatherFlash');
-  var icons = document.getElementById('weatherIcons');
-  var iconChar = document.getElementById('weatherIconChar');
-  if (!tab) return;
-
-  var CITIES = [
-    { name: 'New York', lat: 40.7128, lon: -74.0060 },
-    { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
-    { name: 'Chicago', lat: 41.8781, lon: -87.6298 },
-    { name: 'London', lat: 51.5074, lon: -0.1278 },
-    { name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
-    { name: 'Sydney', lat: -33.8688, lon: 151.2093 }
-  ];
-
-  var fired = false;
-  tab.addEventListener('click', function(){
-    if (fired) return;
-    fired = true;
-
-    Promise.all(CITIES.map(function(c){
-      var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + c.lat + '&longitude=' + c.lon + '&current=temperature_2m&temperature_unit=fahrenheit';
-      return fetch(url).then(function(r){ return r.json(); }).then(function(data){
-        var t = data && data.current ? Math.round(data.current.temperature_2m) : null;
-        return { name: c.name, temp: t };
-      }).catch(function(){ return { name: c.name, temp: null }; });
-    })).then(function(results){
-      flash.innerHTML = results.map(function(r){
-        return '<span class="city">' + r.name + '<b>' + (r.temp !== null ? r.temp + '°F' : '—') + '</b></span>';
-      }).join('');
-      flash.classList.add('show');
-      setTimeout(function(){ flash.classList.remove('show'); }, 2000);
-    });
-
-    icons.classList.add('show');
-    iconChar.textContent = '🌧️';
-    icons.classList.remove('sun-phase');
-    setTimeout(function(){ iconChar.textContent = '❄️'; }, 2000);
-    setTimeout(function(){ iconChar.textContent = '😊☀️'; icons.classList.add('sun-phase'); }, 4000);
-    setTimeout(function(){ icons.classList.remove('show', 'sun-phase'); }, 6000);
-  });
 })();
 </script>
 <script src="nav-dropdown.js"></script>

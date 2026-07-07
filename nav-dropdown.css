@@ -25,3 +25,23 @@
 .theme-horoscope{ color:#9b6fc9 !important; }
 .theme-numerology{ color:#6fc9a0 !important; }
 .theme-toppicks{ color:#e0a85a !important; }
+
+/* ============ WEATHER TAB EFFECTS (shared) ============ */
+#weatherFlash{
+  position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  background:rgba(5,5,8,.92); border:1px solid rgba(255,255,255,.15); border-radius:10px;
+  padding:10px 14px; z-index:60; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
+  font-size:12px; color:#eaffff; display:flex; gap:14px;
+}
+#weatherFlash.show{ opacity:1; }
+#weatherFlash .city{ display:flex; flex-direction:column; align-items:center; gap:2px; }
+#weatherFlash .city b{ font-size:14px; color:var(--ember-hot, #ffc23c); }
+#weatherIcons{
+  position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  z-index:59; font-size:30px; opacity:0; pointer-events:none;
+  transition:opacity .3s ease;
+}
+#weatherIcons.show{ opacity:1; }
+#weatherIcons.sun-phase #weatherIconChar{ animation:sunPulse 1s ease-in-out infinite; }
+@keyframes sunPulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.25);} }
