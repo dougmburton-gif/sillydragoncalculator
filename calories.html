@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐲</text></svg>">
+<link rel="stylesheet" href="nav-dropdown.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232900363298551" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FDMXQYL7T9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FDMXQYL7T9');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Calorie Calculator — Daily Calorie &amp; BMR Estimator | Silly Dragon Calculator</title>
+<meta name="description" content="A free online calorie calculator using the Mifflin-St Jeor equation to estimate your BMR and daily calorie needs. How many calories do you need? Find out here.">
+<link rel="canonical" href="https://sillydragoncalculator.com/calories.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillydragoncalculator.com/calories.html">
+<meta property="og:title" content="Free Calorie Calculator — Daily Calorie &amp; BMR Estimator">
+<meta property="og:description" content="Estimate your BMR and daily calorie needs using the Mifflin-St Jeor equation.">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Silly Dragon Calculator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Free Calorie Calculator — Daily Calorie &amp; BMR Estimator">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Silly Dragon Calculator — Calories","applicationCategory":"HealthApplication","operatingSystem":"Any","url":"https://sillydragoncalculator.com/calories.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"en"}
+</script>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero{padding-top:26px;}
+  .calc-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:24px 26px; max-width:520px; width:100%; margin:18px auto 0;
+  }
+  .calc-row{ display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+  .calc-field{ flex:1; min-width:130px; }
+  .calc-field label{ display:block; font-size:0.72rem; color:#a8a396; margin-bottom:4px; }
+  .calc-field input, .calc-field select{
+    width:100%; padding:9px 10px; border-radius:8px; border:1px solid var(--panel-edge);
+    background:#05060a; color:var(--text); font-size:0.85rem;
+  }
+  .unit-toggle{ display:flex; gap:8px; margin-bottom:14px; }
+  .unit-toggle button{
+    flex:1; padding:7px; border-radius:8px; border:1px solid var(--panel-edge);
+    background:#05060a; color:#a8a396; font-size:0.78rem; cursor:pointer;
+  }
+  .unit-toggle button.active{ background:var(--accent); color:#1a1108; font-weight:bold; border-color:var(--accent); }
+  .calc-submit{
+    width:100%; padding:12px; border-radius:10px; border:none; margin-top:6px;
+    background:var(--accent); color:#1a1108; font-weight:bold; font-size:0.9rem; cursor:pointer;
+  }
+  .calc-results{ margin-top:18px; display:none; }
+  .calc-results.show{ display:block; }
+  .result-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 14px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px;
+  }
+  .result-row .label{ font-size:0.78rem; color:#a8a396; }
+  .result-row .value{ font-size:1.05rem; font-weight:bold; color:var(--ember-hot,#ffc23c); }
+  .info-card{
+    background:linear-gradient(180deg,var(--panel),#201f1b);
+    border:1px solid var(--panel-edge); border-radius:14px;
+    padding:20px 22px; max-width:520px; width:100%; margin:16px auto 0;
+    font-size:0.8rem; line-height:1.65; color:#cfc9b8;
+  }
+  .info-card h2{ font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; font-size:1rem; margin:0 0 8px; }
+  .info-card a{ color:var(--accent); }
+  .disclaimer-card{
+    background:linear-gradient(180deg,#2a1f14,#241a10);
+    border:1px solid #4a3520; border-radius:14px;
+    padding:14px 18px; max-width:520px; width:100%; margin:16px auto 0;
+    font-size:0.74rem; line-height:1.6; color:#e8c99a; font-weight:bold; text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="lava-field" id="lavaField"></div>
+<div class="lava-glow"></div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="brand"><span class="flame">🐲</span> Silly Dragon Calculator</a>
+    <ul>
+      <li><a href="index.html" class="tab">Home</a></li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Calculators ▾</button>
+        <div class="dropdown-menu">
+          <a href="basic.html">Basic</a>
+          <a href="scientific.html">Scientific</a>
+          <a href="graphing.html">Graphing</a>
+          <a href="mortgage.html">Mortgage</a>
+          <a href="calories.html" class="active">Calorie Counter</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Games ▾</button>
+        <div class="dropdown-menu">
+          <a href="scramble.html">Word Scramble</a>
+          <a href="wordpuzzle.html">Word Puzzle</a>
+          <a href="hangman.html">Hangman</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="tab dropdown-trigger" type="button">Farm & Pets ▾</button>
+        <div class="dropdown-menu">
+          <a href="hobbyfarm.html">Hobby Farm</a>
+          <a href="dogbreeds.html">Dog Breeds</a>
+          <a href="equipment.html">Big Equipment</a>
+        </div>
+      </li>
+      <li><a href="homeschool.html" class="tab">Homeschool</a></li>
+      <li style="position:relative;">
+        <a href="https://weather.com" target="_blank" rel="noopener" class="tab" id="weatherTab">Weather</a>
+        <div id="weatherFlash" aria-hidden="true"></div>
+        <div id="weatherIcons" aria-hidden="true"><span id="weatherIconChar">🌧️</span></div>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="masthead hero">
+    <div class="eyebrow">Free &middot; No sign-up</div>
+    <h1>🔥 Calorie Calculator</h1>
+    <p>Estimate your Basal Metabolic Rate (BMR) and daily calorie needs using the Mifflin-St Jeor equation — the formula most dietitians consider the most accurate for modern populations.</p>
+  </div>
+
+  <div class="calc-card">
+    <div class="unit-toggle">
+      <button type="button" id="unitImperial" class="active">Imperial (lb/in)</button>
+      <button type="button" id="unitMetric">Metric (kg/cm)</button>
+    </div>
+    <div class="calc-row">
+      <div class="calc-field">
+        <label for="cAge">Age</label>
+        <input type="number" id="cAge" min="15" max="100" value="30">
+      </div>
+      <div class="calc-field">
+        <label for="cSex">Sex</label>
+        <select id="cSex">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+    </div>
+    <div class="calc-row" id="imperialRow">
+      <div class="calc-field">
+        <label for="cWeightLb">Weight (lb)</label>
+        <input type="number" id="cWeightLb" min="50" max="600" value="160">
+      </div>
+      <div class="calc-field">
+        <label for="cHeightFt">Height (ft)</label>
+        <input type="number" id="cHeightFt" min="3" max="8" value="5">
+      </div>
+      <div class="calc-field">
+        <label for="cHeightIn">&amp; (in)</label>
+        <input type="number" id="cHeightIn" min="0" max="11" value="7">
+      </div>
+    </div>
+    <div class="calc-row" id="metricRow" style="display:none;">
+      <div class="calc-field">
+        <label for="cWeightKg">Weight (kg)</label>
+        <input type="number" id="cWeightKg" min="20" max="300" value="73">
+      </div>
+      <div class="calc-field">
+        <label for="cHeightCm">Height (cm)</label>
+        <input type="number" id="cHeightCm" min="100" max="250" value="170">
+      </div>
+    </div>
+    <div class="calc-row">
+      <div class="calc-field" style="flex:1 1 100%;">
+        <label for="cActivity">Activity Level</label>
+        <select id="cActivity">
+          <option value="1.2">Sedentary (little/no exercise)</option>
+          <option value="1.375" selected>Lightly active (1-3 days/week)</option>
+          <option value="1.55">Moderately active (3-5 days/week)</option>
+          <option value="1.725">Very active (6-7 days/week)</option>
+          <option value="1.9">Extra active (physical job or 2x/day training)</option>
+        </select>
+      </div>
+    </div>
+    <button class="calc-submit" id="calcBtn" type="button">Calculate</button>
+
+    <div class="calc-results" id="calcResults">
+      <div class="result-row"><span class="label">BMR (calories at rest)</span><span class="value" id="resBMR">—</span></div>
+      <div class="result-row"><span class="label">Maintenance calories (TDEE)</span><span class="value" id="resTDEE">—</span></div>
+      <div class="result-row"><span class="label">Mild weight loss (~0.5 lb/week)</span><span class="value" id="resMild">—</span></div>
+      <div class="result-row"><span class="label">Weight loss (~1 lb/week)</span><span class="value" id="resModerate">—</span></div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <h2>How this is calculated</h2>
+    <p>This calculator uses the <strong>Mifflin-St Jeor equation</strong> (1990), which studies have found predicts resting metabolic rate more accurately than older formulas for most people, within roughly a 10% margin for most users. BMR estimates the calories your body burns at complete rest; multiplying by an activity factor estimates your total daily energy expenditure (TDEE) — the calories you'd need to maintain your current weight. For weight loss, the NIH/NHLBI recommends a deficit of 500-1,000 calories per day for a safe rate of about 1-2 pounds per week.</p>
+  </div>
+
+  <div class="disclaimer-card">
+    ⚠️ This tool provides general estimates for informational purposes only and is not medical advice. Individual calorie and nutrient needs vary — consult a doctor or registered dietitian before making significant changes to your diet, especially if you have a health condition.
+  </div>
+
+  <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="blog.html">Blog</a>
+    <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
+  </div>
+
+<script src="lava.js"></script>
+<script src="nav-dropdown.js"></script>
+<script src="tip-widget.js"></script>
+<script>
+(function(){
+  "use strict";
+  var unitImperial = document.getElementById('unitImperial');
+  var unitMetric = document.getElementById('unitMetric');
+  var imperialRow = document.getElementById('imperialRow');
+  var metricRow = document.getElementById('metricRow');
+  var isMetric = false;
+
+  unitImperial.addEventListener('click', function(){
+    isMetric = false;
+    unitImperial.classList.add('active');
+    unitMetric.classList.remove('active');
+    imperialRow.style.display = '';
+    metricRow.style.display = 'none';
+  });
+  unitMetric.addEventListener('click', function(){
+    isMetric = true;
+    unitMetric.classList.add('active');
+    unitImperial.classList.remove('active');
+    metricRow.style.display = '';
+    imperialRow.style.display = 'none';
+  });
+
+  document.getElementById('calcBtn').addEventListener('click', function(){
+    var age = parseFloat(document.getElementById('cAge').value) || 0;
+    var sex = document.getElementById('cSex').value;
+    var activity = parseFloat(document.getElementById('cActivity').value) || 1.2;
+    var weightKg, heightCm;
+
+    if (isMetric) {
+      weightKg = parseFloat(document.getElementById('cWeightKg').value) || 0;
+      heightCm = parseFloat(document.getElementById('cHeightCm').value) || 0;
+    } else {
+      var lb = parseFloat(document.getElementById('cWeightLb').value) || 0;
+      var ft = parseFloat(document.getElementById('cHeightFt').value) || 0;
+      var inch = parseFloat(document.getElementById('cHeightIn').value) || 0;
+      weightKg = lb * 0.453592;
+      heightCm = (ft * 12 + inch) * 2.54;
+    }
+
+    var bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + (sex === 'male' ? 5 : -161);
+    var tdee = bmr * activity;
+
+    document.getElementById('resBMR').textContent = Math.round(bmr).toLocaleString() + ' cal/day';
+    document.getElementById('resTDEE').textContent = Math.round(tdee).toLocaleString() + ' cal/day';
+    document.getElementById('resMild').textContent = Math.round(tdee - 250).toLocaleString() + ' cal/day';
+    document.getElementById('resModerate').textContent = Math.round(tdee - 500).toLocaleString() + ' cal/day';
+    document.getElementById('calcResults').classList.add('show');
+  });
+})();
+</script>
+</body>
+</html>
