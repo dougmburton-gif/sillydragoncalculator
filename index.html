@@ -127,68 +127,59 @@
   #welcome-dragon{
     position:fixed; left:3%; bottom:8%; z-index:90; pointer-events:none;
     display:flex; align-items:flex-end; gap:8px;
-    animation:wdFadeInOut 7.6s ease forwards;
+    animation:wdFadeInOut 6.2s ease forwards;
   }
   .wd-dragon-wrap{ position:relative; flex:none; }
-  .wd-dragon-svg{ width:80px; height:67px; display:block; animation:wdTurn 7.6s ease forwards; transform-origin:50% 60%; }
+  .wd-dragon-video{
+    width:112px; height:84px; display:block; object-fit:cover; border-radius:8px;
+    filter:sepia(.7) saturate(3) hue-rotate(-15deg) brightness(1.2) contrast(1.05);
+  }
   .wd-welcome{
     position:absolute; top:-24px; left:50%; transform:translateX(-50%);
     background:#fff8ec; color:#4a3300; font-size:11px; font-weight:bold; padding:3px 9px;
     border-radius:8px; white-space:nowrap; opacity:0;
-    animation:wdWelcomeShow 7.6s ease forwards;
+    animation:wdWelcomeShow 6.2s ease forwards;
   }
   .wd-welcome::after{
     content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%);
     width:8px; height:8px; background:#fff8ec; clip-path:polygon(0 0,100% 0,50% 100%);
   }
   .wd-breath{ display:flex; align-items:center; gap:6px; padding-bottom:14px; }
-  .wd-flame{
-    font-size:20px; opacity:0; display:inline-block; transform-origin:left center;
-    animation:wdFlameOut 7.6s ease forwards;
-  }
   .wd-words-wrap{ position:relative; display:inline-block; height:18px; }
   .wd-words1, .wd-words2, .wd-words3{
     position:absolute; left:0; top:0;
     font-size:14px; font-weight:bold; color:var(--ember-hot); text-shadow:0 1px 8px #000;
     white-space:nowrap; opacity:0;
   }
-  .wd-words1{ animation:wdWords1In 7.6s ease forwards; }
-  .wd-words2{ animation:wdWords2In 7.6s ease forwards; }
-  .wd-words3{ animation:wdWords3In 7.6s ease forwards; }
+  .wd-words1{ animation:wdWords1In 6.2s ease forwards; }
+  .wd-words2{ animation:wdWords2In 6.2s ease forwards; }
+  .wd-words3{ animation:wdWords3In 6.2s ease forwards; }
   @keyframes wdFadeInOut{
-    0%{opacity:0;} 4%{opacity:1;} 92%{opacity:1;} 100%{opacity:0;}
-  }
-  @keyframes wdTurn{
-    0%,29%{ transform:scaleX(-1); } 35%,100%{ transform:scaleX(1); }
+    0%{opacity:0;} 4%{opacity:1;} 94%{opacity:1;} 100%{opacity:0;}
   }
   @keyframes wdWelcomeShow{
     0%,4%{opacity:0; transform:translateX(-50%) translateY(4px);}
-    9%{opacity:1; transform:translateX(-50%) translateY(0);}
-    25%{opacity:1;} 30%{opacity:0;} 100%{opacity:0;}
-  }
-  @keyframes wdFlameOut{
-    0%,37%{opacity:0; transform:scaleX(.3) translateX(-8px);}
-    43%{opacity:1; transform:scaleX(1) translateX(0);}
-    90%{opacity:1;} 100%{opacity:0;}
+    8%{opacity:1; transform:translateX(-50%) translateY(0);}
+    18%{opacity:1;} 24%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdWords1In{
-    0%,40%{opacity:0; transform:translateX(-8px);}
-    46%{opacity:1; transform:translateX(0);}
-    50%{opacity:1;} 55%{opacity:0;} 100%{opacity:0;}
+    0%,22%{opacity:0; transform:translateX(-8px);}
+    28%{opacity:1; transform:translateX(0);}
+    42%{opacity:1;} 48%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdWords2In{
-    0%,53%{opacity:0; transform:translateY(0);}
-    58%{opacity:1; transform:translateY(0);}
-    61%{opacity:1; transform:translateY(-3px);}
-    64%{opacity:1; transform:translateY(0);}
-    70%{opacity:1;} 72%{opacity:0;} 100%{opacity:0;}
+    0%,46%{opacity:0; transform:translateY(0);}
+    52%{opacity:1; transform:translateY(0);}
+    56%{opacity:1; transform:translateY(-3px);}
+    60%{opacity:1; transform:translateY(0);}
+    66%{opacity:1;} 72%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdWords3In{
-    0%,75%{opacity:0; transform:translateY(0);}
-    79%{opacity:1; transform:translateY(0);}
-    82%{opacity:1; transform:translateY(-3px);}
-    86%{opacity:1; transform:translateY(0);}
-    90%{opacity:1;} 92%{opacity:0;} 100%{opacity:0;}
+    0%,70%{opacity:0; transform:translateY(0);}
+    76%{opacity:1; transform:translateY(0);}
+    80%{opacity:1; transform:translateY(-3px);}
+    84%{opacity:1; transform:translateY(0);}
+    90%{opacity:1;} 94%{opacity:0;} 100%{opacity:0;}
   }
   @media (prefers-reduced-motion: reduce){
     #welcome-dragon{ display:none; }
@@ -407,29 +398,10 @@
 
   <div id="welcome-dragon" aria-hidden="true">
     <div class="wd-dragon-wrap">
-      <svg class="wd-dragon-svg" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#f4c531" d="M15 68 Q5 63 8 56 Q15 60 22 64 Z"/>
-        <path fill="#e0a80f" d="M45 40 Q30 15 15 20 Q28 28 32 38 Q20 35 15 42 Q35 48 45 40 Z"/>
-        <ellipse fill="#f4c531" cx="55" cy="62" rx="26" ry="20"/>
-        <ellipse fill="#ffe98a" cx="58" cy="68" rx="17" ry="11"/>
-        <ellipse fill="#f4c531" cx="45" cy="82" rx="6" ry="8"/>
-        <ellipse fill="#f4c531" cx="65" cy="82" rx="6" ry="8"/>
-        <path fill="#c99312" d="M40 44 l5 -10 l4 9 Z"/>
-        <path fill="#c99312" d="M52 40 l5 -10 l4 9 Z"/>
-        <path fill="#c99312" d="M64 40 l5 -9 l4 9 Z"/>
-        <path fill="#f4c531" d="M75 36 Q92 26 103 36 Q108 43 100 48 L78 51 Q71 45 75 36 Z"/>
-        <path fill="#fff3c4" d="M83 30 L77 14 L90 28 Z"/>
-        <path fill="#fff3c4" d="M95 28 L95 14 L103 26 Z"/>
-        <path fill="#c99312" d="M84 33 Q91 30 97 33 L96 36 Q90 33 85 36 Z"/>
-        <ellipse fill="#1a1208" cx="91" cy="38" rx="3.4" ry="1.8" transform="rotate(-12 91 38)"/>
-        <path fill="none" stroke="#7a5200" stroke-width="1.8" stroke-linecap="round" d="M80 46 Q90 49 99 45"/>
-        <path fill="#fff" d="M86 47 L88 51 L90 47 Z"/>
-        <path fill="#fff" d="M93 46 L95 50 L97 46 Z"/>
-      </svg>
+      <video class="wd-dragon-video" src="welcome-dragon.mp4" autoplay muted playsinline></video>
       <div class="wd-welcome">Welcome!</div>
     </div>
     <div class="wd-breath">
-      <span class="wd-flame">🔥🔥🔥</span>
       <span class="wd-words-wrap">
         <span class="wd-words1">What you live... we breathe...</span>
         <span class="wd-words2">By the way... we have a graphing calculator! 📈</span>
@@ -1042,7 +1014,7 @@
 <script>
 (function(){
   var wd = document.getElementById('welcome-dragon');
-  if (wd) setTimeout(function(){ wd.remove(); }, 7700);
+  if (wd) setTimeout(function(){ wd.remove(); }, 6400);
 })();
 </script>
 <script src="nav-dropdown.js"></script>
