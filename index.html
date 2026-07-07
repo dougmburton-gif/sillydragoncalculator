@@ -108,8 +108,11 @@
     display:flex; align-items:center; justify-content:space-between;
     padding:12px 20px; background:rgba(5,5,8,.55); backdrop-filter:blur(4px);
     border-bottom:1px solid rgba(255,255,255,.06); font-size:13px;}
-  #sitenav .brand-group{ display:flex; align-items:center; }
+  #sitenav .brand-group{ display:flex; align-items:flex-start; margin-top:-14px; }
+  #sitenav .brand-stack{ display:flex; flex-direction:column; gap:3px; }
   #sitenav .brand{color:var(--text); text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:6px;}
+  #sitenav .top100-link{ color:var(--gold-hi); text-decoration:none; font-size:11px; font-weight:bold; white-space:nowrap; }
+  #sitenav .top100-link:hover{ text-decoration:underline; }
   #sitenav .home-link{ margin-left:18px; }
   #sitenav ul{list-style:none; display:flex; gap:4px; flex-wrap:wrap; margin:0; padding:0;}
   #sitenav a.tab-link{color:#eaffff; text-decoration:none; padding:12px 18px; border-radius:999px; font-size:28px; text-shadow:0 0 6px #bdf3ff, 0 0 14px #7fd8f5, 0 0 22px #4fc3f7;}
@@ -426,7 +429,10 @@
 
   <nav id="sitenav">
     <div class="brand-group">
-      <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+      <div class="brand-stack">
+        <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+        <a href="top100.html" class="top100-link">🔥 Top 100 Trending Now</a>
+      </div>
       <a href="index.html" class="brand home-link">Home</a>
     </div>
     <ul>
