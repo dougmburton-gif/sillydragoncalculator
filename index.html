@@ -108,7 +108,9 @@
     display:flex; align-items:center; justify-content:space-between;
     padding:12px 20px; background:rgba(5,5,8,.55); backdrop-filter:blur(4px);
     border-bottom:1px solid rgba(255,255,255,.06); font-size:13px;}
+  #sitenav .brand-group{ display:flex; align-items:center; }
   #sitenav .brand{color:var(--text); text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:6px;}
+  #sitenav .home-link{ margin-left:18px; }
   #sitenav ul{list-style:none; display:flex; gap:4px; flex-wrap:wrap; margin:0; padding:0;}
   #sitenav a.tab-link{color:#b8b3a2; text-decoration:none; padding:6px 10px; border-radius:999px; font-size:12px;}
   #sitenav a.tab-link:hover{background:rgba(255,255,255,.08); color:var(--text);}
@@ -423,9 +425,11 @@
   <div id="floor-fire"></div>
 
   <nav id="sitenav">
-    <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+    <div class="brand-group">
+      <a href="index.html" class="brand">🐲 Silly Dragon Calculator</a>
+      <a href="index.html" class="brand home-link">Home</a>
+    </div>
     <ul>
-      <li><a href="index.html" class="tab-link active">Home</a></li>
       <li class="nav-dropdown">
         <button class="tab-link dropdown-trigger" type="button">Calculators ▾</button>
         <div class="dropdown-menu">
