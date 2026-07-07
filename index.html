@@ -127,15 +127,15 @@
   #welcome-dragon{
     position:fixed; left:3%; bottom:8%; z-index:90; pointer-events:none;
     display:flex; align-items:flex-end; gap:8px;
-    animation:wdFadeInOut 5.8s ease forwards;
+    animation:wdFadeInOut 7.6s ease forwards;
   }
   .wd-dragon-wrap{ position:relative; flex:none; }
-  .wd-dragon-svg{ width:80px; height:67px; display:block; animation:wdTurn 5.8s ease forwards; transform-origin:50% 60%; }
+  .wd-dragon-svg{ width:80px; height:67px; display:block; animation:wdTurn 7.6s ease forwards; transform-origin:50% 60%; }
   .wd-welcome{
     position:absolute; top:-24px; left:50%; transform:translateX(-50%);
     background:#fff8ec; color:#4a3300; font-size:11px; font-weight:bold; padding:3px 9px;
     border-radius:8px; white-space:nowrap; opacity:0;
-    animation:wdWelcomeShow 5.8s ease forwards;
+    animation:wdWelcomeShow 7.6s ease forwards;
   }
   .wd-welcome::after{
     content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%);
@@ -144,43 +144,51 @@
   .wd-breath{ display:flex; align-items:center; gap:6px; padding-bottom:14px; }
   .wd-flame{
     font-size:20px; opacity:0; display:inline-block; transform-origin:left center;
-    animation:wdFlameOut 5.8s ease forwards;
+    animation:wdFlameOut 7.6s ease forwards;
   }
   .wd-words-wrap{ position:relative; display:inline-block; height:18px; }
-  .wd-words1, .wd-words2{
+  .wd-words1, .wd-words2, .wd-words3{
     position:absolute; left:0; top:0;
     font-size:14px; font-weight:bold; color:var(--ember-hot); text-shadow:0 1px 8px #000;
     white-space:nowrap; opacity:0;
   }
-  .wd-words1{ animation:wdWords1In 5.8s ease forwards; }
-  .wd-words2{ animation:wdWords2In 5.8s ease forwards; }
+  .wd-words1{ animation:wdWords1In 7.6s ease forwards; }
+  .wd-words2{ animation:wdWords2In 7.6s ease forwards; }
+  .wd-words3{ animation:wdWords3In 7.6s ease forwards; }
   @keyframes wdFadeInOut{
-    0%{opacity:0;} 5%{opacity:1;} 90%{opacity:1;} 100%{opacity:0;}
+    0%{opacity:0;} 4%{opacity:1;} 92%{opacity:1;} 100%{opacity:0;}
   }
   @keyframes wdTurn{
-    0%,38%{ transform:scaleX(-1); } 46%,100%{ transform:scaleX(1); }
+    0%,29%{ transform:scaleX(-1); } 35%,100%{ transform:scaleX(1); }
   }
   @keyframes wdWelcomeShow{
-    0%,5%{opacity:0; transform:translateX(-50%) translateY(4px);}
-    12%{opacity:1; transform:translateX(-50%) translateY(0);}
-    33%{opacity:1;} 40%{opacity:0;} 100%{opacity:0;}
+    0%,4%{opacity:0; transform:translateX(-50%) translateY(4px);}
+    9%{opacity:1; transform:translateX(-50%) translateY(0);}
+    25%{opacity:1;} 30%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdFlameOut{
-    0%,48%{opacity:0; transform:scaleX(.3) translateX(-8px);}
-    56%{opacity:1; transform:scaleX(1) translateX(0);}
-    88%{opacity:1;} 100%{opacity:0;}
+    0%,37%{opacity:0; transform:scaleX(.3) translateX(-8px);}
+    43%{opacity:1; transform:scaleX(1) translateX(0);}
+    90%{opacity:1;} 100%{opacity:0;}
   }
   @keyframes wdWords1In{
-    0%,52%{opacity:0; transform:translateX(-8px);}
-    60%{opacity:1; transform:translateX(0);}
-    66%{opacity:1;} 72%{opacity:0;} 100%{opacity:0;}
+    0%,40%{opacity:0; transform:translateX(-8px);}
+    46%{opacity:1; transform:translateX(0);}
+    50%{opacity:1;} 55%{opacity:0;} 100%{opacity:0;}
   }
   @keyframes wdWords2In{
-    0%,70%{opacity:0; transform:translateY(0);}
-    76%{opacity:1; transform:translateY(0);}
-    80%{opacity:1; transform:translateY(-3px);}
-    84%{opacity:1; transform:translateY(0);}
-    88%{opacity:1;} 100%{opacity:0;}
+    0%,53%{opacity:0; transform:translateY(0);}
+    58%{opacity:1; transform:translateY(0);}
+    61%{opacity:1; transform:translateY(-3px);}
+    64%{opacity:1; transform:translateY(0);}
+    70%{opacity:1;} 72%{opacity:0;} 100%{opacity:0;}
+  }
+  @keyframes wdWords3In{
+    0%,75%{opacity:0; transform:translateY(0);}
+    79%{opacity:1; transform:translateY(0);}
+    82%{opacity:1; transform:translateY(-3px);}
+    86%{opacity:1; transform:translateY(0);}
+    90%{opacity:1;} 92%{opacity:0;} 100%{opacity:0;}
   }
   @media (prefers-reduced-motion: reduce){
     #welcome-dragon{ display:none; }
@@ -383,7 +391,7 @@
   <div id="tagline-block">
     <div class="tagline"><span class="tagline-flame">🐲🔥</span>What You Live, We Breathe</div>
     <div class="moment-line">✨ Daily Horoscope — a new reading for all 12 signs, every day — <a href="horoscope.html">see today's →</a></div>
-    <div class="trust-line">No sign-up. No email. Nothing stored. Just for fun. &middot; <a href="graphing.html" style="color:var(--gold-hi); pointer-events:auto; text-decoration:none; font-weight:bold;">📈 Graphing Calculator</a></div>
+    <div class="trust-line">No sign-up. No email. Nothing stored. Just for fun. &middot; <a href="graphing.html" style="color:var(--gold-hi); pointer-events:auto; text-decoration:none; font-weight:bold;">📈 Graphing Calculator</a> &middot; <a href="top-picks.html" style="color:var(--gold-hi); pointer-events:auto; text-decoration:none; font-weight:bold;">🛒 Top Picks</a></div>
   </div>
 
   <div id="welcome-dragon" aria-hidden="true">
@@ -414,6 +422,7 @@
       <span class="wd-words-wrap">
         <span class="wd-words1">What you live... we breathe...</span>
         <span class="wd-words2">By the way... we have a graphing calculator! 📈</span>
+        <span class="wd-words3">Oh, and check out our Top Picks! 🛒</span>
       </span>
     </div>
   </div>
@@ -1022,7 +1031,7 @@
 <script>
 (function(){
   var wd = document.getElementById('welcome-dragon');
-  if (wd) setTimeout(function(){ wd.remove(); }, 5900);
+  if (wd) setTimeout(function(){ wd.remove(); }, 7700);
 })();
 </script>
 <script src="nav-dropdown.js"></script>
