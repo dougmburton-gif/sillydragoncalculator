@@ -43,7 +43,7 @@
 
   var linkHref = isEs ? (location.pathname.indexOf('/es/') !== -1 ? 'memorytricks.html' : 'es/memorytricks.html') : 'memorytricks.html';
   var label = isEs ? 'Truco del día' : 'Tip of the Day';
-  var moreLabel = isEs ? 'Ver más trucos' : 'See more tricks';
+  var moreLabel = isEs ? 'Ver más trucos' : 'Useful memory tricks';
   var closeLabel = isEs ? 'Cerrar' : 'Dismiss';
 
   var bar = document.createElement('div');

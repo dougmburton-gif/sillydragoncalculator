@@ -356,6 +356,22 @@
     .flame-burst .fire-blob{ animation:blobGrow .55s ease forwards; }
   }
 
+  #tab-dragon-flash{
+    position:fixed; inset:0; z-index:88; pointer-events:none;
+    opacity:0; transition:opacity .4s ease;
+  }
+  #tab-dragon-flash.show{ opacity:1; }
+  .wd-backdrop-flash{
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.4), rgba(0,0,0,.68) 72%);
+  }
+  .wd-dragon-video-flash{
+    position:absolute; left:50%; top:40%; transform:translate(-50%,-50%);
+    width:min(360px,52vw); aspect-ratio:16/9; object-fit:cover;
+    border-radius:12px; box-shadow:0 16px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.05);
+  }
+  @media (max-width:600px){ .wd-dragon-video-flash{ width:70vw; } }
+
   #sitefooter{position:absolute; bottom:6px; right:10px; text-align:right; z-index:50; font-size:10px; color:rgba(243,234,216,.4); max-width:300px;}
   #sitefooter a{color:rgba(243,234,216,.55);}
   #sitefooter .disclaimer{margin-top:4px; font-size:9px; line-height:1.4; opacity:.85;}
@@ -1041,8 +1057,36 @@
       answerLanding.textContent='';
       paintDragon(which);
       flyEntrance();
+      flashDragonMoment(which);
     });
   });
+
+  const DRAGON_TINTS = {
+    basic: 'saturate(1.15) brightness(1.05)',
+    mortgage: 'hue-rotate(95deg) saturate(1.3) brightness(.95)',
+    scientific: 'hue-rotate(180deg) saturate(1.35) brightness(.95)'
+  };
+  function flashDragonMoment(theme){
+    const old = document.getElementById('tab-dragon-flash');
+    if (old) old.remove();
+    if (reduceMotion) return;
+
+    const wrap = document.createElement('div');
+    wrap.id = 'tab-dragon-flash';
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.innerHTML = '<div class="wd-backdrop-flash"></div><video class="wd-dragon-video-flash" src="welcome-dragon.mp4" autoplay muted playsinline></video>';
+    document.body.appendChild(wrap);
+
+    const video = wrap.querySelector('.wd-dragon-video-flash');
+    video.style.filter = DRAGON_TINTS[theme] || '';
+    video.addEventListener('loadeddata', ()=>{ try{ video.currentTime = 1.8; }catch(e){} });
+
+    requestAnimationFrame(()=>{ wrap.classList.add('show'); });
+    setTimeout(()=>{
+      wrap.classList.remove('show');
+      setTimeout(()=>{ wrap.remove(); }, 500);
+    }, 3000);
+  }
 
   window.addEventListener('resize', ()=>{
     if(!flying && !breathing){
