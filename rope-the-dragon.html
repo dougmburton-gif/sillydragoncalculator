@@ -10,7 +10,9 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-FDMXQYL7T9');
+  if (location.hostname === 'sillydragoncalculator.com' || location.hostname === 'www.sillydragoncalculator.com') {
+    gtag('config', 'G-FDMXQYL7T9');
+  }
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rope the Dragon — Free Browser Game | Silly Dragon Calculator</title>
@@ -69,10 +71,23 @@
 
   #playerAvatar{
     position:absolute; bottom:10px; left:50%; transform:translateX(-50%);
-    width:70px; height:80px; z-index:25;
+    width:70px; height:80px; z-index:25; transform-origin:50% 100%;
+    transition:transform .3s ease;
   }
-  #playerAvatar svg{ width:100%; height:100%; }
+  #playerAvatar svg{ width:100%; height:100%; overflow:visible; }
   #playerAvatar.toasted .p-face{ fill:#3a2a1a; }
+  #playerTargetMark{
+    position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+    width:4cm; height:2mm; background:#4a2a10; z-index:24; pointer-events:none;
+    border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,.5);
+  }
+  #pArm{ transform-origin:35px 64px; }
+  #playerAvatar.throwing #pArm{ animation:armSwing .3s ease; }
+  @keyframes armSwing{
+    0%{ transform:rotate(0deg); }
+    40%{ transform:rotate(-75deg); }
+    100%{ transform:rotate(0deg); }
+  }
 
   #ropeLine{
     position:absolute; z-index:22; pointer-events:none;
@@ -99,17 +114,25 @@
 
   #gameOverlay{
     position:absolute; inset:0; z-index:50; display:none;
-    align-items:center; justify-content:center; flex-direction:column; gap:14px;
-    background:rgba(5,10,25,.88); text-align:center; padding:20px;
+    align-items:center; justify-content:center; flex-direction:column; gap:10px;
+    background:rgba(5,10,25,.88); text-align:center; padding:16px;
+    overflow-y:auto;
   }
   #gameOverlay.show{ display:flex; }
-  #gameOverlay h2{ font-family:Georgia,'Times New Roman',serif; font-style:italic; color:#fff3c4; font-size:1.4rem; margin:0; }
-  #gameOverlay p{ color:#cfc9b8; font-size:0.88rem; margin:0; }
-  .overlay-emoji{ font-size:2.6rem; }
-  #startBtn, #restartBtn{
+  #gameOverlay h2{ font-family:Georgia,'Times New Roman',serif; font-style:italic; color:#fff3c4; font-size:2rem; margin:0; }
+  #gameOverlay p{ color:#cfc9b8; font-size:1.08rem; line-height:1.6; margin:0; max-width:520px; }
+  .overlay-emoji{ font-size:2.2rem; }
+  #startBtn, #restartBtn, #start2pBtn{
     background:var(--accent); color:#1a1108; font-weight:bold; border:none;
     padding:12px 26px; border-radius:999px; font-size:0.95rem; cursor:pointer;
   }
+  #start2pBtn{ background:#6a2f9a; color:#f3e6ff; }
+  #p1ControlsHint{
+    position:absolute; top:34px; left:0; right:0; z-index:75; display:none;
+    text-align:center; font-size:.72rem; color:#fff3c4; text-shadow:0 1px 3px rgba(0,0,0,.8);
+    pointer-events:none;
+  }
+  #p1ControlsHint.show{ display:block; }
   .rules-card{
     background:linear-gradient(180deg,var(--panel),#201f1b);
     border:1px solid var(--panel-edge); border-radius:14px;
@@ -117,6 +140,336 @@
     font-size:0.82rem; line-height:1.6; color:#a8a396;
   }
   .rules-card h2{ font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; font-size:1rem; margin:0 0 8px; }
+
+  .floating-number{
+    position:absolute; z-index:23; width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:bold; font-size:1rem; color:#fff; cursor:pointer;
+    border:2px solid rgba(255,255,255,.6); animation:numberBob 1.2s ease-in-out infinite;
+  }
+  @keyframes numberBob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+  .floating-number.p1{ background:#8a8a8a; box-shadow:0 0 6px rgba(138,138,138,.6); }
+  .floating-number.p2{ background:#4fc3f7; box-shadow:0 0 10px rgba(79,195,247,.75); }
+  .floating-number.p3{ background:#66bb6a; box-shadow:0 0 12px rgba(102,187,106,.8); }
+  .floating-number.p4{ background:#ffa726; box-shadow:0 0 16px rgba(255,167,38,.85); }
+  .floating-number.p5{ background:#ff3b3b; box-shadow:0 0 22px rgba(255,215,0,.95); animation:numberBob 1.2s ease-in-out infinite, p5Glow .5s ease-in-out infinite alternate; }
+  @keyframes p5Glow{ from{box-shadow:0 0 16px rgba(255,215,0,.8);} to{box-shadow:0 0 30px rgba(255,80,0,1);} }
+
+  #ropeLine.p1{ background:#8a8a8a; box-shadow:0 0 6px rgba(138,138,138,.7); }
+  #ropeLine.p2{ background:#4fc3f7; box-shadow:0 0 10px rgba(79,195,247,.8); }
+  #ropeLine.p3{ background:#66bb6a; box-shadow:0 0 12px rgba(102,187,106,.85); }
+  #ropeLine.p4{ background:#ffa726; box-shadow:0 0 16px rgba(255,167,38,.9); }
+  #ropeLine.p5{ background:#ff3b3b; box-shadow:0 0 24px rgba(255,215,0,1); }
+
+  .hud .power-label{ display:flex; align-items:center; gap:6px; }
+  #powerDot{
+    width:14px; height:14px; border-radius:50%; background:#3a3a3a;
+    border:1px solid rgba(255,255,255,.25); transition:background .2s ease, box-shadow .2s ease;
+  }
+
+  #constructionNote{
+    position:absolute; z-index:5; top:50%; left:50%; transform:translate(-50%,-50%);
+    color:rgba(255,255,255,.16); font-size:1.1rem; font-weight:bold; text-align:center;
+    white-space:nowrap; pointer-events:none; user-select:none;
+    font-family:Georgia,'Times New Roman',serif; font-style:italic;
+  }
+
+  #corral{
+    position:absolute; z-index:15; right:8px; bottom:8px;
+    width:100px; height:78px;
+    background:rgba(169,114,58,.15); border-radius:8px;
+  }
+  #corral svg{ width:100%; height:100%; overflow:visible; }
+  #corral::after{
+    content:'Corral'; position:absolute; left:50%; top:-20px; transform:translateX(-50%);
+    font-size:.68rem; color:#f0e4c8; white-space:nowrap; text-shadow:0 1px 2px rgba(0,0,0,.6);
+  }
+
+  #snareBox{
+    position:absolute; z-index:21; display:none; pointer-events:none;
+    border:3px solid #ff9c1a; border-radius:8px;
+    box-shadow:0 0 14px 4px rgba(255,156,26,.85), inset 0 0 10px rgba(255,156,26,.55);
+  }
+  #snareBox.active{ display:block; animation:snarePulse .6s ease-in-out infinite; }
+  @keyframes snarePulse{
+    0%,100%{ box-shadow:0 0 14px 4px rgba(255,156,26,.85), inset 0 0 10px rgba(255,156,26,.55); }
+    50%{ box-shadow:0 0 24px 8px rgba(255,156,26,1), inset 0 0 16px rgba(255,156,26,.8); }
+  }
+  #gameDragon.snared{ cursor:grab; }
+  #gameDragon.snared:active{ cursor:grabbing; }
+  #gameDragon.snared .wing{ animation-play-state:paused; }
+
+  #captureTimer{
+    position:absolute; z-index:40; left:8px; top:8px;
+    width:1in; height:1in; display:none;
+    align-items:center; justify-content:center;
+    background:#d9c49a; color:#1a1208; font-weight:bold; font-size:1.7rem;
+    border-radius:8px; border:2px solid #8a6a3a; box-shadow:0 4px 10px rgba(0,0,0,.5);
+    animation:timerPulse .5s ease-in-out infinite;
+  }
+  #captureTimer.active{ display:flex; }
+  @keyframes timerPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.08); } }
+
+  #escapeBanner{
+    position:absolute; z-index:45; pointer-events:none; top:45%;
+    background:#1a2a5c; color:#fff3c4; font-weight:bold; font-size:1.05rem;
+    padding:8px 22px; border-radius:6px; white-space:nowrap; opacity:0; left:-40%;
+  }
+  #escapeBanner.flying{ animation:bannerFloat 3.6s ease-in-out forwards, bannerTextPulse .3s ease-in-out infinite; }
+  @keyframes bannerFloat{
+    0%{ left:-40%; opacity:0; }
+    12%{ opacity:1; }
+    88%{ opacity:1; }
+    100%{ left:110%; opacity:0; }
+  }
+  @keyframes bannerTextPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
+
+  #chocolateBanner{
+    position:absolute; z-index:46; pointer-events:none;
+    height:1cm; width:min(12cm, 90%); top:58%;
+    background:#5c3a1e; color:#ffd23c; font-weight:bold;
+    display:flex; align-items:center; justify-content:center;
+    font-size:clamp(0.5rem, 2.8vw, 0.7rem); letter-spacing:.5px; white-space:nowrap;
+    left:100%; opacity:0; border-radius:2px;
+  }
+  #chocolateBanner.flying{ animation:chocBannerFloat 2s linear forwards; }
+  @keyframes chocBannerFloat{
+    0%{ left:100%; opacity:1; }
+    100%{ left:-95%; opacity:1; }
+  }
+
+  #caveScene{
+    position:absolute; inset:0; z-index:70; display:none;
+    background:url('assets-cave-bg.jpg') center/cover no-repeat;
+    overflow:hidden;
+  }
+  #caveScene.show{ display:block; }
+  .cave-hud{
+    position:absolute; top:0; left:0; right:0; z-index:75;
+    display:flex; justify-content:space-between; padding:10px 16px;
+    background:rgba(0,0,0,.55); color:#fff3c4; font-weight:bold; font-size:.9rem;
+  }
+  #caveSword{
+    position:absolute; bottom:8px; left:50%; transform:translateX(-50%) rotate(-20deg);
+    width:56px; height:56px; object-fit:cover; border-radius:6px; z-index:74;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.7));
+  }
+  .raptor{
+    position:absolute; width:92px; height:66px; z-index:73; cursor:pointer;
+    background-image:url('assets-cave-raptor.jpg'); background-size:cover; background-position:center;
+    border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,.6);
+    transition:transform .15s ease;
+    animation:raptorPace 1.6s ease-in-out infinite;
+  }
+  @keyframes raptorPace{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
+  .raptor:hover{ transform:scale(1.06); }
+  .raptor.slain{ animation:raptorSlain .3s ease forwards !important; pointer-events:none; }
+  @keyframes raptorSlain{ to{ transform:scale(0) rotate(25deg); opacity:0; } }
+  #caveMessage{
+    position:absolute; inset:0; z-index:80; display:none;
+    align-items:center; justify-content:center; text-align:center;
+    background:rgba(5,10,25,.92); color:#fff3c4; font-size:1.15rem; padding:26px;
+    font-family:Georgia,'Times New Roman',serif; font-style:italic; line-height:1.5;
+  }
+  #caveMessage.show{ display:flex; }
+
+  #roleSelectOverlay{
+    position:absolute; inset:0; z-index:90; display:none;
+    flex-direction:column; align-items:center; justify-content:center; gap:14px;
+    background:rgba(5,10,25,.94); color:#fff3c4; text-align:center; padding:20px;
+  }
+  #roleSelectOverlay.show{ display:flex; }
+  #roleSelectOverlay h2{ font-family:Georgia,'Times New Roman',serif; font-style:italic; margin:0; }
+  #pickProtagonistBtn, #pickDragonBtn{
+    background:var(--accent); color:#1a1108; font-weight:bold; border:none;
+    padding:12px 22px; border-radius:999px; font-size:0.9rem; cursor:pointer;
+  }
+  #pickDragonBtn{ background:#6a2f9a; color:#f3e6ff; }
+
+  #duelScene{
+    position:absolute; inset:0; z-index:85; display:none;
+    background:linear-gradient(180deg,#1a0a12 0%,#3a1020 55%,#5a1a1a 100%);
+    overflow:hidden;
+  }
+  #duelScene.show{ display:block; }
+  .duel-hud{
+    position:absolute; top:0; left:0; right:0; z-index:95;
+    display:flex; justify-content:space-between; padding:10px 16px;
+    background:rgba(0,0,0,.55); color:#fff3c4; font-weight:bold; font-size:.85rem;
+  }
+  #motherDragonEl{
+    position:absolute; top:50px; left:16px; z-index:88; font-size:2.4rem;
+    animation:motherSway 2.4s ease-in-out infinite;
+  }
+  @keyframes motherSway{ 0%,100%{ transform:translateX(-1in); } 50%{ transform:translateX(1in); } }
+  #motherDragonSpeech{
+    position:absolute; top:-6px; left:100%; margin-left:8px; white-space:nowrap;
+    background:#fff3c4; color:#1a1208; font-size:.68rem; font-weight:bold;
+    padding:6px 10px; border-radius:10px; font-family:Georgia,serif; font-style:italic;
+  }
+  .duel-tear{
+    position:absolute; z-index:87; font-size:.9rem; pointer-events:none;
+    animation:tearFall 1.4s linear forwards;
+  }
+  @keyframes tearFall{ 0%{ opacity:1; transform:translateY(0); } 100%{ opacity:0; transform:translateY(40px); } }
+  #babyDragonEl{
+    position:absolute; top:110px; left:50%; transform:translate(-50%,0) scale(1);
+    z-index:86; font-size:2.6rem; transition:transform .3s ease, filter .3s ease;
+  }
+  #babyDragonEl.mouth-open{ filter:drop-shadow(0 0 10px rgba(255,156,26,.8)); }
+  #babyDragonEl.exploding{ animation:babyExplode .5s ease forwards; }
+  @keyframes babyExplode{ to{ transform:translate(-50%,0) scale(3); opacity:0; } }
+  #menacingDragonSprite{
+    position:absolute; top:200px; left:50%; transform:translateX(-50%) scale(1.5);
+    width:110px; height:80px; z-index:84; cursor:default;
+  }
+  #menacingDragonSprite svg{ width:100%; height:100%; overflow:visible; }
+  #menacingDragonSprite.flying .wing-far{ animation:flapFar .4s ease-in-out infinite; }
+  #menacingDragonSprite.flying .wing-near{ animation:flapNear .4s ease-in-out infinite; }
+  #menacingDragonSprite.breathing .jaw{ transform:rotate(26deg); }
+  #protagonistSprite{
+    position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+    width:70px; height:80px; z-index:89; cursor:crosshair;
+  }
+  #protagonistSprite svg{ width:100%; height:100%; }
+  #duelCorral{ position:absolute; bottom:8px; right:8px; width:90px; height:70px; z-index:83; }
+  #duelCorral svg{ width:100%; height:100%; }
+  #duelSnareBox{
+    position:absolute; z-index:90; display:none; pointer-events:none;
+    border:3px solid #ff9c1a; border-radius:8px;
+    box-shadow:0 0 14px 4px rgba(255,156,26,.85);
+  }
+  #duelSnareBox.active{ display:block; }
+  #duelCaptureTimer{
+    position:absolute; z-index:95; left:8px; top:38px; display:none;
+    width:1in; height:1in; align-items:center; justify-content:center;
+    background:#d9c49a; color:#1a1208; font-weight:bold; font-size:1.5rem;
+    border-radius:8px; border:2px solid #8a6a3a;
+  }
+  #duelCaptureTimer.active{ display:flex; }
+  #reflectRect{
+    position:absolute; z-index:87; display:none;
+    width:14px; height:70px; background:#6a2f9a; border:2px solid #f3e6ff;
+    border-radius:6px; box-shadow:0 0 12px rgba(106,47,154,.9);
+  }
+  #reflectRect.active{ display:block; }
+  #duelMessage{
+    position:absolute; inset:0; z-index:96; display:none;
+    align-items:center; justify-content:center; text-align:center;
+    background:rgba(5,10,25,.92); color:#fff3c4; font-size:1.15rem; padding:26px;
+    font-family:Georgia,'Times New Roman',serif; font-style:italic; line-height:1.5;
+  }
+  #duelMessage.show{ display:flex; }
+
+  #bossScene{
+    position:absolute; inset:0; z-index:70; display:none;
+    background:url('assets-boss-bg.jpg') center/cover no-repeat;
+    overflow:hidden;
+  }
+  #bossScene.show{ display:block; }
+  .boss-hud{
+    position:absolute; top:0; left:0; right:0; z-index:78;
+    display:flex; justify-content:space-between; padding:10px 16px;
+    background:rgba(0,0,0,.55); color:#fff3c4; font-weight:bold; font-size:.85rem;
+  }
+  #bossIntroBanner{
+    position:absolute; top:40%; left:50%; transform:translate(-50%,-50%) scale(.8);
+    z-index:80; display:none; text-align:center; color:#fff3c4;
+    font-family:Georgia,'Times New Roman',serif; font-style:italic; font-size:1.4rem;
+    text-shadow:0 0 10px rgba(0,0,0,.9); opacity:0;
+    transition:opacity .4s ease, transform .4s ease;
+  }
+  #bossIntroBanner.show{ display:block; opacity:1; transform:translate(-50%,-50%) scale(1); }
+  #motherDragonBoss{
+    position:absolute; top:60px; left:16px; z-index:74; font-size:2.6rem;
+  }
+  #motherWounds{ font-size:.8rem; margin-top:-6px; }
+  #babyDragonBoss{
+    position:absolute; top:70px; left:80px; z-index:73;
+    width:70px; height:70px; object-fit:cover; border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,.6);
+  }
+  #antagonistDragon{
+    position:absolute; top:150px; left:50%; transform:translateX(-50%);
+    width:200px; height:150px; object-fit:cover; border-radius:12px;
+    z-index:75; box-shadow:0 6px 16px rgba(0,0,0,.7);
+    transition:filter .3s ease, transform .2s ease;
+  }
+  #antagonistDragon.scorched{ filter:brightness(1.6) saturate(1.8); }
+  #antagonistDragon.attacking{ transform:translateX(-50%) scale(1.08); filter:brightness(1.3) hue-rotate(-20deg); }
+  #bossFlameBeam{
+    position:absolute; z-index:76; display:none; height:16px;
+    background:linear-gradient(90deg, #fff3c4, #ffc23c 30%, #ff7a18 70%, transparent 100%);
+    border-radius:8px; box-shadow:0 0 14px rgba(255,122,24,.9);
+  }
+  #bossFlameBeam.active{ display:block; }
+  #bossSword{
+    position:absolute; bottom:10px; left:50%; transform:translateX(-50%) rotate(-15deg) scale(1.3);
+    width:60px; height:60px; object-fit:cover; border-radius:6px; z-index:77;
+    filter:drop-shadow(0 0 10px rgba(255,215,120,.85));
+  }
+  #bossPauseOverlay{
+    position:absolute; inset:0; z-index:81; display:none;
+    align-items:center; justify-content:center; background:rgba(5,10,25,.55);
+    color:#fff3c4; font-size:1.3rem; font-weight:bold; text-align:center;
+    font-family:Georgia,'Times New Roman',serif; font-style:italic;
+  }
+  #bossPauseOverlay.show{ display:flex; }
+  #bossMessage{
+    position:absolute; inset:0; z-index:90; display:none;
+    align-items:center; justify-content:center; text-align:center;
+    background:rgba(5,10,25,.92); color:#fff3c4; font-size:1.15rem; padding:26px;
+    font-family:Georgia,'Times New Roman',serif; font-style:italic; line-height:1.5;
+  }
+  #bossMessage.show{ display:flex; }
+
+  #gameArea.lvl1{ background:linear-gradient(180deg,#3a5a7a 0%,#7aa8d4 55%,#bcdcf0 100%); }
+  #gameArea.lvl2{ background:linear-gradient(180deg,#2a4a7a 0%,#5a8ac9 55%,#8fc0e8 100%); }
+  #gameArea.lvl3{ background:linear-gradient(180deg,#7a5a2a 0%,#c98a3a 55%,#ffce7a 100%); }
+  #gameArea.lvl4{ background:linear-gradient(180deg,#8a3a1a 0%,#d9631f 55%,#ff9a4a 100%); }
+  #gameArea.lvl5{ background:linear-gradient(180deg,#7a1f2a 0%,#c9412f 55%,#ff7a4a 100%); }
+  #gameArea.lvl6{ background:linear-gradient(180deg,#3a1a4a 0%,#6a2f7a 55%,#a35ca8 100%); }
+  #gameArea.lvl7{ background:linear-gradient(180deg,#1a0a12 0%,#4a1020 55%,#7a1a1a 100%); }
+
+  .choc-chip{
+    position:absolute; z-index:23; width:14px; height:14px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #7a4a2a, #3a2010 70%);
+    box-shadow:inset -2px -2px 3px rgba(0,0,0,.5), 0 2px 3px rgba(0,0,0,.4);
+    pointer-events:none;
+  }
+
+  .choc-explosion{
+    position:absolute; z-index:26; width:20px; height:20px; border-radius:50%;
+    background:orange; pointer-events:none;
+    animation:chocExplode .6s ease-out forwards;
+  }
+  @keyframes chocExplode{
+    0%{ transform:scale(.5); opacity:1; }
+    50%{ transform:scale(3); background:yellow; }
+    100%{ transform:scale(5); opacity:0; }
+  }
+
+  .chip-triangle{
+    position:absolute; z-index:23; width:0; height:0; cursor:pointer;
+    border-left:19px solid transparent; border-right:19px solid transparent;
+    border-bottom:32px solid #ff9c1a;
+    filter:drop-shadow(0 0 6px rgba(255,156,26,.8));
+    animation:numberBob 1.2s ease-in-out infinite;
+  }
+  .chip-triangle span{
+    position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    font-weight:bold; font-size:.85rem; color:#1a1208;
+  }
+
+  #chipShield{
+    position:absolute; z-index:19; display:none;
+    width:6in; height:22px; border-radius:11px;
+    background:#6a2f9a; border:2px solid #4a1f70;
+    align-items:center; justify-content:center;
+    box-shadow:0 0 12px rgba(106,47,154,.85);
+  }
+  #chipShield.active{ display:flex; }
+  #chipShield span{ color:#ffb3e0; font-weight:bold; font-size:.65rem; letter-spacing:.5px; white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -173,11 +526,34 @@
     <div class="hud">
       <div>Score: <b id="hudScore">0</b></div>
       <div>Level: <b id="hudLevel">1</b></div>
+      <div class="power-label">Rope Power: <span id="powerDot"></span> <b id="hudPower">0</b></div>
+      <div>Calories: <b id="hudCalories">0</b>/50</div>
+      <div id="hudBroadcastsRow" style="display:none;">Broadcasts left: <b id="hudBroadcasts">6</b></div>
       <div>Best: <b id="hudBest">0</b></div>
+      <a href="#rulesCard" id="howToPlayLink" style="display:none; color:var(--accent); font-weight:bold; text-decoration:underline; cursor:pointer;">How to play</a>
     </div>
     <div id="gameArea">
+      <div id="constructionNote">Have fun while the game is under construction!</div>
+      <div id="corral">
+        <svg viewBox="0 0 120 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+          <rect x="37" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+          <rect x="72" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+          <rect x="110" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+          <rect x="2" y="14" width="116" height="7" rx="2" fill="#a9723a"/>
+          <rect x="2" y="32" width="116" height="7" rx="2" fill="#a9723a"/>
+          <rect x="2" y="58" width="116" height="7" rx="2" fill="#a9723a"/>
+          <rect x="2" y="75" width="116" height="7" rx="2" fill="#a9723a"/>
+        </svg>
+      </div>
+      <div id="p1ControlsHint">Player 1 (Dragon): Arrow keys / WASD to fly, SPACE to drop chips</div>
       <div id="fireBlast"></div>
       <div id="ropeLine"></div>
+      <div id="snareBox"></div>
+      <div id="captureTimer">4</div>
+      <div id="escapeBanner">bad ole dragon</div>
+      <div id="chocolateBanner">BEWARE THE CHOCOLATE STAIN</div>
+      <div id="chipShield"><span>chip diaper</span></div>
       <div id="gameDragon" class="flying">
         <svg viewBox="0 0 210 150" xmlns="http://www.w3.org/2000/svg">
           <g class="tail-grp">
@@ -216,34 +592,131 @@
         </svg>
       </div>
 
+      <div id="playerTargetMark"></div>
       <div id="playerAvatar">
         <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
-          <ellipse class="p-face" cx="35" cy="46" rx="20" ry="22" fill="#e8b98a"/>
-          <path d="M12 34 Q35 8 58 34 Q58 20 35 16 Q12 20 12 34 Z" fill="#3a2a1a"/>
-          <ellipse cx="35" cy="14" rx="26" ry="7" fill="#3a2a1a"/>
-          <circle cx="27" cy="44" r="2.5" fill="#1a1208"/>
-          <circle cx="43" cy="44" r="2.5" fill="#1a1208"/>
-          <path d="M25 54 Q35 62 45 54" fill="none" stroke="#7a4a2a" stroke-width="2.5" stroke-linecap="round"/>
+          <g id="pHairBack"></g>
+          <ellipse class="p-face" id="pFace" cx="35" cy="46" rx="20" ry="22" fill="#e8b98a"/>
+          <ellipse id="pSmear" cx="34" cy="50" rx="11" ry="6" fill="#4a2a10" opacity="0" transform="rotate(-12 34 50)"/>
+          <path id="pHatBrim" d="M12 34 Q35 8 58 34 Q58 20 35 16 Q12 20 12 34 Z" fill="#3a2a1a"/>
+          <ellipse id="pHatTop" cx="35" cy="14" rx="26" ry="7" fill="#3a2a1a"/>
+          <circle id="pEyeL" cx="27" cy="44" r="2.5" fill="#1a1208"/>
+          <circle id="pEyeR" cx="43" cy="44" r="2.5" fill="#1a1208"/>
+          <path id="pMouth" d="M25 54 Q35 62 45 54" fill="none" stroke="#7a4a2a" stroke-width="2.5" stroke-linecap="round"/>
           <rect x="20" y="62" width="30" height="18" rx="6" fill="#5c8a49"/>
+          <g id="pArm">
+            <path d="M35 64 Q46 60 50 48" stroke="#e8b98a" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <circle cx="50" cy="48" r="4.5" fill="#e8b98a"/>
+          </g>
+          <g id="pHairSide"></g>
         </svg>
       </div>
 
       <div id="gameOverlay" class="show">
         <div id="overlayEmoji" class="overlay-emoji">🤠</div>
         <h2 id="overlayTitle">Ready to Rope a Dragon?</h2>
-        <p id="overlayText">Click the dragon to catch it. Every 5 catches levels you up — it gets faster, and at level 3+ it might breathe fire back!</p>
-        <button id="startBtn" type="button">Start Game</button>
+        <p id="overlayText">Click near the dragon to snare it, then drag it into the corral before the timer runs out. Grab floating numbers for a stronger rope, and rope numbered triangles for a shield against chocolate chips. Level 3+ brings fire risk — one hit ends the game. Unshielded chips make you grow bigger. Survive all 7 levels!</p>
+        <div id="modeButtons" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+          <button id="startBtn" type="button">1 Player</button>
+          <button id="start2pBtn" type="button" style="display:none;">2 Player</button>
+        </div>
+      </div>
+
+      <div id="caveScene">
+        <div class="cave-hud">
+          <div>Cave Score: <b id="caveScoreDisplay">0</b> / 10</div>
+          <div>Lives: <b id="caveLivesDisplay">3</b></div>
+        </div>
+        <img id="caveSword" src="assets-cave-sword.jpg" alt="sword">
+        <div id="caveMessage"></div>
+      </div>
+
+      <div id="bossScene">
+        <div class="boss-hud">
+          <div>Lives: <b id="bossLivesDisplay">2</b></div>
+          <div>Flame Damage: <b id="bossDamageDisplay">0</b> / 8s</div>
+        </div>
+        <div id="bossIntroBanner"></div>
+        <div id="motherDragonBoss">🐲<div id="motherWounds">🩸🩸🩸</div></div>
+        <img id="babyDragonBoss" src="assets-boss-babydragon.jpg" alt="baby dragon">
+        <img id="antagonistDragon" src="assets-boss-antagonist.jpg" alt="antagonist dragon">
+        <div id="bossFlameBeam"></div>
+        <img id="bossSword" src="assets-cave-sword.jpg" alt="glowing sword">
+        <div id="bossPauseOverlay"></div>
+        <div id="bossMessage"></div>
+      </div>
+
+      <div id="roleSelectOverlay">
+        <h2 id="roleSelectTitle">Player wins Phase 1!</h2>
+        <p>Choose your role for the cave duel:</p>
+        <div style="display:flex; gap:14px;">
+          <button id="pickProtagonistBtn" type="button">Protagonist Avatar</button>
+          <button id="pickDragonBtn" type="button">Menacing Dragon</button>
+        </div>
+      </div>
+
+      <div id="duelScene">
+        <div class="duel-hud">
+          <div>Menacing Dragon: <b id="duelDragonScore">0</b>/50</div>
+          <div>Protagonist: <b id="duelProtagonistScore">0</b>/50</div>
+        </div>
+        <div id="motherDragonEl">🐲<div id="motherDragonSpeech">Your father was a Chocoholic.</div></div>
+        <div id="babyDragonEl">🐉</div>
+        <div id="menacingDragonSprite" class="flying">
+          <svg viewBox="0 0 210 150" xmlns="http://www.w3.org/2000/svg">
+            <g class="wing wing-far"><path class="c-wing-far" d="M98 52 Q 70 6 34 12 Q 58 22 64 34 Q 46 30 34 36 Q 58 42 68 50 Q 60 52 52 58 Q 80 62 98 52 Z"/></g>
+            <g class="chest"><ellipse class="c-body" cx="92" cy="78" rx="42" ry="26"/><ellipse class="c-belly" cx="96" cy="86" rx="30" ry="15"/></g>
+            <g class="head">
+              <path class="c-body" d="M138 44 Q 158 34 176 44 Q 186 50 182 58 L 150 62 Q 138 56 138 44 Z"/>
+              <path class="c-horn" d="M150 40 L 146 24 L 158 36 Z"/>
+              <circle class="c-eye" cx="160" cy="46" r="4"/>
+              <g class="jaw"><path class="c-body" d="M148 60 Q 166 58 182 60 Q 176 70 160 70 Q 150 68 148 60 Z"/></g>
+              <path class="c-teeth" d="M156 60 l3 4 l3 -4 Z M166 60 l3 4 l3 -4 Z"/>
+            </g>
+            <g class="wing wing-near"><path class="c-wing" d="M98 52 Q 76 -8 30 -2 Q 60 12 66 28 Q 42 22 26 30 Q 58 38 70 48 Q 58 50 48 58 Q 82 66 98 52 Z"/></g>
+          </svg>
+        </div>
+        <div id="protagonistSprite">
+          <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="35" cy="46" rx="20" ry="22" fill="#e8b98a"/>
+            <circle cx="27" cy="44" r="2.5" fill="#1a1208"/>
+            <circle cx="43" cy="44" r="2.5" fill="#1a1208"/>
+            <path d="M25 54 Q35 62 45 54" fill="none" stroke="#7a4a2a" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="20" y="62" width="30" height="18" rx="6" fill="#5c8a49"/>
+            <rect id="protagonistSword" x="48" y="30" width="6" height="46" rx="2" fill="#cfd6e0" transform="rotate(25 51 53)"/>
+          </svg>
+        </div>
+        <div id="duelCorral">
+          <svg viewBox="0 0 120 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+            <rect x="37" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+            <rect x="72" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+            <rect x="110" y="4" width="8" height="82" rx="2" fill="#5c3a1e"/>
+            <rect x="2" y="14" width="116" height="7" rx="2" fill="#a9723a"/>
+            <rect x="2" y="58" width="116" height="7" rx="2" fill="#a9723a"/>
+          </svg>
+        </div>
+        <div id="duelSnareBox"></div>
+        <div id="duelCaptureTimer">3</div>
+        <div id="reflectRect"></div>
+        <div id="duelMessage"></div>
       </div>
     </div>
   </div>
 
-  <div class="rules-card">
+  <div class="rules-card" id="rulesCard">
     <h2>How to play</h2>
-    <p>Click or tap anywhere near the flying dragon to throw your rope. A catch earns a point and the dragon resets somewhere new, a little faster than before. Every 5 catches takes you up a level. From level 3 onward, the dragon can turn around and breathe fire at you — if it catches you, that's game over (a happy one — nobody actually gets hurt around here). Your best score is saved in this browser.</p>
+    <p>Click or tap anywhere near the flying dragon to throw your rope. A hit snares the dragon in a glowing orange square — you then have 4 seconds (watch the pulsing timer, top-left) to drag it into the corral in the bottom-right corner. Get it there in time and you earn points; run out of time and it breaks free, and you'll see a "bad old dragon" banner fly by. Every 5 points takes you up a level, and the dragon resets a little faster each time. From level 3 onward, the dragon can turn around and breathe fire at you — if it catches you, that's game over (a happy one — nobody actually gets hurt around here). Your best score is saved in this browser.</p>
+    <p>Every 5 seconds, a glowing number (1–5) floats onto the field — grab it to power up your rope. Higher numbers give your rope a bigger, easier-to-land catch radius, a brighter glow, and more bonus points per catch — but the power fades over time (a "1" only lasts 3 seconds; a "5" lasts 15). Time it well and chain power-ups to keep your rope glowing.</p>
+    <p>Every so often the dragon broadcasts a burst of chocolate chips. A warning triangle (with a number 1–5) appears exactly 1 second before the broadcast — rope it in time and a "chip diaper" shield appears under the dragon for that many seconds, sweeping the chips safely off both sides of the screen. Miss it, and getting hit costs a flat 5 calories per bombardment (no matter how many chips land) and makes you grow 5% bigger — reach 50 calories and it's game over. The moment an incoming chip gets within a centimeter of you, your face turns dark brown with red eyes and a frown (plus a chocolate smear) for 1 second before you go back to smiling. If the dragon ever flies within 2 inches of your head, it drops chips immediately — no warning that time. The sky also shifts through 7 moods as you level up, from a calm morning to a stormy dusk, with the dragon getting faster each time.</p>
+  </div>
+
+  <div class="rules-card" style="text-align:center;">
+    <h2>Found a bug? Have an idea?</h2>
+    <p>This game is still under construction — your feedback genuinely shapes what gets built next. <a href="mailto:mail@sillydragoncalculator.com?subject=Rope%20the%20Dragon%20Feedback">Email quick feedback</a> or <a href="#" id="feedbackFormLink">fill out the feedback form</a>.</p>
   </div>
 
   <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="blog.html">Blog</a>
-    <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
   </div>
 
 <script src="lava.js"></script>
@@ -265,11 +738,145 @@
   var hudScore = document.getElementById('hudScore');
   var hudLevel = document.getElementById('hudLevel');
   var hudBest = document.getElementById('hudBest');
+  var hudPower = document.getElementById('hudPower');
+  var powerDot = document.getElementById('powerDot');
+  var corral = document.getElementById('corral');
+  var snareBox = document.getElementById('snareBox');
+  var captureTimer = document.getElementById('captureTimer');
+  var escapeBanner = document.getElementById('escapeBanner');
+  var chocolateBanner = document.getElementById('chocolateBanner');
+  var caveScene = document.getElementById('caveScene');
+  var caveScoreDisplay = document.getElementById('caveScoreDisplay');
+  var caveLivesDisplay = document.getElementById('caveLivesDisplay');
+  var caveMessage = document.getElementById('caveMessage');
+
+  var inCaveScene = false;
+  var caveTriggered = false;
+  var caveScore = 0;
+  var caveLives = 3;
+  var caveRaptorInterval = null;
+  var activeRaptors = [];
+  var CAVE_TARGET = 10;
+  var CAVE_MAX_RAPTORS = 2;
+  var chipShieldEl = document.getElementById('chipShield');
+  var hudCalories = document.getElementById('hudCalories');
+
+  var snared = false;
+  var dragging = false;
+  var dragOffsetX = 0, dragOffsetY = 0;
+  var snareTimerExpiresAt = 0;
+  var snareCountdownInterval = null;
+
+  var LEVEL_MAX = 7;
+  var LEVEL_GRADIENT_CLASS = ['','lvl1','lvl2','lvl3','lvl4','lvl5','lvl6','lvl7'];
+  var CM2_PX = 2 * 96 / 2.54;
+  var SHIELD_WIDTH_PX = 6 * 96;
+
+  var twoPlayerMode = false;
+  var p1Keys = {};
+  var P1_SPEED = 260;
+  var P2_WIN_SCORE = 15;
+  var p1ControlsHint = document.getElementById('p1ControlsHint');
+  var start2pBtn = document.getElementById('start2pBtn');
+  var hudBroadcasts = document.getElementById('hudBroadcasts');
+  var hudBroadcastsRow = document.getElementById('hudBroadcastsRow');
+  var P1_BROADCAST_MAX = 6;
+  var p1BroadcastsRemaining = P1_BROADCAST_MAX;
+  var P1_MOVE_RANGE_PX = 3 * 96;
+
+  var phase1WinnerPlayer = 0;
+  var duelWinnerRole = '';
+  var roleSelectOverlay = document.getElementById('roleSelectOverlay');
+  var roleSelectTitle = document.getElementById('roleSelectTitle');
+  var duelScene = document.getElementById('duelScene');
+  var duelDragonScore = document.getElementById('duelDragonScore');
+  var duelProtagonistScore = document.getElementById('duelProtagonistScore');
+  var motherDragonEl = document.getElementById('motherDragonEl');
+  var babyDragonEl = document.getElementById('babyDragonEl');
+  var menacingDragonSprite = document.getElementById('menacingDragonSprite');
+  var protagonistSprite = document.getElementById('protagonistSprite');
+  var duelCorral = document.getElementById('duelCorral');
+  var duelSnareBox = document.getElementById('duelSnareBox');
+  var duelCaptureTimer = document.getElementById('duelCaptureTimer');
+  var reflectRect = document.getElementById('reflectRect');
+  var duelMessage = document.getElementById('duelMessage');
+  var pickProtagonistBtn = document.getElementById('pickProtagonistBtn');
+  var pickDragonBtn = document.getElementById('pickDragonBtn');
+
+  var duelRunning = false;
+  var duelDragonPts = 0, duelProtagonistPts = 0;
+  var DUEL_TARGET = 50;
+  var babyGrowth = 0;
+  var motherTearInterval = null;
+  var duelTriangleInterval = null;
+  var activeDuelTriangle = null;
+  var duelBreathCooldownUntil = 0;
+  var reflectActiveUntil = 0;
+  var duelSnared = false, duelDragging = false;
+  var duelSnareExpiresAt = 0;
+  var duelSnareCountdownInterval = null;
+  var duelDragOffsetX = 0, duelDragOffsetY = 0;
+
+  var chocCalories = 0;
+  var chocHitCount = 0;
+  var chipShieldActive = false;
+  var chipShieldExpiresAt = 0;
+  var chipCycleTimeout = null;
+  var activeTriangleEl = null;
+  var bombardmentChocCharged = false;
+  var chipBroadcastInProgress = false;
+  var nextBroadcastAllowedAt = 0;
+  var BROADCAST_COOLDOWN_MS = 4000;
+  var HEAD_PROXIMITY_PX = 2 * 96;
+  var pMouth = document.getElementById('pMouth');
+  var pSmear = document.getElementById('pSmear');
+  var pFace = document.getElementById('pFace');
+  var pEyeL = document.getElementById('pEyeL');
+  var pEyeR = document.getElementById('pEyeR');
+  var frownTimeout = null;
+  var MOUTH_SMILE = 'M25 54 Q35 62 45 54';
+  var MOUTH_FROWN = 'M25 58 Q35 50 45 58';
+  var FACE_NORMAL = '#e8b98a';
+  var FACE_SCARED = '#3a2010';
+  var EYE_NORMAL = '#1a1208';
+  var EYE_SCARED = '#ff2020';
+
+  function showFrown(){
+    pMouth.setAttribute('d', MOUTH_FROWN);
+    pSmear.setAttribute('opacity', '1');
+    pFace.setAttribute('fill', FACE_SCARED);
+    pEyeL.setAttribute('fill', EYE_SCARED);
+    pEyeR.setAttribute('fill', EYE_SCARED);
+    if (frownTimeout) clearTimeout(frownTimeout);
+    frownTimeout = setTimeout(function(){
+      pMouth.setAttribute('d', MOUTH_SMILE);
+      pSmear.setAttribute('opacity', '0');
+      pFace.setAttribute('fill', FACE_NORMAL);
+      pEyeL.setAttribute('fill', EYE_NORMAL);
+      pEyeR.setAttribute('fill', EYE_NORMAL);
+      frownTimeout = null;
+    }, 1000);
+  }
+
+  function resetFace(){
+    if (frownTimeout){ clearTimeout(frownTimeout); frownTimeout = null; }
+    pMouth.setAttribute('d', MOUTH_SMILE);
+    pSmear.setAttribute('opacity', '0');
+    pFace.setAttribute('fill', FACE_NORMAL);
+    pEyeL.setAttribute('fill', EYE_NORMAL);
+    pEyeR.setAttribute('fill', EYE_NORMAL);
+  }
+
+  var POWER_COLORS = { 0:'#3a3a3a', 1:'#8a8a8a', 2:'#4fc3f7', 3:'#66bb6a', 4:'#ffa726', 5:'#ff3b3b' };
+  var ropePower = 0;
+  var ropePowerExpiresAt = 0;
+  var numberSpawnInterval = null;
+  var activeNumberEl = null;
 
   var W = 0, H = 0;
   var dragonX = 0, dragonY = 0, dragonW = 110, dragonH = 80;
   var vx = 0, vy = 0;
-  var baseSpeed = 90; // px per second
+  var baseSpeed = 108; // px per second
   var score = 0, level = 1;
   var best = parseInt(localStorage.getItem('sdc_rope_best') || '0', 10);
   hudBest.textContent = best;
@@ -293,10 +900,23 @@
   }
 
   function placeDragonRandom(){
-    dragonX = Math.random() * (W - dragonW);
+    if (twoPlayerMode){
+      dragonX = W / 2 - dragonW / 2;
+      dragonY = H / 2 - dragonH / 2;
+      vx = 0; vy = 0;
+      return;
+    }
+    var fromLeft = Math.random() < 0.5;
+    var speed = baseSpeed + (level - 1) * 22;
     dragonY = Math.random() * (H - dragonH - 90) + 10;
-    var v = randomVelocity(baseSpeed + (level - 1) * 22);
-    vx = v.vx; vy = v.vy;
+    if (fromLeft){
+      dragonX = -dragonW;
+      vx = speed;
+    } else {
+      dragonX = W;
+      vx = -speed;
+    }
+    vy = (Math.random() * 2 - 1) * speed * 0.6;
   }
 
   function updateDragonFacing(){
@@ -304,8 +924,64 @@
     else dragonEl.classList.remove('face-left');
   }
 
+  function updateLevelBackground(){
+    area.classList.remove('lvl1','lvl2','lvl3','lvl4','lvl5','lvl6','lvl7');
+    area.classList.add(LEVEL_GRADIENT_CLASS[Math.min(level, LEVEL_MAX)]);
+  }
+
   function draw(){
-    dragonEl.style.transform = 'translate(' + dragonX + 'px,' + dragonY + 'px)' + (vx < 0 ? '' : '');
+    dragonEl.style.left = dragonX + 'px';
+    dragonEl.style.top = dragonY + 'px';
+    updateDragonFacing();
+  }
+
+  function setRopePower(n){
+    ropePower = n;
+    ropePowerExpiresAt = performance.now() + n * 3000;
+    hudPower.textContent = n;
+    powerDot.style.background = POWER_COLORS[n];
+    powerDot.style.boxShadow = n > 0 ? ('0 0 ' + (6 + n * 4) + 'px ' + POWER_COLORS[n]) : 'none';
+  }
+
+  function clearRopePower(){
+    ropePower = 0;
+    ropePowerExpiresAt = 0;
+    hudPower.textContent = 0;
+    powerDot.style.background = POWER_COLORS[0];
+    powerDot.style.boxShadow = 'none';
+  }
+
+  function spawnFloatingNumber(){
+    if (activeNumberEl){ activeNumberEl.remove(); activeNumberEl = null; }
+    if (!running) return;
+    var n = 1 + Math.floor(Math.random() * 5);
+    var el = document.createElement('div');
+    el.className = 'floating-number p' + n;
+    el.textContent = n;
+    var margin = 40;
+    var x = margin + Math.random() * (W - margin * 2 - 34);
+    var y = margin + Math.random() * (H - 90 - margin * 2 - 34);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      setRopePower(n);
+      el.remove();
+      if (activeNumberEl === el) activeNumberEl = null;
+    });
+    area.appendChild(el);
+    activeNumberEl = el;
+  }
+
+  function startNumberSpawner(){
+    spawnFloatingNumber();
+    numberSpawnInterval = setInterval(spawnFloatingNumber, 5000);
+  }
+
+  function stopNumberSpawner(){
+    if (numberSpawnInterval) clearInterval(numberSpawnInterval);
+    numberSpawnInterval = null;
+    if (activeNumberEl){ activeNumberEl.remove(); activeNumberEl = null; }
   }
 
   function tick(now){
@@ -313,24 +989,63 @@
     var dt = Math.min((now - lastTime) / 1000, 0.05);
     lastTime = now;
 
-    dragonX += vx * dt;
-    dragonY += vy * dt;
+    if (!snared && !dragging){
+      if (twoPlayerMode){
+        var mv = P1_SPEED * dt;
+        var moveX = 0, moveY = 0;
+        if (p1Keys['arrowup'] || p1Keys['w']) moveY -= mv;
+        if (p1Keys['arrowdown'] || p1Keys['s']) moveY += mv;
+        if (p1Keys['arrowleft'] || p1Keys['a']) moveX -= mv;
+        if (p1Keys['arrowright'] || p1Keys['d']) moveX += mv;
+        var bandMin = Math.max(0, W / 2 - P1_MOVE_RANGE_PX - dragonW / 2);
+        var bandMax = Math.min(W - dragonW, W / 2 + P1_MOVE_RANGE_PX - dragonW / 2);
+        dragonX = Math.max(bandMin, Math.min(bandMax, dragonX + moveX));
+        dragonY = Math.max(10, Math.min(H - dragonH - 90, dragonY + moveY));
+        if (moveX < 0) vx = -1; else if (moveX > 0) vx = 1;
+      } else {
+        dragonX += vx * dt;
+        dragonY += vy * dt;
 
-    if (dragonX <= 0){ dragonX = 0; vx = Math.abs(vx); }
-    if (dragonX >= W - dragonW){ dragonX = W - dragonW; vx = -Math.abs(vx); }
-    if (dragonY <= 0){ dragonY = 0; vy = Math.abs(vy); }
-    if (dragonY >= H - dragonH - 90){ dragonY = H - dragonH - 90; vy = -Math.abs(vy); }
+        if (dragonX <= 0 && vx < 0){ dragonX = 0; vx = Math.abs(vx); }
+        if (dragonX >= W - dragonW && vx > 0){ dragonX = W - dragonW; vx = -Math.abs(vx); }
+        if (dragonY <= 0){ dragonY = 0; vy = Math.abs(vy); }
+        if (dragonY >= H - dragonH - 90){ dragonY = H - dragonH - 90; vy = -Math.abs(vy); }
+      }
 
-    updateDragonFacing();
-    dragonEl.style.left = dragonX + 'px';
-    dragonEl.style.top = dragonY + 'px';
+      updateDragonFacing();
+      dragonEl.style.left = dragonX + 'px';
+      dragonEl.style.top = dragonY + 'px';
+    }
 
-    fireTimer += dt * 1000;
-    if (level >= 3 && fireTimer >= nextFireCheck){
-      fireTimer = 0;
-      nextFireCheck = 2200 + Math.random() * 1800;
-      var chance = Math.min(0.08 + (level - 3) * 0.05, 0.4);
-      if (Math.random() < chance) breatheFire();
+    if (!snared && !twoPlayerMode){
+      fireTimer += dt * 1000;
+      if (level >= 3 && fireTimer >= nextFireCheck){
+        fireTimer = 0;
+        nextFireCheck = 2200 + Math.random() * 1800;
+        var chance = Math.min(0.08 + (level - 3) * 0.05, 0.4);
+        if (Math.random() < chance) breatheFire();
+      }
+    }
+
+    if (ropePower > 0 && now >= ropePowerExpiresAt){
+      clearRopePower();
+    }
+
+    if (chipShieldActive){
+      updateChipShieldPosition();
+      if (now >= chipShieldExpiresAt) clearChipShield();
+    }
+
+    if (!snared && !dragging && !twoPlayerMode && !chipBroadcastInProgress && now >= nextBroadcastAllowedAt){
+      var headX = W / 2, headY = H - 80;
+      var dcx2 = dragonX + dragonW / 2, dcy2 = dragonY + dragonH / 2;
+      var distToHead = Math.sqrt(Math.pow(dcx2 - headX, 2) + Math.pow(dcy2 - headY, 2));
+      if (distToHead <= HEAD_PROXIMITY_PX){
+        if (chipCycleTimeout){ clearTimeout(chipCycleTimeout); chipCycleTimeout = null; }
+        if (activeTriangleEl){ activeTriangleEl.remove(); activeTriangleEl = null; }
+        startChipBroadcast();
+        chipCycleTimeout = setTimeout(startChipCycle, 1500);
+      }
     }
 
     rafId = requestAnimationFrame(tick);
@@ -359,7 +1074,7 @@
 
     setTimeout(function(){
       dragonEl.classList.remove('mouth-open');
-      endGame(true);
+      endGame('fire');
     }, 450);
   }
 
@@ -387,64 +1102,1020 @@
     ropeEl.style.top = pcy + 'px';
     ropeEl.style.width = dist + 'px';
     ropeEl.style.transform = 'rotate(' + angle + 'deg)';
+    ropeEl.className = 'p' + ropePower;
     ropeEl.classList.remove('throw');
     void ropeEl.offsetWidth;
     ropeEl.classList.add('throw');
 
+    playerEl.classList.remove('throwing');
+    void playerEl.offsetWidth;
+    playerEl.classList.add('throwing');
+
     var dcx = dragonX + dragonW / 2, dcy = dragonY + dragonH / 2;
     var hitDist = Math.sqrt(Math.pow(clickX - dcx, 2) + Math.pow(clickY - dcy, 2));
+    var catchRadius = 55 + ropePower * 15;
 
-    if (hitDist < 55){
-      score++;
-      hudScore.textContent = score;
-      dragonEl.classList.add('caught');
-      spawnScorePopup(dcx, dcy, '+1');
-      setTimeout(function(){ dragonEl.classList.remove('caught'); }, 400);
-      if (score % 5 === 0){
-        level++;
-        hudLevel.textContent = level;
-      }
-      placeDragonRandom();
+    if (hitDist < catchRadius){
+      startSnare();
     }
   }
 
-  area.addEventListener('click', function(e){
+  function updateSnareBoxPosition(){
+    var pad = 10;
+    snareBox.style.left = (dragonX - pad) + 'px';
+    snareBox.style.top = (dragonY - pad) + 'px';
+    snareBox.style.width = (dragonW + pad * 2) + 'px';
+    snareBox.style.height = (dragonH + pad * 2) + 'px';
+  }
+
+  function startSnare(){
+    snared = true;
+    vx = 0; vy = 0;
+    dragonEl.classList.add('snared');
+    updateSnareBoxPosition();
+    snareBox.classList.add('active');
+    snareTimerExpiresAt = performance.now() + 4000;
+    captureTimer.textContent = '4';
+    captureTimer.classList.add('active');
+    if (snareCountdownInterval) clearInterval(snareCountdownInterval);
+    snareCountdownInterval = setInterval(function(){
+      var remaining = Math.max(0, Math.ceil((snareTimerExpiresAt - performance.now()) / 1000));
+      captureTimer.textContent = remaining;
+      if (performance.now() >= snareTimerExpiresAt){
+        clearInterval(snareCountdownInterval);
+        snareCountdownInterval = null;
+        if (snared) breakFree();
+      }
+    }, 100);
+  }
+
+  function endSnareUI(){
+    snared = false;
+    dragging = false;
+    dragonEl.classList.remove('snared');
+    snareBox.classList.remove('active');
+    captureTimer.classList.remove('active');
+    if (snareCountdownInterval){ clearInterval(snareCountdownInterval); snareCountdownInterval = null; }
+  }
+
+  function breakFree(){
+    endSnareUI();
+    var v = randomVelocity(baseSpeed + (level - 1) * 22);
+    vx = v.vx; vy = v.vy;
+    showEscapeBanner();
+  }
+
+  function showEscapeBanner(){
+    escapeBanner.classList.remove('flying');
+    void escapeBanner.offsetWidth;
+    escapeBanner.classList.add('flying');
+  }
+
+  function completeCatch(){
+    endSnareUI();
+    var gained = 1 + ropePower;
+    score += gained;
+    hudScore.textContent = score;
+    dragonEl.classList.add('caught');
+    spawnScorePopup(dragonX + dragonW / 2, dragonY + dragonH / 2, '+' + gained);
+    setTimeout(function(){ dragonEl.classList.remove('caught'); }, 400);
+    if (score % 5 === 0 && level < LEVEL_MAX){
+      level++;
+      hudLevel.textContent = level;
+      updateLevelBackground();
+      if (level === LEVEL_MAX && !caveTriggered && !twoPlayerMode){
+        caveTriggered = true;
+        setTimeout(enterCaveScene, 900);
+      }
+      if (twoPlayerMode && score >= P2_WIN_SCORE){
+        phase1WinnerPlayer = 2;
+        showRoleSelect('Player 2 wins Phase 1!');
+      }
+    }
+    placeDragonRandom();
+  }
+
+  function checkCorralDrop(){
+    var cRect = corral.getBoundingClientRect();
+    var aRect = area.getBoundingClientRect();
+    var cLeft = cRect.left - aRect.left, cTop = cRect.top - aRect.top;
+    var cRight = cLeft + cRect.width, cBottom = cTop + cRect.height;
+    var dcx = dragonX + dragonW / 2, dcy = dragonY + dragonH / 2;
+    if (dcx >= cLeft && dcx <= cRight && dcy >= cTop && dcy <= cBottom){
+      completeCatch();
+    }
+  }
+
+  function updateChipShieldPosition(){
+    chipShieldEl.style.left = (dragonX + dragonW / 2 - SHIELD_WIDTH_PX / 2) + 'px';
+    chipShieldEl.style.top = (dragonY + dragonH + CM2_PX) + 'px';
+  }
+
+  var activeFallingChips = [];
+
+  function removeFromFallingList(record){
+    var idx = activeFallingChips.indexOf(record);
+    if (idx !== -1) activeFallingChips.splice(idx, 1);
+  }
+
+  function deflectAllFallingChips(){
+    var toDeflect = activeFallingChips.slice();
+    console.log('[chip] shield activated — sweeping away ' + toDeflect.length + ' already-falling chip(s)');
+    activeFallingChips.length = 0;
+    toDeflect.forEach(function(record){
+      record.done = true;
+      if (record.rafId) cancelAnimationFrame(record.rafId);
+      var rect = record.el.getBoundingClientRect();
+      var aRect = area.getBoundingClientRect();
+      var curX = rect.left - aRect.left;
+      var curY = rect.top - aRect.top;
+      record.el.remove();
+      spawnChipDispersed(curX, curY, Math.random() < 0.5 ? 'left' : 'right');
+    });
+  }
+
+  function activateChipShield(n){
+    chipShieldActive = true;
+    chipShieldExpiresAt = performance.now() + n * 1000;
+    chipShieldEl.classList.add('active');
+    updateChipShieldPosition();
+    deflectAllFallingChips();
+  }
+
+  function clearChipShield(){
+    chipShieldActive = false;
+    chipShieldEl.classList.remove('active');
+  }
+
+  function spawnWarningTriangle(){
     if (!running) return;
+    var n = 1 + Math.floor(Math.random() * 5);
+    var el = document.createElement('div');
+    el.className = 'chip-triangle';
+    var span = document.createElement('span');
+    span.textContent = n;
+    el.appendChild(span);
+    var margin = 40;
+    var x = margin + Math.random() * (W - margin * 2 - 38);
+    var y = margin + Math.random() * (H - 90 - margin * 2 - 32);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      activateChipShield(n);
+      el.remove();
+      if (activeTriangleEl === el) activeTriangleEl = null;
+    });
+    area.appendChild(el);
+    if (activeTriangleEl) activeTriangleEl.remove();
+    activeTriangleEl = el;
+    setTimeout(function(){
+      if (el.parentNode) el.remove();
+      if (activeTriangleEl === el) activeTriangleEl = null;
+    }, 2500);
+  }
+
+  var PLAYER_HALF_WIDTH = 90;
+  var CM_PX = 96 / 2.54;
+
+  function checkChipPlayerHit(finalX){
+    if (!running){ console.log('[chip] hit-check skipped, game not running'); return; }
+    var pRect = playerEl.getBoundingClientRect();
+    var aRect = area.getBoundingClientRect();
+    var playerCenterX = (pRect.left - aRect.left) + pRect.width / 2;
+    var zoneLeft = playerCenterX - PLAYER_HALF_WIDTH, zoneRight = playerCenterX + PLAYER_HALF_WIDTH;
+    var isHit = finalX > zoneLeft && finalX < zoneRight;
+    console.log('[chip] hit-check: finalX=' + finalX.toFixed(1) + ' playerCenterX=' + playerCenterX.toFixed(1) + ' zone=[' + zoneLeft.toFixed(1) + ',' + zoneRight.toFixed(1) + '] isHit=' + isHit + ' bombardmentChocCharged=' + bombardmentChocCharged);
+    if (isHit){
+      hitPlayerWithChip();
+    }
+  }
+
+  var CHIP_FALL_MS = 1800;
+
+  function createChipExplosion(x, y){
+    var boom = document.createElement('div');
+    boom.className = 'choc-explosion';
+    boom.style.left = (x - 10) + 'px';
+    boom.style.top = (y - 10) + 'px';
+    area.appendChild(boom);
+    setTimeout(function(){ boom.remove(); }, 600);
+  }
+
+  function spawnFallingChip(originX, originY){
+    var chip = document.createElement('div');
+    chip.className = 'choc-chip';
+    var driftX = originX + (Math.random() * 60 - 30);
+    var y = originY;
+    chip.style.left = driftX + 'px';
+    chip.style.top = y + 'px';
+    area.appendChild(chip);
+    console.log('[chip] spawned driftX=' + driftX.toFixed(1) + ' originY=' + originY.toFixed(1) + ' shieldActive=' + chipShieldActive);
+
+    var targetY = H - 14;
+    var totalDist = Math.max(targetY - originY, 1);
+    var fallSpeed = totalDist / (CHIP_FALL_MS / 1000);
+    var lastT = performance.now();
+    var warned = false;
+
+    var record = { el: chip, driftX: driftX, rafId: null, done: false };
+
+    function fallStep(now){
+      if (record.done) return;
+      var dt = Math.min((now - lastT) / 1000, 0.05);
+      lastT = now;
+      y += fallSpeed * dt;
+
+      if (!warned && (targetY - y) <= CM_PX){
+        warned = true;
+        if (running) showFrown();
+      }
+
+      if (y >= targetY){
+        y = targetY;
+        chip.style.top = y + 'px';
+        record.done = true;
+        createChipExplosion(driftX, y);
+        chip.remove();
+        removeFromFallingList(record);
+        checkChipPlayerHit(driftX);
+        return;
+      }
+
+      chip.style.top = y + 'px';
+      record.rafId = requestAnimationFrame(fallStep);
+    }
+
+    record.rafId = requestAnimationFrame(fallStep);
+    activeFallingChips.push(record);
+  }
+
+  function spawnChipDispersed(originX, originY, dir){
+    var chip = document.createElement('div');
+    chip.className = 'choc-chip';
+    chip.style.left = originX + 'px';
+    chip.style.top = originY + 'px';
+    area.appendChild(chip);
+    void chip.offsetHeight;
+    chip.style.transition = 'left 2s ease-out, top 2s ease-out, opacity 2s ease-out';
+    chip.style.left = (dir === 'left' ? -30 : W + 30) + 'px';
+    chip.style.top = (originY - 25) + 'px';
+    chip.style.opacity = '0';
+    setTimeout(function(){ chip.remove(); }, 2000);
+  }
+
+  function showChocolateBanner(){
+    chocolateBanner.classList.remove('flying');
+    void chocolateBanner.offsetWidth;
+    chocolateBanner.classList.add('flying');
+  }
+
+  function hitPlayerWithChip(){
+    showFrown();
+    if (bombardmentChocCharged){ console.log('[chip] hit registered but calorie charge SKIPPED — bombardment already charged this cycle'); return; }
+    bombardmentChocCharged = true;
+    console.log('[chip] calorie charge FIRING now, chocCalories was ' + chocCalories);
+    chocCalories += 5;
+    chocHitCount++;
+    hudCalories.textContent = chocCalories;
+    showChocolateBanner();
+    playerEl.style.transform = 'translateX(-50%) scale(' + (1 + chocHitCount * 0.05) + ')';
+    var pRect = playerEl.getBoundingClientRect();
+    var aRect = area.getBoundingClientRect();
+    spawnScorePopup((pRect.left - aRect.left) + pRect.width / 2, (pRect.top - aRect.top), '+5 cal');
+    if (chocCalories >= 50){
+      if (twoPlayerMode){
+        phase1WinnerPlayer = 1;
+        showRoleSelect('Player 1 wins Phase 1!');
+      } else {
+        endGame('choc');
+      }
+    }
+  }
+
+  function startChipBroadcast(){
+    console.log('[chip] === broadcast starting, resetting bombardmentChocCharged ===');
+    bombardmentChocCharged = false;
+    chipBroadcastInProgress = true;
+    nextBroadcastAllowedAt = performance.now() + 1500 + BROADCAST_COOLDOWN_MS;
+    setTimeout(function(){ chipBroadcastInProgress = false; }, 1500);
+    var count = 20;
+    var interval = 1500 / count;
+    var dropped = 0;
+    var iv = setInterval(function(){
+      if (!running){ clearInterval(iv); return; }
+      var originX = dragonX + dragonW / 2;
+      var originY = dragonY + dragonH * 0.6;
+      if (chipShieldActive){
+        spawnChipDispersed(originX, originY, Math.random() < 0.5 ? 'left' : 'right');
+      } else {
+        spawnFallingChip(originX, originY);
+      }
+      dropped++;
+      if (dropped >= count) clearInterval(iv);
+    }, interval);
+  }
+
+  function startChipCycle(){
+    stopChipCycle();
+    chipCycleTimeout = setTimeout(function(){
+      if (!running) return;
+      spawnWarningTriangle();
+      chipCycleTimeout = setTimeout(function(){
+        if (!running) return;
+        startChipBroadcast();
+        chipCycleTimeout = setTimeout(startChipCycle, 1500);
+      }, 1000);
+    }, 6000);
+  }
+
+  function stopChipCycle(){
+    if (chipCycleTimeout){ clearTimeout(chipCycleTimeout); chipCycleTimeout = null; }
+    if (activeTriangleEl){ activeTriangleEl.remove(); activeTriangleEl = null; }
+    clearChipShield();
+    activeFallingChips.forEach(function(record){
+      clearTimeout(record.timer);
+      record.el.remove();
+    });
+    activeFallingChips.length = 0;
+  }
+
+  dragonEl.addEventListener('pointerdown', function(e){
+    if (!running || !snared) return;
+    dragging = true;
+    var aRect = area.getBoundingClientRect();
+    dragOffsetX = (e.clientX - aRect.left) - dragonX;
+    dragOffsetY = (e.clientY - aRect.top) - dragonY;
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  area.addEventListener('pointermove', function(e){
+    if (!dragging) return;
+    var aRect = area.getBoundingClientRect();
+    dragonX = (e.clientX - aRect.left) - dragOffsetX;
+    dragonY = (e.clientY - aRect.top) - dragOffsetY;
+    dragonX = Math.max(0, Math.min(W - dragonW, dragonX));
+    dragonY = Math.max(0, Math.min(H - dragonH, dragonY));
+    dragonEl.style.left = dragonX + 'px';
+    dragonEl.style.top = dragonY + 'px';
+    updateSnareBoxPosition();
+  });
+
+  var suppressNextClick = false;
+
+  window.addEventListener('pointerup', function(){
+    if (!dragging) return;
+    dragging = false;
+    if (snared) checkCorralDrop();
+    suppressNextClick = true;
+    setTimeout(function(){ suppressNextClick = false; }, 50);
+  });
+
+  area.addEventListener('click', function(e){
+    if (!running || snared || suppressNextClick) return;
     var aRect = area.getBoundingClientRect();
     throwRope(e.clientX - aRect.left, e.clientY - aRect.top);
   });
 
-  function startGame(){
+  var P1_KEYS = ['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d',' '];
+
+  function triggerP1ChipDrop(){
+    if (!running || !twoPlayerMode || snared || dragging) return;
+    if (chipBroadcastInProgress || p1BroadcastsRemaining <= 0) return;
+    p1BroadcastsRemaining--;
+    if (hudBroadcasts) hudBroadcasts.textContent = p1BroadcastsRemaining;
+    startChipBroadcast();
+  }
+
+  window.addEventListener('keydown', function(e){
+    if (duelRunning){
+      if (e.key === ' '){ e.preventDefault(); duelBreatheFire(); }
+      return;
+    }
+    if (!twoPlayerMode || !running) return;
+    var k = e.key.toLowerCase();
+    if (P1_KEYS.indexOf(k) === -1) return;
+    e.preventDefault();
+    p1Keys[k] = true;
+    if (k === ' ') triggerP1ChipDrop();
+  });
+
+  window.addEventListener('keyup', function(e){
+    var k = e.key.toLowerCase();
+    if (P1_KEYS.indexOf(k) === -1) return;
+    p1Keys[k] = false;
+  });
+
+  var rulesCard = document.getElementById('rulesCard');
+  var howToPlayLink = document.getElementById('howToPlayLink');
+
+  function setRulesCollapsed(collapsed){
+    rulesCard.style.display = collapsed ? 'none' : '';
+    howToPlayLink.style.display = collapsed ? 'inline' : 'none';
+  }
+
+  howToPlayLink.addEventListener('click', function(e){
+    e.preventDefault();
+    rulesCard.style.display = '';
+    rulesCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  function setTipWidgetHidden(hidden){
+    var tipBar = document.getElementById('sdc-tip-widget');
+    if (!tipBar) return;
+    if (hidden){
+      tipBar.style.top = '0';
+      tipBar.style.bottom = 'auto';
+      tipBar.style.borderTop = 'none';
+      tipBar.style.borderBottom = '2px solid var(--accent,#b5651d)';
+      tipBar.style.boxShadow = '0 4px 14px rgba(0,0,0,0.4)';
+    } else {
+      tipBar.style.top = 'auto';
+      tipBar.style.bottom = '0';
+      tipBar.style.borderTop = '2px solid var(--accent,#b5651d)';
+      tipBar.style.borderBottom = 'none';
+      tipBar.style.boxShadow = '0 -4px 14px rgba(0,0,0,0.4)';
+    }
+  }
+
+  function startGame(isTwoPlayer){
+    setTipWidgetHidden(true);
+    setRulesCollapsed(true);
+    twoPlayerMode = !!isTwoPlayer;
+    p1Keys = {};
+    p1ControlsHint.classList.toggle('show', twoPlayerMode);
+    hudBroadcastsRow.style.display = twoPlayerMode ? 'block' : 'none';
+    p1BroadcastsRemaining = P1_BROADCAST_MAX;
+    hudBroadcasts.textContent = p1BroadcastsRemaining;
+    caveTriggered = false;
+    nextBroadcastAllowedAt = 0;
+    if (inCaveScene) exitCaveScene();
     score = 0; level = 1; fireTimer = 0; nextFireCheck = 3000;
+    chocCalories = 0; chocHitCount = 0;
     hudScore.textContent = 0;
     hudLevel.textContent = 1;
+    hudCalories.textContent = 0;
+    clearRopePower();
+    endSnareUI();
     overlay.classList.remove('show');
     playerEl.classList.remove('toasted');
+    playerEl.style.transform = 'translateX(-50%) scale(1)';
+    resetFace();
+    bombardmentChocCharged = false;
+    updateLevelBackground();
     resize();
     placeDragonRandom();
     draw();
     running = true;
     lastTime = performance.now();
     rafId = requestAnimationFrame(tick);
+    startNumberSpawner();
+    if (!twoPlayerMode) startChipCycle();
   }
 
-  function endGame(caught){
+  function endGame(reason){
+    setTipWidgetHidden(false);
+    setRulesCollapsed(false);
     running = false;
     if (rafId) cancelAnimationFrame(rafId);
+    stopNumberSpawner();
+    clearRopePower();
+    endSnareUI();
+    stopChipCycle();
     if (score > best){
       best = score;
       localStorage.setItem('sdc_rope_best', String(best));
       hudBest.textContent = best;
     }
     playerEl.classList.add('toasted');
-    overlayEmoji.textContent = '😊🔥😊';
-    overlayTitle.textContent = 'Happy Demise!';
-    overlayText.textContent = 'The dragon got you — but everyone\'s smiling. Final score: ' + score + '. Best: ' + best + '.';
-    startBtn.textContent = 'Play Again';
+    p1ControlsHint.classList.remove('show');
+    if (twoPlayerMode && reason === 'p2win'){
+      overlayEmoji.textContent = '🏆🎉';
+      overlayTitle.textContent = 'Player 2 Wins!';
+      overlayText.textContent = 'The deflector caught the dragon enough times! Final score: ' + score + '.';
+    } else if (twoPlayerMode && reason === 'choc'){
+      overlayEmoji.textContent = '🏆🍫';
+      overlayTitle.textContent = 'Player 1 Wins!';
+      overlayText.textContent = 'The dragon bombed Player 2 with enough chocolate! Final score: ' + score + '.';
+    } else if (reason === 'choc'){
+      overlayEmoji.textContent = '🍫😵🍫';
+      overlayTitle.textContent = 'Chocolate Overload!';
+      overlayText.textContent = 'Too many chips landed — you\'ve had plenty of sugar for one day. Final score: ' + score + '. Best: ' + best + '.';
+    } else {
+      overlayEmoji.textContent = '😊🔥😊';
+      overlayTitle.textContent = 'Happy Demise!';
+      overlayText.textContent = 'The dragon got you — but everyone\'s smiling. Final score: ' + score + '. Best: ' + best + '.';
+    }
+    startBtn.textContent = twoPlayerMode ? '1 Player' : 'Play Again';
+    start2pBtn.textContent = '2 Player';
     overlay.classList.add('show');
   }
 
-  startBtn.addEventListener('click', startGame);
+  function enterCaveScene(){
+    inCaveScene = true;
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    stopNumberSpawner();
+    stopChipCycle();
+    clearRopePower();
+    endSnareUI();
+    caveScore = 0;
+    caveLives = 3;
+    caveScoreDisplay.textContent = caveScore;
+    caveLivesDisplay.textContent = caveLives;
+    caveMessage.classList.remove('show');
+    caveScene.classList.add('show');
+    startCaveRaptors();
+  }
+
+  function exitCaveScene(){
+    inCaveScene = false;
+    stopCaveRaptors();
+    caveScene.classList.remove('show');
+  }
+
+  function spawnRaptor(){
+    if (!inCaveScene) return;
+    if (activeRaptors.length >= CAVE_MAX_RAPTORS) return;
+    var el = document.createElement('div');
+    el.className = 'raptor';
+    var margin = 20;
+    var x = margin + Math.random() * (W - margin * 2 - 92);
+    var y = 50 + Math.random() * (H - 50 - 90 - 66);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    caveScene.appendChild(el);
+    var raptor = { el: el, timer: null, slain: false };
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      if (raptor.slain) return;
+      slayRaptor(raptor);
+    });
+    raptor.timer = setTimeout(function(){
+      if (!raptor.slain) raptorAttack(raptor);
+    }, 3200);
+    activeRaptors.push(raptor);
+  }
+
+  function removeRaptorFromList(raptor){
+    var idx = activeRaptors.indexOf(raptor);
+    if (idx !== -1) activeRaptors.splice(idx, 1);
+  }
+
+  function slayRaptor(raptor){
+    raptor.slain = true;
+    if (raptor.timer) clearTimeout(raptor.timer);
+    raptor.el.classList.add('slain');
+    caveScore += 2;
+    caveScoreDisplay.textContent = caveScore;
+    setTimeout(function(){
+      raptor.el.remove();
+      removeRaptorFromList(raptor);
+    }, 300);
+    if (caveScore >= CAVE_TARGET) caveWin();
+  }
+
+  function raptorAttack(raptor){
+    raptor.slain = true;
+    raptor.el.remove();
+    removeRaptorFromList(raptor);
+    caveLives--;
+    caveLivesDisplay.textContent = Math.max(caveLives, 0);
+    if (caveLives <= 0) caveLose();
+  }
+
+  function startCaveRaptors(){
+    stopCaveRaptors();
+    spawnRaptor();
+    caveRaptorInterval = setInterval(spawnRaptor, 2200);
+  }
+
+  function stopCaveRaptors(){
+    if (caveRaptorInterval){ clearInterval(caveRaptorInterval); caveRaptorInterval = null; }
+    activeRaptors.forEach(function(r){
+      if (r.timer) clearTimeout(r.timer);
+      r.el.remove();
+    });
+    activeRaptors.length = 0;
+  }
+
+  function caveLose(){
+    stopCaveRaptors();
+    caveMessage.textContent = 'Hurry up and get back to this level... you must save the mother dragon and her baby.';
+    caveMessage.classList.add('show');
+    setTimeout(function(){
+      exitCaveScene();
+      caveTriggered = false;
+      startGame();
+    }, 3200);
+  }
+
+  function caveWin(){
+    stopCaveRaptors();
+    caveMessage.textContent = 'The cave is clear! Something is waiting deeper in...';
+    caveMessage.classList.add('show');
+    setTimeout(function(){
+      caveScene.classList.remove('show');
+      caveMessage.classList.remove('show');
+      enterBossScene();
+    }, 2600);
+  }
+
+  var bossScene = document.getElementById('bossScene');
+  var bossLivesDisplay = document.getElementById('bossLivesDisplay');
+  var bossDamageDisplay = document.getElementById('bossDamageDisplay');
+  var bossIntroBanner = document.getElementById('bossIntroBanner');
+  var antagonistDragon = document.getElementById('antagonistDragon');
+  var bossFlameBeam = document.getElementById('bossFlameBeam');
+  var bossPauseOverlay = document.getElementById('bossPauseOverlay');
+  var bossMessage = document.getElementById('bossMessage');
+
+  var bossRunning = false;
+  var bossLives = 2;
+  var bossDamage = 0;
+  var BOSS_TARGET_SECONDS = 8;
+  var bossNumberInterval = null;
+  var activeBossNumber = null;
+  var bossAttackInterval = null;
+  var bossSequenceActive = false;
+
+  function enterBossScene(){
+    bossRunning = true;
+    bossLives = 2;
+    bossDamage = 0;
+    bossSequenceActive = false;
+    bossLivesDisplay.textContent = bossLives;
+    bossDamageDisplay.textContent = 0;
+    antagonistDragon.classList.remove('defeated');
+    bossMessage.classList.remove('show');
+    bossScene.classList.add('show');
+
+    bossIntroBanner.textContent = '🎺 The trumpets sound! You receive 2 extra lives!';
+    bossIntroBanner.classList.add('show');
+    setTimeout(function(){
+      bossIntroBanner.classList.remove('show');
+      startBossNumberSpawner();
+      startBossAttacks();
+    }, 2200);
+  }
+
+  function exitBossScene(){
+    bossRunning = false;
+    stopBossNumberSpawner();
+    if (bossAttackInterval){ clearInterval(bossAttackInterval); bossAttackInterval = null; }
+    bossScene.classList.remove('show');
+  }
+
+  function spawnBossNumber(){
+    if (!bossRunning || bossSequenceActive) return;
+    if (activeBossNumber){ activeBossNumber.remove(); activeBossNumber = null; }
+    var n = 1 + Math.floor(Math.random() * 5);
+    var el = document.createElement('div');
+    el.className = 'floating-number p' + n;
+    el.textContent = n;
+    var margin = 40;
+    var x = margin + Math.random() * (bossScene.clientWidth - margin * 2 - 34);
+    var y = 220 + Math.random() * (bossScene.clientHeight - 300);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      el.remove();
+      if (activeBossNumber === el) activeBossNumber = null;
+      triggerBossFlameSequence(n);
+    });
+    bossScene.appendChild(el);
+    activeBossNumber = el;
+  }
+
+  function startBossNumberSpawner(){
+    spawnBossNumber();
+    bossNumberInterval = setInterval(spawnBossNumber, 5000);
+  }
+
+  function stopBossNumberSpawner(){
+    if (bossNumberInterval){ clearInterval(bossNumberInterval); bossNumberInterval = null; }
+    if (activeBossNumber){ activeBossNumber.remove(); activeBossNumber = null; }
+  }
+
+  function positionBossFlameBeam(){
+    var swordRect = document.getElementById('bossSword').getBoundingClientRect();
+    var dragonRect = antagonistDragon.getBoundingClientRect();
+    var sceneRect = bossScene.getBoundingClientRect();
+    var sx = (swordRect.left - sceneRect.left) + swordRect.width / 2;
+    var sy = (swordRect.top - sceneRect.top) + swordRect.height / 2;
+    var dx = (dragonRect.left - sceneRect.left) + dragonRect.width / 2;
+    var dy = (dragonRect.top - sceneRect.top) + dragonRect.height / 2;
+    var dist = Math.sqrt(Math.pow(dx - sx, 2) + Math.pow(dy - sy, 2));
+    var angle = Math.atan2(dy - sy, dx - sx) * 180 / Math.PI;
+    bossFlameBeam.style.left = sx + 'px';
+    bossFlameBeam.style.top = sy + 'px';
+    bossFlameBeam.style.width = dist + 'px';
+    bossFlameBeam.style.transform = 'rotate(' + angle + 'deg)';
+  }
+
+  function triggerBossFlameSequence(n){
+    if (!bossRunning) return;
+    bossSequenceActive = true;
+    stopBossNumberSpawner();
+    bossPauseOverlay.textContent = 'Grabbed ' + n + '! Steadying the blade...';
+    bossPauseOverlay.classList.add('show');
+
+    setTimeout(function(){
+      bossPauseOverlay.textContent = '🎺 Trumpet blast! 🎺';
+      setTimeout(function(){
+        bossPauseOverlay.classList.remove('show');
+        positionBossFlameBeam();
+        bossFlameBeam.classList.add('active');
+        antagonistDragon.classList.add('scorched');
+
+        setTimeout(function(){
+          bossFlameBeam.classList.remove('active');
+          antagonistDragon.classList.remove('scorched');
+          bossDamage += n;
+          bossDamageDisplay.textContent = Math.min(bossDamage, BOSS_TARGET_SECONDS);
+          bossSequenceActive = false;
+          if (bossDamage >= BOSS_TARGET_SECONDS){
+            bossVictory();
+          } else if (bossRunning){
+            startBossNumberSpawner();
+          }
+        }, n * 1000);
+      }, 2000);
+    }, 3000);
+  }
+
+  function startBossAttacks(){
+    if (bossAttackInterval) clearInterval(bossAttackInterval);
+    bossAttackInterval = setInterval(function(){
+      if (!bossRunning || bossSequenceActive) return;
+      if (Math.random() < 0.35) bossAttackPlayer();
+    }, 4500);
+  }
+
+  function bossAttackPlayer(){
+    antagonistDragon.classList.add('attacking');
+    setTimeout(function(){ antagonistDragon.classList.remove('attacking'); }, 400);
+    bossLives--;
+    bossLivesDisplay.textContent = Math.max(bossLives, 0);
+    if (bossLives <= 0) bossDefeat();
+  }
+
+  function bossVictory(){
+    exitBossScene();
+    playerEl.classList.add('toasted');
+    overlayEmoji.textContent = '🏆🐲';
+    overlayTitle.textContent = 'The Mother Dragon is Saved!';
+    overlayText.textContent = 'Eight seconds of flame brought the antagonist dragon down for good. You did it — final score: ' + score + '.';
+    startBtn.textContent = '1 Player';
+    overlay.classList.add('show');
+  }
+
+  function bossDefeat(){
+    exitBossScene();
+    bossMessage.textContent = 'Hurry up and get back to this level... you must save the mother dragon and her baby.';
+    bossScene.classList.add('show');
+    bossMessage.classList.add('show');
+    setTimeout(function(){
+      bossScene.classList.remove('show');
+      bossMessage.classList.remove('show');
+      caveTriggered = false;
+      startGame(false);
+    }, 3200);
+  }
+
+  function showRoleSelect(title){
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    stopNumberSpawner();
+    clearRopePower();
+    endSnareUI();
+    stopChipCycle();
+    p1ControlsHint.classList.remove('show');
+    roleSelectTitle.textContent = title;
+    roleSelectOverlay.classList.add('show');
+  }
+
+  function pickRole(role){
+    roleSelectOverlay.classList.remove('show');
+    duelWinnerRole = role;
+    startDuel();
+  }
+
+  function startDuel(){
+    duelRunning = true;
+    duelDragonPts = 0; duelProtagonistPts = 0;
+    duelDragonScore.textContent = 0;
+    duelProtagonistScore.textContent = 0;
+    babyGrowth = 0;
+    babyDragonEl.style.transform = 'translate(-50%,0) scale(1)';
+    babyDragonEl.classList.remove('mouth-open', 'exploding');
+    babyDragonEl.textContent = '🐉';
+    menacingDragonSprite.classList.remove('breathing');
+    reflectRect.classList.remove('active');
+    reflectActiveUntil = 0;
+    duelBreathCooldownUntil = 0;
+    duelMessage.classList.remove('show');
+    duelScene.classList.add('show');
+    if (motherTearInterval) clearInterval(motherTearInterval);
+    motherTearInterval = setInterval(spawnMotherTear, 2000);
+    if (duelTriangleInterval) clearInterval(duelTriangleInterval);
+    spawnDuelTriangle();
+    duelTriangleInterval = setInterval(spawnDuelTriangle, 4000);
+  }
+
+  function stopDuel(){
+    duelRunning = false;
+    if (motherTearInterval){ clearInterval(motherTearInterval); motherTearInterval = null; }
+    if (duelTriangleInterval){ clearInterval(duelTriangleInterval); duelTriangleInterval = null; }
+    if (activeDuelTriangle){ activeDuelTriangle.remove(); activeDuelTriangle = null; }
+    if (duelSnareCountdownInterval){ clearInterval(duelSnareCountdownInterval); duelSnareCountdownInterval = null; }
+    duelSnared = false; duelDragging = false;
+    duelSnareBox.classList.remove('active');
+    duelCaptureTimer.classList.remove('active');
+  }
+
+  function spawnMotherTear(){
+    if (!duelRunning) return;
+    var tear = document.createElement('div');
+    tear.className = 'duel-tear';
+    tear.textContent = '💧';
+    var mRect = motherDragonEl.getBoundingClientRect();
+    var sRect = duelScene.getBoundingClientRect();
+    tear.style.left = (mRect.left - sRect.left + 16) + 'px';
+    tear.style.top = (mRect.top - sRect.top + 30) + 'px';
+    duelScene.appendChild(tear);
+    setTimeout(function(){ tear.remove(); }, 1400);
+  }
+
+  function spawnDuelTriangle(){
+    if (!duelRunning) return;
+    if (activeDuelTriangle){ activeDuelTriangle.remove(); activeDuelTriangle = null; }
+    var el = document.createElement('div');
+    el.className = 'chip-triangle';
+    var span = document.createElement('span');
+    span.textContent = '⚔';
+    el.appendChild(span);
+    var W2 = duelScene.clientWidth, H2 = duelScene.clientHeight;
+    var x = 40 + Math.random() * (W2 - 120);
+    var y = 130 + Math.random() * (H2 - 260);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      activateReflect();
+      el.remove();
+      if (activeDuelTriangle === el) activeDuelTriangle = null;
+    });
+    duelScene.appendChild(el);
+    activeDuelTriangle = el;
+  }
+
+  function activateReflect(){
+    reflectRect.classList.add('active');
+    reflectActiveUntil = performance.now() + 3000;
+    var dRect = menacingDragonSprite.getBoundingClientRect();
+    var sRect = duelScene.getBoundingClientRect();
+    reflectRect.style.left = (dRect.left - sRect.left - 20) + 'px';
+    reflectRect.style.top = (dRect.top - sRect.top + 10) + 'px';
+    setTimeout(function(){
+      if (performance.now() >= reflectActiveUntil) reflectRect.classList.remove('active');
+    }, 3000);
+  }
+
+  function duelBreatheFire(){
+    if (!duelRunning || performance.now() < duelBreathCooldownUntil) return;
+    duelBreathCooldownUntil = performance.now() + 1600;
+    menacingDragonSprite.classList.add('breathing');
+    setTimeout(function(){ menacingDragonSprite.classList.remove('breathing'); }, 300);
+
+    if (performance.now() < reflectActiveUntil){
+      duelProtagonistPts += 5;
+      duelProtagonistScore.textContent = duelProtagonistPts;
+      if (duelProtagonistPts >= DUEL_TARGET) endDuel('protagonist');
+      return;
+    }
+    duelDragonPts += 10;
+    duelDragonScore.textContent = duelDragonPts;
+    babyGrowth++;
+    babyDragonEl.classList.add('mouth-open');
+    babyDragonEl.style.transform = 'translate(-50%,0) scale(' + (1 + babyGrowth * 0.25) + ')';
+    setTimeout(function(){ babyDragonEl.classList.remove('mouth-open'); }, 400);
+    if (duelDragonPts >= DUEL_TARGET){
+      babyDragonEl.classList.add('exploding');
+      setTimeout(function(){ endDuel('dragon'); }, 500);
+    }
+  }
+
+  function updateDuelSnareBoxPosition(){
+    var dRect = menacingDragonSprite.getBoundingClientRect();
+    var sRect = duelScene.getBoundingClientRect();
+    duelSnareBox.style.left = (dRect.left - sRect.left - 10) + 'px';
+    duelSnareBox.style.top = (dRect.top - sRect.top - 10) + 'px';
+    duelSnareBox.style.width = (dRect.width + 20) + 'px';
+    duelSnareBox.style.height = (dRect.height + 20) + 'px';
+  }
+
+  function startDuelSnare(){
+    duelSnared = true;
+    updateDuelSnareBoxPosition();
+    duelSnareBox.classList.add('active');
+    duelSnareExpiresAt = performance.now() + 3000;
+    duelCaptureTimer.textContent = '3';
+    duelCaptureTimer.classList.add('active');
+    if (duelSnareCountdownInterval) clearInterval(duelSnareCountdownInterval);
+    duelSnareCountdownInterval = setInterval(function(){
+      var remaining = Math.max(0, Math.ceil((duelSnareExpiresAt - performance.now()) / 1000));
+      duelCaptureTimer.textContent = remaining;
+      if (performance.now() >= duelSnareExpiresAt){
+        clearInterval(duelSnareCountdownInterval);
+        duelSnareCountdownInterval = null;
+        endDuelSnareUI();
+      }
+    }, 100);
+  }
+
+  function endDuelSnareUI(){
+    duelSnared = false;
+    duelDragging = false;
+    duelSnareBox.classList.remove('active');
+    duelCaptureTimer.classList.remove('active');
+    if (duelSnareCountdownInterval){ clearInterval(duelSnareCountdownInterval); duelSnareCountdownInterval = null; }
+  }
+
+  function checkDuelCorralDrop(){
+    var cRect = duelCorral.getBoundingClientRect();
+    var dRect = menacingDragonSprite.getBoundingClientRect();
+    var overlap = !(dRect.right < cRect.left || dRect.left > cRect.right || dRect.bottom < cRect.top || dRect.top > cRect.bottom);
+    if (overlap) endDuel('protagonist');
+  }
+
+  menacingDragonSprite.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (!duelRunning || duelSnared) return;
+    startDuelSnare();
+  });
+
+  menacingDragonSprite.addEventListener('pointerdown', function(e){
+    if (!duelRunning || !duelSnared) return;
+    duelDragging = true;
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  duelScene.addEventListener('pointermove', function(e){
+    if (!duelDragging) return;
+    var sRect = duelScene.getBoundingClientRect();
+    var x = e.clientX - sRect.left, y = e.clientY - sRect.top;
+    menacingDragonSprite.style.left = x + 'px';
+    menacingDragonSprite.style.top = y + 'px';
+    menacingDragonSprite.style.transform = 'scale(1.5)';
+    updateDuelSnareBoxPosition();
+  });
+
+  window.addEventListener('pointerup', function(){
+    if (!duelDragging) return;
+    duelDragging = false;
+    if (duelSnared) checkDuelCorralDrop();
+  });
+
+  function endDuel(winner){
+    stopDuel();
+    duelScene.classList.remove('show');
+    var winningPlayer;
+    if ((winner === 'protagonist' && duelWinnerRole === 'protagonist') || (winner === 'dragon' && duelWinnerRole === 'dragon')){
+      winningPlayer = phase1WinnerPlayer;
+    } else {
+      winningPlayer = phase1WinnerPlayer === 1 ? 2 : 1;
+    }
+    playerEl.classList.add('toasted');
+    overlayEmoji.textContent = winner === 'dragon' ? '🏆🐉' : '🏆⚔️';
+    overlayTitle.textContent = 'Player ' + winningPlayer + ' Wins the Duel!';
+    overlayText.textContent = winner === 'dragon'
+      ? 'The baby dragon couldn\'t take any more chocolate fire and burst with joy. The menacing dragon reigns supreme.'
+      : 'The protagonist either reflected the fire back or roped the dragon straight into the corral. Victory!';
+    startBtn.textContent = '1 Player';
+    start2pBtn.textContent = '2 Player';
+    overlay.classList.add('show');
+  }
+
+  pickProtagonistBtn.addEventListener('click', function(){ pickRole('protagonist'); });
+  pickDragonBtn.addEventListener('click', function(){ pickRole('dragon'); });
+
+  startBtn.addEventListener('click', function(){ startGame(false); });
+  start2pBtn.addEventListener('click', function(){ startGame(true); });
+
+  if (location.search.indexOf('testact3') !== -1){
+    startGame(false);
+    setTimeout(function(){
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      stopNumberSpawner();
+      stopChipCycle();
+      enterBossScene();
+    }, 200);
+  }
 })();
 </script>
 </body>
