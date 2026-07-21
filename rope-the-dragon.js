@@ -495,7 +495,6 @@
 
   function deflectAllFallingChips(){
     var toDeflect = activeFallingChips.slice();
-    console.log('[chip] shield activated — sweeping away ' + toDeflect.length + ' already-falling chip(s)');
     activeFallingChips.length = 0;
     toDeflect.forEach(function(record){
       record.done = true;
@@ -554,13 +553,12 @@
   var CM_PX = 96 / 2.54;
 
   function checkChipPlayerHit(finalX){
-    if (!running){ console.log('[chip] hit-check skipped, game not running'); return; }
+    if (!running){ return; }
     var pRect = playerEl.getBoundingClientRect();
     var aRect = area.getBoundingClientRect();
     var playerCenterX = (pRect.left - aRect.left) + pRect.width / 2;
     var zoneLeft = playerCenterX - PLAYER_HALF_WIDTH, zoneRight = playerCenterX + PLAYER_HALF_WIDTH;
     var isHit = finalX > zoneLeft && finalX < zoneRight;
-    console.log('[chip] hit-check: finalX=' + finalX.toFixed(1) + ' playerCenterX=' + playerCenterX.toFixed(1) + ' zone=[' + zoneLeft.toFixed(1) + ',' + zoneRight.toFixed(1) + '] isHit=' + isHit + ' bombardmentChocCharged=' + bombardmentChocCharged);
     if (isHit){
       hitPlayerWithChip();
     }
@@ -585,7 +583,6 @@
     chip.style.left = driftX + 'px';
     chip.style.top = y + 'px';
     area.appendChild(chip);
-    console.log('[chip] spawned driftX=' + driftX.toFixed(1) + ' originY=' + originY.toFixed(1) + ' shieldActive=' + chipShieldActive);
 
     var targetY = H - 14;
     var totalDist = Math.max(targetY - originY, 1);
@@ -647,9 +644,8 @@
 
   function hitPlayerWithChip(){
     showFrown();
-    if (bombardmentChocCharged){ console.log('[chip] hit registered but calorie charge SKIPPED — bombardment already charged this cycle'); return; }
+    if (bombardmentChocCharged){ return; }
     bombardmentChocCharged = true;
-    console.log('[chip] calorie charge FIRING now, chocCalories was ' + chocCalories);
     chocCalories += 5;
     chocHitCount++;
     hudCalories.textContent = chocCalories;
@@ -669,7 +665,6 @@
   }
 
   function startChipBroadcast(){
-    console.log('[chip] === broadcast starting, resetting bombardmentChocCharged ===');
     bombardmentChocCharged = false;
     chipBroadcastInProgress = true;
     nextBroadcastAllowedAt = performance.now() + 1500 + BROADCAST_COOLDOWN_MS;
