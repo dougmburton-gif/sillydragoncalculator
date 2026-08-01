@@ -80,3 +80,18 @@
     }
   });
 })();
+
+/* Sister-site cross-link -> tontoaxolote.com (added on every page via this shared script) */
+(function(){
+  try {
+    var foot = document.getElementById('sitefooter');
+    if (!foot || /tontoaxolote/i.test(foot.innerHTML)) return;
+    foot.appendChild(document.createTextNode(' \u00b7 '));
+    var a = document.createElement('a');
+    a.href = 'https://tontoaxolote.com/';
+    a.textContent = '\uD83E\uDD8E Spanish for Kids';
+    a.title = 'Tonto Axolote \u2014 our sister site: bilingual Spanish for kids';
+    a.rel = 'noopener';
+    foot.appendChild(a);
+  } catch (e) {}
+})();
