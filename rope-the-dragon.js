@@ -298,7 +298,7 @@
         fireTimer = 0;
         nextFireCheck = 2200 + Math.random() * 1800;
         var chance = Math.min(0.08 + (level - 3) * 0.05, 0.4);
-        if (Math.random() < chance) breatheFire();
+        if (Math.random() < chance && isDragonFacingPlayer()) breatheFire();
       }
     }
 
@@ -326,10 +326,47 @@
     rafId = requestAnimationFrame(tick);
   }
 
+  function getDragonMouthPos(){
+    var facingLeft = dragonEl.classList.contains('face-left');
+    return {
+      x: dragonX + (facingLeft ? dragonW * 0.25 : dragonW * 0.75),
+      y: dragonY + dragonH * 0.35
+    };
+  }
+
+  function isDragonFacingPlayer(){
+    var mouth = getDragonMouthPos();
+    var pRect = playerEl.getBoundingClientRect();
+    var aRect = area.getBoundingClientRect();
+    var pcx = (pRect.left - aRect.left) + pRect.width / 2;
+    var facingLeft = dragonEl.classList.contains('face-left');
+    if (facingLeft) return pcx <= mouth.x + 24;
+    return pcx >= mouth.x - 24;
+  }
+
+  function fireBeamHitsPlayer(mouthX, mouthY, beamLen){
+    if (beamLen < 8) return false;
+    var pRect = playerEl.getBoundingClientRect();
+    var aRect = area.getBoundingClientRect();
+    var pcx = (pRect.left - aRect.left) + pRect.width / 2;
+    var pcy = (pRect.top - aRect.top) + pRect.height / 2;
+    var dx = pcx - mouthX, dy = pcy - mouthY;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 1) return true;
+    var ux = dx / dist, uy = dy / dist;
+    var t = (pcx - mouthX) * ux + (pcy - mouthY) * uy;
+    if (t < 0 || t > beamLen) return false;
+    var closestX = mouthX + ux * t, closestY = mouthY + uy * t;
+    var miss = Math.sqrt((pcx - closestX) * (pcx - closestX) + (pcy - closestY) * (pcy - closestY));
+    var hitRadius = Math.max(pRect.width, pRect.height) / 2 + 14;
+    return miss <= hitRadius;
+  }
+
   function breatheFire(){
+    if (!isDragonFacingPlayer()) return;
     dragonEl.classList.add('mouth-open');
-    var dcx = dragonX + dragonW * 0.75;
-    var dcy = dragonY + dragonH * 0.35;
+    var mouth = getDragonMouthPos();
+    var dcx = mouth.x, dcy = mouth.y;
     var pRect = playerEl.getBoundingClientRect();
     var aRect = area.getBoundingClientRect();
     var pcx = (pRect.left - aRect.left) + pRect.width / 2;
@@ -349,7 +386,8 @@
 
     setTimeout(function(){
       dragonEl.classList.remove('mouth-open');
-      endGame('fire');
+      fireEl.classList.remove('blast');
+      if (running && fireBeamHitsPlayer(dcx, dcy, dist)) endGame('fire');
     }, 450);
   }
 
@@ -704,7 +742,8 @@
     if (activeTriangleEl){ activeTriangleEl.remove(); activeTriangleEl = null; }
     clearChipShield();
     activeFallingChips.forEach(function(record){
-      clearTimeout(record.timer);
+      record.done = true;
+      if (record.rafId) cancelAnimationFrame(record.rafId);
       record.el.remove();
     });
     activeFallingChips.length = 0;
@@ -1386,4 +1425,21 @@
       enterBossScene();
     }, 200);
   }
+
+  function bindMissingImageFallback(img, emoji){
+    if (!img) return;
+    img.addEventListener('error', function onErr(){
+      img.removeEventListener('error', onErr);
+      var el = document.createElement('span');
+      el.id = img.id;
+      el.className = (img.className || '') + ' asset-fallback';
+      el.textContent = emoji;
+      el.setAttribute('aria-label', img.alt || emoji);
+      if (img.parentNode) img.parentNode.replaceChild(el, img);
+    });
+  }
+  bindMissingImageFallback(document.getElementById('caveSword'), '⚔️');
+  bindMissingImageFallback(document.getElementById('babyDragonBoss'), '🐉');
+  bindMissingImageFallback(document.getElementById('antagonistDragon'), '🐲');
+  bindMissingImageFallback(document.getElementById('bossSword'), '⚔️');
 })();

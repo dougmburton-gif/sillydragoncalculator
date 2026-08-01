@@ -200,7 +200,7 @@
 
   #caveScene{
     position:absolute; inset:0; z-index:70; display:none;
-    background:url('assets-cave-bg.jpg') center/cover no-repeat;
+    background:linear-gradient(180deg,#120a06 0%,#3d2817 45%,#2a1810 100%), url('assets-cave-bg.jpg') center/cover no-repeat;
     overflow:hidden;
   }
   #caveScene.show{ display:block; }
@@ -214,8 +214,13 @@
     width:56px; height:56px; object-fit:cover; border-radius:6px; z-index:74;
     filter:drop-shadow(0 4px 8px rgba(0,0,0,.7));
   }
+  #caveSword.asset-fallback, #bossSword.asset-fallback{
+    display:flex; align-items:center; justify-content:center; font-size:2.4rem;
+    object-fit:unset; filter:drop-shadow(0 4px 8px rgba(0,0,0,.7));
+  }
   .raptor{
     position:absolute; width:92px; height:66px; z-index:73; cursor:pointer;
+    background-color:#5a3820;
     background-image:url('assets-cave-raptor.jpg'); background-size:cover; background-position:center;
     border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,.6);
     transition:transform .15s ease;
@@ -323,7 +328,7 @@
 
   #bossScene{
     position:absolute; inset:0; z-index:70; display:none;
-    background:url('assets-boss-bg.jpg') center/cover no-repeat;
+    background:linear-gradient(180deg,#1a0810 0%,#4a1020 50%,#2a0a12 100%), url('assets-boss-bg.jpg') center/cover no-repeat;
     overflow:hidden;
   }
   #bossScene.show{ display:block; }
@@ -348,6 +353,10 @@
     position:absolute; top:70px; left:80px; z-index:73;
     width:70px; height:70px; object-fit:cover; border-radius:10px;
     box-shadow:0 4px 10px rgba(0,0,0,.6);
+  }
+  #babyDragonBoss.asset-fallback, #antagonistDragon.asset-fallback{
+    display:flex; align-items:center; justify-content:center; font-size:3rem;
+    object-fit:unset; background:rgba(0,0,0,.25);
   }
   #antagonistDragon{
     position:absolute; top:150px; left:50%; transform:translateX(-50%);
