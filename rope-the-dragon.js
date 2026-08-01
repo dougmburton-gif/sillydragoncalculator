@@ -587,19 +587,41 @@
     }, 2500);
   }
 
-  var PLAYER_HALF_WIDTH = 90;
   var CM_PX = 96 / 2.54;
+  var CHIP_SIZE = 14;
 
-  function checkChipPlayerHit(finalX){
-    if (!running){ return; }
+  function getPlayerHitRect(){
     var pRect = playerEl.getBoundingClientRect();
     var aRect = area.getBoundingClientRect();
-    var playerCenterX = (pRect.left - aRect.left) + pRect.width / 2;
-    var zoneLeft = playerCenterX - PLAYER_HALF_WIDTH, zoneRight = playerCenterX + PLAYER_HALF_WIDTH;
-    var isHit = finalX > zoneLeft && finalX < zoneRight;
-    if (isHit){
-      hitPlayerWithChip();
-    }
+    var left = pRect.left - aRect.left;
+    var top = pRect.top - aRect.top;
+    return {
+      left: left,
+      right: left + pRect.width,
+      top: top,
+      bottom: top + pRect.height,
+      hitLineY: top - CM_PX
+    };
+  }
+
+  function chipNearPlayer(chipX, chipY){
+    var player = getPlayerHitRect();
+    var chipLeft = chipX;
+    var chipRight = chipX + CHIP_SIZE;
+    var chipBottom = chipY + CHIP_SIZE;
+    var overPlayerX = chipRight > player.left && chipLeft < player.right;
+    var atHitHeight = chipBottom >= player.hitLineY && chipY <= player.bottom;
+    return overPlayerX && atHitHeight;
+  }
+
+  function registerChipHit(record, chip, chipX, chipY){
+    if (record.done) return;
+    record.done = true;
+    chip.style.top = chipY + 'px';
+    createChipExplosion(chipX, chipY);
+    chip.remove();
+    removeFromFallingList(record);
+    if (running) hitPlayerWithChip();
   }
 
   var CHIP_FALL_MS = 1800;
@@ -636,9 +658,14 @@
       lastT = now;
       y += fallSpeed * dt;
 
-      if (!warned && (targetY - y) <= CM_PX){
+      if (!warned && chipNearPlayer(driftX, y)){
         warned = true;
         if (running) showFrown();
+      }
+
+      if (chipNearPlayer(driftX, y)){
+        registerChipHit(record, chip, driftX, y);
+        return;
       }
 
       if (y >= targetY){
@@ -648,7 +675,6 @@
         createChipExplosion(driftX, y);
         chip.remove();
         removeFromFallingList(record);
-        checkChipPlayerHit(driftX);
         return;
       }
 
@@ -692,6 +718,7 @@
 
   function hitPlayerWithChip(){
     showFrown();
+    showChocolateBanner();
     if (bombardmentChocCharged){ return; }
     bombardmentChocCharged = true;
     chocCalories += 5;
@@ -714,7 +741,6 @@
   function startChipBroadcast(){
     bombardmentChocCharged = false;
     chipBroadcastInProgress = true;
-    showChocolateBanner();
     nextBroadcastAllowedAt = performance.now() + 1500 + BROADCAST_COOLDOWN_MS;
     setTimeout(function(){ chipBroadcastInProgress = false; }, 1500);
     var count = 20;
