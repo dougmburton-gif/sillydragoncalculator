@@ -675,9 +675,19 @@
   }
 
   function showChocolateBanner(){
+    if (!chocolateBanner || !area) return;
+    var bannerW = chocolateBanner.offsetWidth || 320;
+    chocolateBanner.style.setProperty('--choc-start', area.clientWidth + 'px');
+    chocolateBanner.style.setProperty('--choc-end', (-bannerW - 24) + 'px');
     chocolateBanner.classList.remove('flying');
     void chocolateBanner.offsetWidth;
     chocolateBanner.classList.add('flying');
+  }
+
+  if (chocolateBanner){
+    chocolateBanner.addEventListener('animationend', function(e){
+      if (e.animationName === 'chocBannerFloat') chocolateBanner.classList.remove('flying');
+    });
   }
 
   function hitPlayerWithChip(){
@@ -687,7 +697,6 @@
     chocCalories += 5;
     chocHitCount++;
     hudCalories.textContent = chocCalories;
-    showChocolateBanner();
     playerEl.style.transform = 'translateX(-50%) scale(' + (1 + chocHitCount * 0.05) + ')';
     var pRect = playerEl.getBoundingClientRect();
     var aRect = area.getBoundingClientRect();
@@ -705,6 +714,7 @@
   function startChipBroadcast(){
     bombardmentChocCharged = false;
     chipBroadcastInProgress = true;
+    showChocolateBanner();
     nextBroadcastAllowedAt = performance.now() + 1500 + BROADCAST_COOLDOWN_MS;
     setTimeout(function(){ chipBroadcastInProgress = false; }, 1500);
     var count = 20;

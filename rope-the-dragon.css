@@ -186,16 +186,20 @@
 
   #chocolateBanner{
     position:absolute; z-index:46; pointer-events:none;
-    height:1cm; width:min(12cm, 90%); top:58%;
+    top:58%; left:0;
+    min-height:1cm; max-width:92%; padding:8px 20px;
     background:#5c3a1e; color:#ffd23c; font-weight:bold;
     display:flex; align-items:center; justify-content:center;
-    font-size:clamp(0.5rem, 2.8vw, 0.7rem); letter-spacing:.5px; white-space:nowrap;
-    left:100%; opacity:0; border-radius:2px;
+    font-size:clamp(0.55rem, 2.8vw, 0.75rem); letter-spacing:.5px; white-space:nowrap;
+    border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.45);
+    transform:translateX(var(--choc-start, 800px));
+    opacity:0;
   }
-  #chocolateBanner.flying{ animation:chocBannerFloat 2s linear forwards; }
+  #chocolateBanner.flying{ animation:chocBannerFloat 2.8s linear forwards; }
   @keyframes chocBannerFloat{
-    0%{ left:100%; opacity:1; }
-    100%{ left:-95%; opacity:1; }
+    0%{ transform:translateX(var(--choc-start, 800px)); opacity:1; }
+    92%{ opacity:1; }
+    100%{ transform:translateX(var(--choc-end, -420px)); opacity:0; }
   }
 
   #caveScene{
