@@ -11,7 +11,16 @@
     "Every Good Boy Does Fine — the lines of the treble clef: E, G, B, D, F.",
     "9 times any number 1–10? The digits of the answer always add up to 9. Try 9×7=63, and 6+3=9.",
     "A five-minute walk clears the head better than five more minutes staring at the same problem.",
-    "Writing a to-do list before bed helps your brain let go of the day and actually rest."
+    "Writing a to-do list before bed helps your brain let go of the day and actually rest.",
+    "Spring forward, fall back — clocks jump ahead an hour in spring and back an hour in autumn.",
+    "Righty tighty, lefty loosey — turn a screw or jar lid right to tighten, left to loosen.",
+    "I before E, except after C — believe, receive. (A few sneaky words like \"weird\" break the rule.)",
+    "FANBOYS — For, And, Nor, But, Or, Yet, So: the seven little words that join two full sentences.",
+    "In fourteen hundred ninety-two, Columbus sailed the ocean blue — an easy way to lock in the date.",
+    "Knuckle trick: months landing on a knuckle have 31 days; months in the dip have 30 (or 28).",
+    "The 20-20-20 rule: every 20 minutes, look at something 20 feet away for 20 seconds to rest your eyes.",
+    "Name it to tame it — putting a feeling into words (\"I'm frustrated\") actually calms your brain.",
+    "Writing something by hand helps you remember it better than typing it into your phone."
   ];
   var TIPS_ES = [
     "Paréntesis, Exponentes, Multiplicación, División, Adición, Sustracción — el orden correcto para resolver una expresión matemática.",
@@ -24,7 +33,15 @@
     "Mi-Sol-Si-Re-Fa · Fa-La-Do-Mi — las líneas y espacios del pentagrama en clave de sol.",
     "9 por cualquier número del 1 al 10: los dígitos del resultado siempre suman 9. Prueba 9×7=63, y 6+3=9.",
     "Una caminata de cinco minutos despeja la mente mejor que cinco minutos más mirando el mismo problema.",
-    "Escribir una lista de pendientes antes de dormir ayuda a que tu cerebro suelte el día y descanse de verdad."
+    "Escribir una lista de pendientes antes de dormir ayuda a que tu cerebro suelte el día y descanse de verdad.",
+    "Primavera adelanta, otoño atrasa — en primavera los relojes se adelantan una hora; en otoño se atrasan.",
+    "A la derecha aprieta, a la izquierda afloja — para tornillos y tapas de frasco.",
+    "En mil cuatrocientos noventa y dos, Colón llegó a América — una fecha fácil de recordar.",
+    "Truco de los nudillos: los meses que caen sobre un nudillo tienen 31 días; los del hueco, 30 (o 28).",
+    "La regla 20-20-20: cada 20 minutos, mira algo a 6 metros durante 20 segundos para descansar la vista.",
+    "Ponle nombre para calmarlo — decir en voz alta lo que sientes (\"estoy frustrado\") tranquiliza al cerebro.",
+    "Un vaso de agua al despertar despeja la mente: el cerebro amanece un poco deshidratado.",
+    "Escribir algo a mano ayuda a recordarlo mejor que escribirlo en el teléfono."
   ];
 
   var isEs = document.documentElement.lang === 'es';
