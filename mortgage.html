@@ -40,13 +40,12 @@
     --text:#f3ead8;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  html,body{height:100%;}
+  html{height:100%;}
   body{
     font-family:"Trebuchet MS", Verdana, sans-serif;
     background:#000; color:var(--text);
-    overflow:hidden;
   }
-  #stage{position:fixed; inset:0; overflow:hidden;}
+  #stage{position:relative; width:100%; height:100vh; overflow:hidden;}
   .bg-layer{position:absolute; inset:-20%; pointer-events:none;}
   .bg-smoke{
     background:
@@ -245,6 +244,20 @@
   body[data-theme="light"] .hint{ color:rgba(42,42,56,.55); }
   body[data-theme="light"] #sitefooter{ color:rgba(42,42,56,.5); }
   body[data-theme="light"] #sitefooter a{ color:rgba(42,42,56,.65); }
+
+  #calc-info{
+    max-width:720px; margin:0 auto; padding:36px 22px 50px;
+    font-size:0.9rem; line-height:1.75; color:#cfc9b8;
+  }
+  #calc-info h2{font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; font-size:1.15rem; margin:26px 0 10px;}
+  #calc-info h2:first-child{margin-top:0;}
+  #calc-info p{margin:0 0 12px;}
+  #calc-info ul{margin:0 0 14px; padding-left:20px;}
+  #calc-info li{margin-bottom:6px;}
+  #calc-info .faq-q{font-weight:bold; color:#efe9da; margin-bottom:2px;}
+  body[data-theme="light"] #calc-info{ color:#4a4636; }
+  body[data-theme="light"] #calc-info h2{ color:#2a2a38; }
+  body[data-theme="light"] #calc-info .faq-q{ color:#2a2a38; }
 </style>
 </head>
 <body>
@@ -369,6 +382,23 @@
   <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="blog.html">Blog</a> &middot; <a href="es/mortgage.html">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
     <p class="disclaimer">This mortgage calculator provides estimates only and does not constitute financial, lending, or legal advice, nor a loan offer or pre-qualification of any kind. Actual rates, terms, taxes, insurance, and fees vary by lender and location. Consult a licensed mortgage professional or financial advisor before making any home-buying decision. Silly Dragon Calculator is not responsible for any decisions made based on these estimates. As an Amazon Associate, Silly Dragon Calculator earns from qualifying purchases.</p>
   </div>
+</div>
+
+<div id="calc-info">
+  <h2>How this mortgage calculator works</h2>
+  <p>This calculator estimates your monthly principal and interest payment using the standard amortization formula: it takes your loan amount, spreads your interest rate out over each of the monthly payments across your full term, and solves for the fixed monthly payment that pays off the loan exactly on schedule. That's why the interest rate you type in — an annual rate — actually gets divided by 12 internally before the math runs, and why the term is converted from years into total months.</p>
+  <p>What this number does <strong>not</strong> include: property taxes, homeowners insurance, HOA dues, or PMI (private mortgage insurance). Lenders often bundle those into your actual monthly bill through an escrow account, so your real payment will typically be higher than the principal-and-interest number shown here — sometimes by several hundred dollars a month depending on your local tax rate and insurance costs.</p>
+
+  <h2>15-year vs. 30-year: what actually changes</h2>
+  <p>A 15-year mortgage carries a lower interest rate on average and pays off in half the time, but the monthly payment is meaningfully higher because you're repaying the same principal over half as many months. A 30-year mortgage spreads payments out further, lowering the monthly amount but increasing the total interest paid over the life of the loan by a large margin — often more than double, even at a similar rate. Try both terms in the calculator above with the same loan amount and rate to see the actual dollar difference for your numbers rather than relying on a rule of thumb.</p>
+
+  <h2>Frequently asked questions</h2>
+  <p class="faq-q">Does a bigger down payment lower my monthly payment?</p>
+  <p>Yes, directly — a larger down payment reduces the loan amount you're financing, which is the "principal" this calculator uses as its starting point. It can also help you avoid PMI if it gets you to 20% equity, which is a separate monthly cost this calculator doesn't estimate.</p>
+  <p class="faq-q">What's a "good" mortgage interest rate?</p>
+  <p>This moves with the broader market and your personal credit profile, so there's no fixed number that's permanently "good" — the useful habit is comparing offers from multiple lenders in the same week, since rates can vary meaningfully between lenders for the same borrower.</p>
+  <p class="faq-q">Why does my real payment not match this calculator?</p>
+  <p>The most common reason is escrowed taxes and insurance being added on top of the principal-and-interest figure shown here — see the note above. The second most common reason is a rate or term typo; double-check that you entered the interest rate as a plain annual percentage (like 6.5, not 0.065) and the term in years, not months.</p>
 </div>
 
 <script>

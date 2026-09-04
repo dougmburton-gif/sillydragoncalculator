@@ -40,13 +40,12 @@
     --text:#f3ead8;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  html,body{height:100%;}
+  html{height:100%;}
   body{
     font-family:"Trebuchet MS", Verdana, sans-serif;
     background:#000; color:var(--text);
-    overflow:hidden;
   }
-  #stage{position:fixed; inset:0; overflow:hidden;}
+  #stage{position:relative; width:100%; height:100vh; overflow:hidden;}
   .bg-layer{position:absolute; inset:-20%; pointer-events:none;}
   .bg-smoke{
     background:
@@ -238,6 +237,20 @@
   body[data-theme="light"] .hint{ color:rgba(42,42,56,.55); }
   body[data-theme="light"] #sitefooter{ color:rgba(42,42,56,.5); }
   body[data-theme="light"] #sitefooter a{ color:rgba(42,42,56,.65); }
+
+  #calc-info{
+    max-width:720px; margin:0 auto; padding:36px 22px 50px;
+    font-size:0.9rem; line-height:1.75; color:#cfc9b8;
+  }
+  #calc-info h2{font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; color:#efe9da; font-size:1.15rem; margin:26px 0 10px;}
+  #calc-info h2:first-child{margin-top:0;}
+  #calc-info p{margin:0 0 12px;}
+  #calc-info ul{margin:0 0 14px; padding-left:20px;}
+  #calc-info li{margin-bottom:6px;}
+  #calc-info .faq-q{font-weight:bold; color:#efe9da; margin-bottom:2px;}
+  body[data-theme="light"] #calc-info{ color:#4a4636; }
+  body[data-theme="light"] #calc-info h2{ color:#2a2a38; }
+  body[data-theme="light"] #calc-info .faq-q{ color:#2a2a38; }
 </style>
 </head>
 <body>
@@ -361,6 +374,29 @@
   <div id="sitefooter">&copy; Silly Dragon Calculator &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="blog.html">Blog</a> &middot; <a href="es/basic.html">Español</a> <img src="https://hits.sh/sillydragoncalculator.com.svg?style=flat-square&amp;label=visits&amp;color=b5651d" alt="visit counter" style="vertical-align:middle;height:13px;opacity:.85;">
     <p class="disclaimer">This calculator is provided for general informational purposes only and is not a substitute for professional advice. Results are estimates — Silly Dragon Calculator is not responsible for any decisions made based on these results. As an Amazon Associate, Silly Dragon Calculator earns from qualifying purchases.</p>
   </div>
+</div>
+
+<div id="calc-info">
+  <h2>How this basic calculator works</h2>
+  <p>This calculator handles the four core operations — addition, subtraction, multiplication, and division — following standard order of operations, so multiplication and division are applied before addition and subtraction in any expression that mixes them. It's built for quick, everyday math: splitting a bill, checking a total at the store, or working through homework problems that don't need trig or exponents.</p>
+
+  <h2>Calculating a percentage without a % key</h2>
+  <p>Even without a dedicated percent button, percentages are simple division and multiplication. To find 20% of 85, multiply 85 by 0.20 (move the decimal two places left from 20%). To find what percent one number is of another — say, what percent 34 is of 200 — divide 34 by 200 and multiply by 100. This same method covers tips, discounts, and sales tax without needing a separate percentage tool.</p>
+
+  <h2>Common everyday calculations</h2>
+  <ul>
+    <li><strong>Tip:</strong> multiply the bill by 0.15, 0.18, or 0.20 depending on the percentage you want to leave, then add that to the original bill.</li>
+    <li><strong>Sales tax:</strong> multiply the price by your local tax rate as a decimal (7.5% tax = multiply by 0.075), then add that to the price.</li>
+    <li><strong>Discount:</strong> multiply the original price by the discount rate, then subtract that amount from the original price — a 25%-off item multiplies the price by 0.25 to find the amount taken off.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+  <p class="faq-q">Why did my answer come out negative when I expected a positive number?</p>
+  <p>Check the order you subtracted in — 10 − 15 gives −5, while 15 − 10 gives 5. It's an easy digit-order slip when you're moving fast, especially when copying numbers from a receipt or worksheet.</p>
+  <p class="faq-q">Does this calculator save my previous calculation?</p>
+  <p>No — each new calculation starts fresh once you clear or begin typing a new expression, so if you need a result for a later step, write it down or use the on-screen result before moving to your next calculation.</p>
+  <p class="faq-q">I need trig functions or exponents — where are those?</p>
+  <p>Head over to our <a href="scientific.html">Scientific Calculator</a> — it has everything here plus trigonometry, logarithms, and scientific notation for more advanced math.</p>
 </div>
 
 <script>
