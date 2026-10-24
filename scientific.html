@@ -393,10 +393,10 @@
 
 <div id="calc-info">
   <h2>How this scientific calculator handles order of operations</h2>
-  <p>This calculator follows standard order of operations (PEMDAS): parentheses first, then exponents, then multiplication and division left to right, then addition and subtraction left to right. Functions like sin, cos, ln, and √ apply to whatever value is currently on the display when you press them, so for a multi-step expression like sin(30) + 5, calculate the function first, then add — don't try to type the whole expression in one line unless you're sure how the calculator will group it.</p>
+  <p>This calculator follows standard order of operations: parentheses, powers, multiplication and division, then addition and subtraction. Enter functions with parentheses, for example sin(π/2) + 5, then press =. Use the π button for pi.</p>
 
   <h2>Degrees or radians — the single most common mistake</h2>
-  <p>Trig functions (sin, cos, tan) give completely different, both "correct," answers depending on whether the calculator is set to interpret angles in degrees or radians. If sin(30) isn't giving you 0.5, the calculator is almost certainly in radians mode, where 30 is interpreted as 30 radians, not 30 degrees. This single setting is the most common source of "the calculator is wrong" confusion in trigonometry — always check your mode before assuming a formula error.</p>
+  <p>This calculator uses radians for sin, cos, and tan. There is no degree/radian switch. To enter an angle in degrees, multiply it by π/180: sin(30 × π/180) gives 0.5.</p>
 
   <h2>Reading scientific notation on the display</h2>
   <p>Very large or very small results are often shown in scientific notation (like 1.5e+8 instead of 150000000). The number after "e" is the power of 10 — "e+8" means multiply by 10 to the 8th power, "e-4" means divide by 10 to the 4th power. This isn't an error or a bug; it's how calculators represent numbers too long to fit cleanly on the display.</p>
@@ -721,7 +721,7 @@
       }
       if(!tokens.length) return null;
       const FN={sin:x=>Math.sin(x),cos:x=>Math.cos(x),tan:x=>Math.tan(x),ln:x=>Math.log(x),log:x=>Math.log10(x),sqrt:x=>Math.sqrt(x)};
-      const PREC={'+':1,'-':1,'*':2,'/':2,'%':2,'^':3,'u-':4};
+      const PREC={'+':1,'-':1,'*':2,'/':2,'%':2,'^':3,'u-':3};
       const out=[], ops=[];
       let prev=null;
       for(const tk of tokens){
